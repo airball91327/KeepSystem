@@ -1,0 +1,101 @@
+﻿@model EDIS.Models.RepairModels.VendorModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>VendorModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="VendorId" />
+            <div class="form-group">
+                <label asp-for="VendorName" class="control-label"></label>
+                <input asp-for="VendorName" class="form-control" />
+                <span asp-validation-for="VendorName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tel" class="control-label"></label>
+                <input asp-for="Tel" class="form-control" />
+                <span asp-validation-for="Tel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Fax" class="control-label"></label>
+                <input asp-for="Fax" class="form-control" />
+                <span asp-validation-for="Fax" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UniteNo" class="control-label"></label>
+                <input asp-for="UniteNo" class="form-control" />
+                <span asp-validation-for="UniteNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxAddress" class="control-label"></label>
+                <input asp-for="TaxAddress" class="form-control" />
+                <span asp-validation-for="TaxAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxZipCode" class="control-label"></label>
+                <input asp-for="TaxZipCode" class="form-control" />
+                <span asp-validation-for="TaxZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Contact" class="control-label"></label>
+                <input asp-for="Contact" class="form-control" />
+                <span asp-validation-for="Contact" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactTel" class="control-label"></label>
+                <input asp-for="ContactTel" class="form-control" />
+                <span asp-validation-for="ContactTel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContactEmail" class="control-label"></label>
+                <input asp-for="ContactEmail" class="form-control" />
+                <span asp-validation-for="ContactEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Kind" class="control-label"></label>
+                <input asp-for="Kind" class="form-control" />
+                <span asp-validation-for="Kind" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

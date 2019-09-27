@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EDIS.Areas.BMED.Models.KeepModels.KeepFormatListVModel>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Sno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Plants)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descript)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.KeepDes)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.HiddenFor(modelItem => item.Docid)
+                @Html.HiddenFor(modelItem => item.FormatId)
+                @Html.HiddenFor(modelItem => item.Sno)
+                @Html.HiddenFor(modelItem => item.Descript)
+                @Html.DisplayFor(modelItem => item.Sno)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plants)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descript)
+            </td>
+            <td>
+                @Html.TextAreaFor(modelItem => item.KeepDes, 5, 50, new { @class = "form-control", disabled = "disabled" })
+            </td>
+        </tr>
+    }
+
+</table>

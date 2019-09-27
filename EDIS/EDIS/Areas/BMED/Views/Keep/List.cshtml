@@ -1,0 +1,152 @@
+﻿@model IEnumerable<EDIS.Areas.BMED.Models.KeepModels.KeepListVModel>
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
+@using EDIS.Models.Identity
+
+@inject CustomUserManager UserManager
+
+<script>
+    function closeKeepDoc(docId) {
+        var r = confirm("是否直接結案?");
+        if (r == true) {
+            $.ajax({
+                url: '../BMED/KeepFlow/NextFlow',
+                type: "POST",
+                dataType: "json",
+                data: {
+                    DocId: docId,
+                    AssignCls: '同意',
+                    FlowCls: '結案',
+                    Cls: '驗收人',
+                    FlowUid: @UserManager.GetCurrentUserId(User)
+                },
+                async: false,
+                success: function (data) {
+                    alert("此案件已結案!");
+                    BMEDKeepReSubmit();
+                },
+                onFailed: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+    }
+</script>
+
+@if (Model.Count() <= 0)
+{
+    <p class="text-danger">無任何資料!</p>
+
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.DocType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DocId)<br />
+                @Html.DisplayNameFor(model => model.SentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccDptName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlaceLoc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Result)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Memo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Days)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td width="100px">
+                    @if (item.Flg == "?" && item.FlowUid == UserManager.GetCurrentUserId(User))
+                    {
+                        @Html.ActionLink("編輯", "Edit", "Keep", new { Area = "BMED", id = item.DocId }, new { target = "_blank" })
+                        @Html.Raw(" |")
+                        if (item.FlowCls == "驗收人")
+                        {
+                            <a href="#" onclick="closeKeepDoc(@item.DocId)">結案</a>
+                            @Html.Raw(" | ")
+                        }
+                    }
+                    else if (item.Flg == "?" && item.FlowCls.Contains("工程師") && UserManager.IsInRole(User, "MedEngineer")) //其他工程師案件
+                    {
+                        @Html.ActionLink("編輯", "Edit", "Keep", new { Area = "BMED", id = item.DocId }, new { target = "_blank" })
+                        @Html.Raw(" |")
+                    }
+                    else
+                    {
+                        @Html.ActionLink("預覽", "Views", "Keep", new { Area = "BMED", id = item.DocId })
+                        @Html.Raw(" |")
+                    }
+                    @Html.ActionLink("列印", "PrintKeepDoc", "Keep", new { Area = "BMED", DocId = item.DocId }, new { target = "_blank" })
+                    @if (item.Flg == "?" && item.FlowUid == UserManager.GetCurrentUserId(User) && item.FlowCls == "申請人")
+                    {
+                        @Html.Raw(" |")
+                        @Html.ActionLink("廢除", "Delete", "Keep", new { Area = "BMED", id = item.DocId })
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocId)<br />
+                    @Html.DisplayFor(modelItem => item.SentDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccDptName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssetNo)<br />
+                    @Html.DisplayFor(modelItem => item.AssetName)<br />
+                    @Html.DisplayFor(modelItem => item.Brand)<br />
+                    @Html.DisplayFor(modelItem => item.Type)<br />
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlaceLoc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InOut)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Result)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Memo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    @if (item.Flg != "2")
+                    {
+                        @Html.DisplayFor(modelItem => item.Days)
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}

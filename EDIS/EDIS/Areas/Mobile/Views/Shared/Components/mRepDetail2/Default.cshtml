@@ -1,0 +1,145 @@
+﻿@model EDIS.Models.RepairModels.RepairModel
+
+@{
+    ViewBag.Title = "預覽請修";
+}
+
+<div>
+    @Html.HiddenFor(model => model.DocId)
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.DocId)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.DocId)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.UserName)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.UserName)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.DptId)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.DptName)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.Ext)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.Ext)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.AccDpt)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.AccDpt)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.RepType)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.RepType)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.AssetNo)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.AssetNo)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.AssetName)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.AssetName)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.AssetAccDate)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.AssetAccDate)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.LocType)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.LocType)
+            <br />
+            @Html.DisplayFor(model => model.BuildingName)
+            @Html.DisplayFor(model => model.FloorName)
+            @Html.DisplayFor(model => model.AreaName)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.PlaceLoc)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.PlaceLoc)
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.ApplyDate)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.ApplyDate)
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.TroubleDes)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.TroubleDes)
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DisplayNameFor(model => model.CheckerId)
+        </div>
+        <div class="col-xs-8">
+            @Html.DisplayFor(model => model.CheckerName)
+
+        </div>
+    </div>
+
+</div>
+<br />

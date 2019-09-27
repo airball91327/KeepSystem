@@ -1,0 +1,114 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.KeepModel
+
+@using EDIS.Models.Identity
+@inject CustomUserManager UserManager
+@inject CustomRoleManager RoleManager
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "簽核/保養";
+
+    if (TempData["SendMsg"] != null)
+    {
+        <script>
+            var message = @Json.Serialize(TempData["SendMsg"]);
+            alert(message);
+        </script>
+    }
+}
+
+<script>
+    $(function () {
+        var activePage = @ViewData["Page"];
+        if (activePage != 0) {
+            $("#page" + activePage).children("a").click();
+        }
+    });
+</script>
+
+<h2>簽核</h2>
+<h4>保養</h4>
+<hr />
+<div id="pnlFILES" style="margin: 10pt">
+    @await Component.InvokeAsync("BMEDAttainFileList", new { id = Model.DocId, typ = "2", viewType = "Edit" })
+</div>
+<div class="form-group">
+    <div>
+        <input id="btnFILES" type="button" value="夾帶附件檔案" class="btn btn-default" data-toggle="modal" data-target="#modalFILES">
+    </div>
+</div>
+<!-- 夾帶檔案 Modal -->
+<div id="modalFILES" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #1D3C4C">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
+                <h4 class="modal-title">選擇上傳檔案</h4>
+            </div>
+            <div class="modal-body">
+                @await Component.InvokeAsync("BMEDAttainFileUpload", new { doctype = "2", docid = Model.DocId, viewType = "" })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="pnlKEEPDTL2">
+    @if (UserManager.IsInRole(User, "MedEngineer") == true || UserManager.IsInRole(User, "MedAdmin") == true ||
+         UserManager.IsInRole(User, "Admin") == true)
+    {
+        @await Component.InvokeAsync("BMEDKeepEdit", new { id = Model.DocId })
+    }
+    else
+    {
+        @await Component.InvokeAsync("BMEDKeepDetail", new { id = Model.DocId })
+    }
+</div>
+
+<ul class="nav nav-pills" style="font-size:120%">
+    <li role="presentation" id="page1" class="active"><a href="#keepdtl" data-toggle="tab" style="padding-left:20px">保養紀錄與工時</a></li>
+    <li role="presentation" id="page2"><a href="#keeprecord" data-toggle="tab" style="padding-left:20px">保養項目登錄</a></li>
+    <li role="presentation" id="page3"><a href="#keepcost" data-toggle="tab" style="padding-left:20px">費用明細</a></li>
+    <li role="presentation" id="page4"><a href="#keepflow" data-toggle="tab" style="padding-left:20px">簽核作業</a></li>
+</ul>
+<hr />
+<div class="tab-content">
+    <div id="keepdtl" class="tab-pane fade in active">
+        <div>
+            @await Component.InvokeAsync("BMEDKeepDtlEdit", new { id = Model.DocId })
+        </div>
+        <div>
+            @await Component.InvokeAsync("BMEDKeepEmpEdit", new { DocId = Model.DocId })
+        </div>
+    </div>
+    <div id="keeprecord" class="tab-pane fade">
+        <div>
+            @await Component.InvokeAsync("BMEDKeepRecordEdit", new { id = Model.DocId })
+        </div>
+    </div>
+    <div id="keepcost" class="tab-pane fade">
+        <div>
+            @await Component.InvokeAsync("BMEDKeepCostEdit", new { id = Model.DocId })
+        </div>
+    </div>
+    <div id="keepflow" class="tab-pane fade">
+        <div>
+            @await Component.InvokeAsync("BMEDKeepNextFlow", new { id = Model.DocId })
+        </div>
+        <div>
+            @await Component.InvokeAsync("BMEDKeepFlowList", new { id = Model.DocId })
+        </div>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-default" href="@Url.Action("Index", "Home", new { Area = "" } )" id="homeBtn">回到簽核列表</a>
+    <a class="btn btn-primary" href="@Url.Action("PrintKeepDoc", "Keep", new { Area = "BMED", DocId = Model.DocId } )" target="_blank">列印</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

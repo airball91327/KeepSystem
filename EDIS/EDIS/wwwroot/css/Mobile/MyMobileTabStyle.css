@@ -1,0 +1,36 @@
+﻿/* Style the tab */
+.tab {
+    background-color: #346076;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+    background-color: #64b7f3;
+    color: black;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    border: 2px solid;
+    border-radius: 15px;
+    border-color: #64b7f3;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-shadow: 2px 2px 8px #FFFFFF;
+}
+
+.tab h4 {
+    font-weight: bold;
+}
+
+.myStyle {
+    font-weight: bolder;
+    margin-bottom: 10px;
+    /* 多行文字的省略符號 */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    /* 其它瀏覽器降級方式：給定最大高度 */
+    max-height: 48px;
+}

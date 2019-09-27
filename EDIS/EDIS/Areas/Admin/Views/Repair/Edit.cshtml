@@ -1,0 +1,133 @@
+﻿@model EDIS.Models.RepairModels.RepairModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "編輯/請修單";
+}
+
+<h2>編輯</h2>
+
+<h4>請修單</h4>
+<hr />
+
+<form asp-action="Edit" asp-controller="Repair" asp-area="Admin">
+
+    <div class="container">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @Html.HiddenFor(model => model.DocId)
+
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="DocId" class="control-title"></label>
+                    @Html.DisplayFor(model => model.DocId)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="UserName" class="control-title"></label>
+                    @Html.DisplayFor(model => model.UserName)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="DptId" class="control-title"></label>
+                    @Html.DisplayFor(model => model.DptId)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="ApplyDate" class="control-title"></label>
+                    @Html.DisplayFor(model => model.ApplyDate)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="RepType" class="control-title"></label>
+                @Html.DisplayFor(model => model.RepType)
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="RepType" class="control-title"></label>
+                <div class="radio">
+                    <label>
+                        <input type="radio" asp-for="RepType" id="RepType1" value="送修">
+                        送修(物品送工務部)
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" asp-for="RepType" id="RepType2" value="請修">
+                        請修
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" asp-for="RepType" id="RepType3" value="增設">
+                        增設
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="PlaceLoc" class="control-title"></label>
+                    @Html.DisplayFor(model => model.PlaceLoc)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label class="control-title">聯絡方式</label>
+                    <label asp-for="Ext" class="control-label"></label>
+                    <input asp-for="Ext" class="form-control-s" required/>
+                    <span asp-validation-for="Ext" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mvpn" class="control-label"></label>
+                    <input asp-for="Mvpn" class="form-control-s" />
+                    <span asp-validation-for="Mvpn" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AccDpt" class="control-title"></label>
+                    <input asp-for="AccDpt" class="form-control" required />
+                    <span asp-validation-for="AccDpt" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="TroubleDes" class="control-title"></label>
+                    <textarea asp-for="TroubleDes" rows="3" class="form-control" required></textarea>
+                    <span asp-validation-for="TroubleDes" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div style="padding-left: 115px">
+                <input type="submit" value="確定送出" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-primary" href="@Url.Action("Index" ,new { docId = Model.DocId})">回上一頁</a>
+</div>

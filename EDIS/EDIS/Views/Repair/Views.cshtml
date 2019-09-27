@@ -1,0 +1,75 @@
+﻿@model EDIS.Models.RepairModels.RepairModel
+
+@using EDIS.Models.Identity
+@inject CustomUserManager UserManager
+@inject CustomRoleManager RoleManager
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "預覽/請修";
+
+    if (TempData["SendMsg"] != null)
+    {
+        <script>
+            var message = @Json.Serialize(TempData["SendMsg"]);
+            alert(message);
+        </script>
+    }
+}
+
+<h2>預覽</h2>
+<h4>請修</h4>
+<hr />
+<div id="pnlFILES" style="margin: 10pt">
+    @await Component.InvokeAsync("AttainFileList", new { id = Model.DocId, typ = "1" })
+</div>
+
+<ul class="nav nav-pills" style="font-size:120%">
+    <li role="presentation" class="active"><a href="#repair" data-toggle="tab" style="padding-left:20px">申請資料</a></li>
+    <li role="presentation"><a href="#repairdtl" data-toggle="tab" style="padding-left:20px">請修紀錄</a></li>
+    <li role="presentation"><a href="#repairemp" data-toggle="tab" style="padding-left:20px">工程師工時</a></li>
+    @if (Model.UserId != UserManager.GetCurrentUserId(User) ||
+       RoleManager.GetUsersInRole("RepEngineer").Contains(User.Identity.Name)) //申請人不能檢視維修花費
+    {
+        <li role="presentation"><a href="#repaircost" data-toggle="tab" style="padding-left:20px">費用明細</a></li>
+    }
+    <li role="presentation"><a href="#repairflow" data-toggle="tab" style="padding-left:20px">簽核作業</a></li>
+</ul>
+<hr />
+<div class="tab-content">
+    <div id="repair" class="tab-pane fade in active">
+        <div>
+            @await Component.InvokeAsync("RepDetail2", new { id = Model.DocId })
+        </div>
+    </div>
+    <div id="repairdtl" class="tab-pane fade">
+        <p>
+            @await Component.InvokeAsync("RepDetail", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="repairemp" class="tab-pane fade">
+        <p>
+            @await Component.InvokeAsync("RepEmpList2", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="repaircost" class="tab-pane fade">
+        <div>
+            @await Component.InvokeAsync("RepCostList2", new { id = Model.DocId })
+        </div>
+    </div>
+    <div id="repairflow" class="tab-pane fade">
+        <div>
+            @await Component.InvokeAsync("RepFlowList", new { id = Model.DocId })
+        </div>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-default" href="@Url.Action("Index", "Home", new { Area = "" } )">回到簽核列表</a>
+    <a class="btn btn-primary" href="@Url.Action("PrintRepairDoc", "Repair", new { Area = "", DocId = Model.DocId } )" target="_blank" id="printBtn">列印</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

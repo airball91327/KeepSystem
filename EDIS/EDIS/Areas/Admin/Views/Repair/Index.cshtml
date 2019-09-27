@@ -1,0 +1,51 @@
+﻿@model EDIS.Models.RepairModels.RepairModel
+
+@{ 
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "搜尋/請修單編輯";
+}
+
+<script>
+    $(function () {
+        if ($('#qtyDocId').val() != "") {
+            $('#repSearchForm').submit();
+        }
+    });
+</script>
+
+<form asp-controller="Repair" asp-action="Details" asp-area="Admin" data-ajax="true"
+      data-ajax-update="#pnlREPDETAILS" data-ajax-method="POST" id="repSearchForm"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'查詢中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()">
+
+    <h2>請修單查詢</h2>
+    <hr />
+
+    <div class="container">
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="qtyDOCID" class="control-title">表單編號</label>
+                    <input type="text" class="form-control" id="qtyDocId" name="qtyDocId" value="@ViewData["DOCID"]" required />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group col-md-offset-1 col-md-1">
+                    <div>
+                        <input id="btnQTY" type="submit" value="查詢" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div id="pnlREPDETAILS"></div>

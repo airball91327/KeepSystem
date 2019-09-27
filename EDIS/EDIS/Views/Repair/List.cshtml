@@ -1,0 +1,344 @@
+﻿@model X.PagedList.IPagedList<EDIS.Models.RepairModels.RepairListVModel>
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
+@using EDIS.Models.Identity
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Common;
+
+<link href="~/css/PagedList.css" rel="stylesheet" type="text/css" />
+
+@inject CustomUserManager UserManager
+@{
+    Layout = null;
+    int countUserDoc = 0;
+    int countDptDoc = 0;
+    if (Model.Count() > 0)
+    {
+        @foreach (var item in Model)
+        {
+            /* 該單位需要結案的文件 */
+            @if ((item.Flg == "?" && item.FlowUid != UserManager.GetCurrentUserId(User) &&
+                item.FlowDptId == UserManager.GetCurrentUserDptId(User) && item.FlowCls == "驗收人"))
+            {
+                countDptDoc++;
+            }
+            else
+            {
+                countUserDoc++;
+            }
+        }
+    }
+}
+<style>
+    td a {
+        color: deepskyblue;
+    }
+    .printLink:visited {
+        color: mediumpurple;
+    }
+</style>
+@if (Model.Count() <= 0)
+{
+    if (ViewData["IsDocDeleted"] != null)
+    {
+        <p class="text-danger">此案件已廢除!</p>
+    }
+    else
+    {
+        <p class="text-danger">無任何資料!</p>
+    }
+}
+else
+{
+    if (countUserDoc > 0)
+    {
+        <h4>您應簽核案件</h4>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().RepType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().DocId)
+                    <br />
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().ApplyDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().AccDptName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().AssetName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().PlaceLoc)
+                </th>
+                <th style="width: 300px;">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().TroubleDes)
+                    <br />
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().DealDes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().DealState)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Days)
+                </th>
+                @if (UserManager.IsInRole(User, "RepEngineer") == true)
+                {
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().ArriveDate)
+                    </th>
+                }
+            </tr>
+            @foreach (var item in Model)
+            {
+                /* 非該單位需要結案的文件 */
+                @if (!((item.Flg == "?" && item.FlowUid != UserManager.GetCurrentUserId(User) &&
+                    item.FlowDptId == UserManager.GetCurrentUserDptId(User) && item.FlowCls == "驗收人")))
+                {
+                    <tr>
+                        <td width="100px">
+                            @* /* 流程在登入使用者身上 */ *@
+                            @* /* If 流程在使用者身上
+          else if 使用者為工程師，顯示流程在"工務/營建工程師"的案子
+        */*@
+                            @if (item.Flg == "?" && item.FlowUid == UserManager.GetCurrentUserId(User))
+                            {
+                                if (item.FlowCls == "驗收人")
+                                {
+                                    @Html.ActionLink("結案", "Edit", "Repair", new { Area = "", id = item.DocId, page = 5 }, new { target = "_blank" })
+                                    @Html.Raw(" |")
+                                }
+                                else
+                                {
+                                    /* If role為工程師，編輯時進入第一頁；else 直接進入"簽核作業" */
+                                    if (UserManager.IsInRole(User, "RepEngineer") == true)
+                                    {
+                                        @Html.ActionLink("編輯", "Edit", "Repair", new { Area = "", id = item.DocId }, new { target = "_blank" })
+                                        @Html.Raw(" |")
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("編輯", "Edit", "Repair", new { Area = "", id = item.DocId, page = 5 }, new { target = "_blank" })
+                                        @Html.Raw(" |")
+                                    }
+                                }
+                            }
+                            else if (item.Flg == "?" && item.FlowCls.Contains("工程師") && UserManager.IsInRole(User, "RepEngineer"))
+                            {
+                                @Html.ActionLink("編輯", "Edit", "Repair", new { Area = "", id = item.DocId }, new { target = "_blank" })
+                                @Html.Raw(" |")
+                            }
+                            @* /* 流程非登入使用者身上 */ *@
+                            @* /* if 流程非使用者 */*@
+                            @if (!(item.Flg == "?" && item.FlowUid == UserManager.GetCurrentUserId(User)))
+                            {
+                                @Html.ActionLink("預覽", "Views", "Repair", new { Area = "", id = item.DocId })
+                                @Html.Raw(" |")
+                            }
+                            @Html.ActionLink("列印", "PrintRepairDoc", "Repair", new { Area = "", DocId = item.DocId }, new { target = "_blank", @class = "printLink" })
+                            @* /* 該單的申請人 */ *@
+                            @if (item.Flg == "?" && item.FlowUid == UserManager.GetCurrentUserId(User) && item.FlowCls == "申請人")
+                            {
+                                @Html.Raw(" | ")
+                                @Html.ActionLink("廢除", "Delete", "Repair", new { id = item.DocId })
+                            }
+                            @* /* 該單的申請人於【流程中】查詢，並且廢除。【流程於工程師、狀態為未處理、無完工日】 */ *@
+                            @if (item.Flg == "?" && item.FlowCls.Contains("工程師") &&
+                                 item.repdata.UserId == UserManager.GetCurrentUserId(User) &&
+                                 item.DealState == "未處理" && item.EndDate == null)
+                            {
+                                @Html.Raw(" | ")
+                                @Html.ActionLink("廢除", "CheckBeforeDelete", "Repair", new { id = item.DocId })
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RepType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocId)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.ApplyDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AccDptName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetNo)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.AssetName)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Brand)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Type)
+                            <br />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PlaceLoc)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Location1)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Location2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TroubleDes)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.DealDes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DealState)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cost)
+                        </td>
+                        <td>
+                            @if (item.Flg != "2")
+                            {
+                                @Html.DisplayFor(modelItem => item.Days)
+                            }
+                        </td>
+                        <td>
+                            @if (item.Flg == "?" && UserManager.IsInRole(User, "RepEngineer") == true)
+                            {
+                                @Html.DisplayFor(modelItem => item.ArriveDate)
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    }
+
+    if (countDptDoc > 0)
+    {
+        <h4>本單位目前應結案案件，除驗收人外單位內人員也可協助驗收</h4>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().RepType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().DocId)
+                    <br />
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().ApplyDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().AccDptName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().AssetName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().PlaceLoc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().TroubleDes)
+                    <br />
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().DealState)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().DealDes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Days)
+                </th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                /* 該單位需要結案的文件 */
+                @if ((item.Flg == "?" && item.FlowUid != UserManager.GetCurrentUserId(User) &&
+                   item.FlowDptId == UserManager.GetCurrentUserDptId(User) && item.FlowCls == "驗收人"))
+                {
+                    <tr>
+                        <td width="100px">
+                            @Html.ActionLink("結案", "Edit", "Repair", new { Area = "", id = item.DocId, page = 5 }, new { target = "_blank" })
+                            @Html.Raw(" |")
+                            @Html.ActionLink("列印", "PrintRepairDoc", "Repair", new { Area = "", DocId = item.DocId }, new { target = "_blank", @class = "printLink" })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RepType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DocId)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.ApplyDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AccDptName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AssetNo)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.AssetName)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Brand)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.Type)
+                            <br />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PlaceLoc)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TroubleDes)
+                            <br />
+                            @Html.DisplayFor(modelItem => item.DealDes)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DealState)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cost)
+                        </td>
+                        <td>
+                            @if (item.Flg != "2")
+                            {
+                                @Html.DisplayFor(modelItem => item.Days)
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    }
+
+}
+
+<script>
+    $(function () {
+        var s = $('#repSearchForm').serialize();
+        $('#pnlREPLIST .pagination li a').each(function (i, item) {
+            var hyperLinkUrl = $(item).attr('href') + "&" + s;
+            $(this).attr('href', hyperLinkUrl);
+        });
+    });
+    function beginLoading() {
+        $.Toast.showToast({
+            'title': '作業進行中，請稍待...',
+            'icon': 'loading',
+            'duration': 0
+        })
+    }
+    function stopLoading() {
+        $.Toast.hideToast();
+    }
+</script>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", "Repair", new { page }),
+        PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions
+        {
+            HttpMethod = "POST",
+            UpdateTargetId = "pnlREPLIST",
+            OnBegin = "beginLoading",
+            OnComplete = "stopLoading"
+        }))
+</div>

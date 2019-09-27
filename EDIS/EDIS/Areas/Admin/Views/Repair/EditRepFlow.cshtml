@@ -1,0 +1,107 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "編輯案件流程";
+}
+
+<script>
+    function flowmsg(data) {
+        if (!data.success) {
+            alert(data.error);
+        }
+        else {
+            alert("送出成功!");
+            $("#searchForm").submit();
+        }
+    }
+    var onFailed = function (data) {
+        alert(data.responseText);
+        $.Toast.hideToast();
+    };
+
+    $.fn.addItems = function (data) {
+        return this.each(function () {
+            var list = this;
+            $.each(data, function (val, text) {
+
+                var option = new Option(text.text, text.value);
+                list.add(option);
+            });
+        });
+    };
+</script>
+
+<style>
+    .panel {
+        background-color: inherit;
+        border-color: white;
+    }
+
+    form label {
+        padding-top: 7px;
+        font-size: 120%;
+    }
+</style>
+
+<h2>查詢與轉單</h2>
+
+<div>
+    <input id="btnDes" type="button" value="操作說明" class="btn btn-primary" data-toggle="modal" data-target="#modalDes">
+</div>
+<br />
+
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <form asp-action="EditRepFlow" asp-controller="Repair" asp-area="Admin" id="searchForm"
+              data-ajax="true" data-ajax-update="#editFlowDiv" data-ajax-method="POST"
+              data-ajax-begin="$.Toast.showToast({
+              'title':'查詢中，請稍待...',
+              'icon':'loading',
+              'duration':0
+              })"
+              data-ajax-complete="$.Toast.hideToast()"
+              data-ajax-failure="onFailed">
+
+            <div class="form-inline">
+                <div class="form-group col-md-4">
+                    <label for="qtyDocId" class="control-title">表單編號</label>
+                    <input type="text" class="form-control" id="qtyDocId" name="qtyDocId" required/>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <div class="col-md-8">
+                        <input type="submit" class="btn btn-primary" id="btnQuery" value="查詢" style="width: 100%" />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div id="editFlowDiv"></div>
+
+
+<!-- 操作說明Modal -->
+<div id="modalDes" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #1D3C4C">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
+                <h4 class="modal-title">操作說明</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h4>【如何設定】</h4>
+                    <p>1.輸入表單編號→【查詢】。</p>
+                    <p>2.選擇流程關卡。</p>
+                    <p>3.選擇關卡人員。</p>
+                    <p>4.點選【確定送出】。</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+            </div>
+        </div>
+    </div>
+</div>

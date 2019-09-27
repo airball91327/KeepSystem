@@ -1,0 +1,132 @@
+﻿@model IEnumerable<EDIS.Areas.BMED.Models.RepairModels.RepairSearchListVModel>
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
+@using EDIS.Models.Identity
+
+@inject CustomUserManager UserManager
+@{
+    Layout = null;
+}
+<style>
+    td a {
+        color: deepskyblue;
+    }
+</style>
+@if (Model.Count() <= 0)
+{
+    <p class="text-danger">無任何資料!</p>
+
+}
+else
+{
+    <table class="table" style="width: 100%">
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.RepType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DocId)
+                <br />
+                @Html.DisplayNameFor(model => model.ApplyDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccDptName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlaceLoc)
+            </th>
+            <th style="width: 300px;">
+                @Html.DisplayNameFor(model => model.TroubleDes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DealState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DealDes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Days)
+            </th>
+            <th>
+                文件狀態
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FlowUidName)
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td width="100px">
+                    @Html.ActionLink("預覽", "Views", "Repair", new { Area = "BMED", id = item.DocId }, new { target = "_blank" })
+                    @Html.Raw(" |")
+                    @Html.ActionLink("列印", "PrintRepairDoc", "Repair", new { Area = "BMED", DocId = item.DocId }, new { target = "_blank" })
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RepType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocId)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.ApplyDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccDptName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssetNo)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.AssetName)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Brand)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Type)
+                    <br />
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlaceLoc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TroubleDes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DealState)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DealDes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    @if (item.Flg != "2")
+                    {
+                        @Html.DisplayFor(modelItem => item.Days)
+                    }
+                </td>
+                <td>
+                    @if (item.Flg == "2")
+                    {
+                        <span>已結案</span>
+                    }
+                    else
+                    {
+                        <span>未結案</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FlowUidName)
+                </td>
+            </tr>
+        }
+
+    </table>
+}

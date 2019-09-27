@@ -1,0 +1,139 @@
+﻿@model EDIS.Models.RepairModels.AssignModel
+
+<script>
+    $(function () {
+        $('#pnlUPDATE').hide();
+        $("#searchUid").hide();
+
+        $('#FlowCls').change(function () {
+            $('#btnSelUsr').hide();
+            $('#pnlFLOWVENDOR').hide();
+            var select = $('#FlowUid');
+            $('option', select).remove();
+
+            if ($(this).val() === "單位主管" || $(this).val() === "單位主任" || $(this).val() === "其他") {
+                $("#searchUid").show();
+            }
+            else {
+                $("#searchUid").hide();
+                $('#FlowVendor').val('');
+                $('#imgLOADING_Flow').show();
+                var docid = $('#DocId').val();
+                $.ajax({
+                    url: '../../RepairFlow/GetNextEmp',
+                    type: "POST",
+                    dataType: "json",
+                    data: "cls=" + $(this).val() + "&docid=" + docid,
+                    error: onFailed,
+                    success: function (data) {
+                        $('#imgLOADING_Flow').hide();
+                        if (data.success === false) {
+                            $('#FlowCls').val('請選擇');
+                            alert(data.error);
+                        }
+                        else {
+                            var select = $('#FlowUid');
+                            var i = 0;
+                            var defaultOption = 0;
+                            select.empty();
+                            $.each(data, function (index, item) {
+                                if (i === defaultOption) {
+                                    select.append($('<option selected="selected"></option>').text(item.text).val(item.value));
+                                }
+                                else {
+                                    select.append($('<option></option>').text(item.text).val(item.value));
+                                }
+                                i++;
+                            });
+                            if ($('#FlowCls').val() === "驗收人") {
+                                $("#searchUid").show();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+
+        /* Get managers by query string. */
+        $("#MgrQryBtn").click(function () {
+            var queryStr = $("#DptMgrQry").val();
+            $('#imgLOADING_Flow').show();
+            $.ajax({
+                url: '../../Repair/QueryUsers',
+                type: "GET",
+                data: { QueryStr: queryStr },
+                success: function (data) {
+                    $('#imgLOADING_Flow').hide();
+                    var select = $('#FlowUid');
+                    var i = 0;
+                    var defaultOption = 0;
+                    select.empty();
+                    $.each(data, function (index, item) {
+                        if (i === defaultOption) {
+                            select.append($('<option selected="selected"></option>').text(item.text).val(item.value));
+                        }
+                        else {
+                            select.append($('<option></option>').text(item.text).val(item.value));
+                        }
+                        i++;
+                    });
+                }
+            });
+        });
+
+    });
+</script>
+
+<form asp-action="EditNextFlow" asp-controller="Repair" asp-area="Admin" data-ajax="true" data-ajax-method="POST" id="nextFlowForm"
+    data-ajax-success="flowmsg" data-ajax-failure="onFailed">
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.DocId)
+    @Html.HiddenFor(model => model.Cls)
+    @Html.HiddenFor(model => model.AssignOpn)
+    <input asp-for="AssignCls" type="hidden" value="轉單"/>
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <div id="pnlREPFLOWLIST" class="col-md-12">
+                @if (Model != null)
+                {
+                    @await Component.InvokeAsync("RepFlowList", new { id = Model.DocId })
+                }
+            </div>
+        </div>
+
+        <h3>將目前流程轉送給：</h3>
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(model => model.FlowCls, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.DropDownListFor(model => model.FlowCls, null, "請選擇", new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.FlowCls, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FlowUid, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.DropDownListFor(model => model.FlowUid, null, "請選擇", new { @class = "form-control", required = "required" })
+                    @Html.ValidationMessageFor(model => model.FlowUid, "", new { @class = "text-danger" })
+                    <span id="searchUid">
+                        <input type="text" placeholder="輸入code或關鍵字查詢" class="form-control" id="DptMgrQry" />
+                        <button type="button" class="btn btn-default" id="MgrQryBtn">查詢</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnGO" type="submit" value="確定送出" class="btn btn-primary" />
+                <img id="imgLOADING_Flow" src="~/images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+</form>

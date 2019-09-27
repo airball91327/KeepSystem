@@ -1,0 +1,68 @@
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - 醫工工務智能保修系統</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/Mobile/style.css" />
+        <link rel="stylesheet" href="~/fonts/font-awesome/css/font-awesome.min.css" />
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </environment>
+    <environment exclude="Development">
+        @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+                  asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+                  asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+            <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />*@
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/Mobile/style.css" />
+        <link rel="stylesheet" href="~/fonts/font-awesome/css/font-awesome.min.css" />
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    </environment>
+
+    @Html.Raw(JavaScriptSnippet.FullScript)
+
+</head>
+<body>
+    <!-- Navigation -->
+    @Html.Partial("~/Areas/Mobile/Views/Shared/_Navigation.cshtml")
+    <div id="page-wrapper" class="container body-content" style="padding-top:60px;">
+        @RenderBody()
+
+        <footer>
+            <hr />
+            <p>&copy; 2019 - 醫工工務智能保修系統</p>
+        </footer>
+    </div>
+
+    <environment include="Development">
+        @*<script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
+        <script src="~/lib/metisMenu/metisMenu.min.js"></script>
+        <script src="~/lib/app/inspinia.js"></script>
+        <script src="~/lib/jquery-slimScroll-1.3.8/jquery.slimscroll.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.unobtrusive-ajax.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.toast.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/lib/metisMenu/metisMenu.min.js"></script>
+        <script src="~/lib/app/inspinia.js"></script>
+        <script src="~/lib/jquery-slimScroll-1.3.8/jquery.slimscroll.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.unobtrusive-ajax.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.toast.js" asp-append-version="true"></script>
+    </environment>
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

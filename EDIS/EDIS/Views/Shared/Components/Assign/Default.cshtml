@@ -1,0 +1,106 @@
+﻿@model EDIS.Models.RepairModels.AssignModel
+
+<script src="~/Areas/MedEngMgt/Scripts/RepNextFlow.js"></script>
+
+<form asp-controller="RepairFlow" asp-action="NextFlow" data-ajax="true"
+      data-ajax-method="POST" 
+      data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()">
+
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.DocId)
+    @Html.HiddenFor(model => model.Cls)
+
+    <div class="container">
+        <div class="row">
+            <div class="form-inline">
+                <div class="form-group">
+                    <label asp-for="Hint" class="control-title"></label>
+                    <span style="color: green">@Model.Hint</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="AssignCls" class="control-title"></label>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="AssignCls" id="AssignCls1" value="同意">
+                        同意
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="AssignCls" id="AssignCls2" value="不同意" checked>
+                        不同意
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="AssignCls" id="AssignCls3" value="其他" checked>
+                        其他
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AssignOpn" class="control-title"></label>
+                    <textarea asp-for="AssignOpn" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="AssignOpn" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="FlowCls" class="control-title"></label>
+                    <select asp-for="FlowCls" asp-items="@Model.ClsItems" class="form-control">
+                        <option>請選擇</option>
+
+                    </select>
+                    <span asp-validation-for="FlowCls" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div id="pnlFLOWVENDOR" class="row">
+            @Html.HiddenFor(model => model.FlowVendor)
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="FlowVendor" class="control-title"></label>
+                    <input asp-for="FlowVendor" class="form-control" />
+                    <input id="btnQtyVendor" type="button" value="讀取" class="btn btn-default" />
+                    <span asp-validation-for="FlowVendor" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="FlowUid" class="control-title"></label>
+                    <select asp-for="FlowUid" asp-items="@Model.ClsUsers" class="form-control">
+                        <option>請選擇</option>
+
+                    </select>
+                    <input id="btnSelUsr" type="button" value="讀取" class="btn btn-default" />
+                    <span asp-validation-for="FlowUid" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div style="padding-left: 115px">
+                <input id="btnGO" type="submit" value="確定送出" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+<!-- 夾帶檔案 Modal -->
+<script>
+    
+</script>

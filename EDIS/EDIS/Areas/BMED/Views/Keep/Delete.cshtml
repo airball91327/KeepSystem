@@ -1,0 +1,114 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.KeepModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "廢除/保養";
+}
+
+<h2>廢除</h2>
+
+<h3>確定要廢除此保養單?</h3>
+<div>
+    <h4>保養</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DocId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserAccount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserAccount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DptId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ext)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ext)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mvpn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mvpn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccDpt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccDptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaceLoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlaceLoc)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="確定送出" class="btn btn-default" /> |
+            @Html.ActionLink("回到案件列表", "Index", "Home", new { Area = "" }, new { style = "color : deepskyblue" })
+        </div>
+    }
+</div>

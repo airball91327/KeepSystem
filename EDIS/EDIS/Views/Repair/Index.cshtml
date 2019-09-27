@@ -1,0 +1,56 @@
+﻿@model EDIS.Models.RepairModels.QryRepListData
+
+<form asp-controller="Repair" asp-action="Index" data-ajax="true"
+      data-ajax-method="POST">
+    <h4>查詢條件</h4>
+    <hr />
+    <div class="container">
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="qtyDOCID" class="control-title">表單編號</label>
+                    <input asp-for="qtyDOCID" class="form-control-s" />
+                </div>
+                <div class="form-group">
+                    <label for="qtyASSETNO" class="control-title">財產編號</label>
+                    <input asp-for="qtyASSETNO" class="form-control-s" />
+                </div>
+                <div class="form-group">
+                    <label for="qtyACCDPT" class="control-title">成本中心</label>
+                    <select asp-for="qtyACCDPT" asp-items="@ViewData["ACCDPT"] as SelectList" class="form-control">
+                        <option>請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="qtyASSETNAME" class="control-title">物品名稱(關鍵字)</label>
+                    <input asp-for="qtyASSETNAME" class="form-control-s" />
+                </div>
+                <div class="form-group">
+                    <label for="qtyFLOWTYPE" class="control-title">流程狀態</label>
+                    <select asp-for="qtyFLOWTYPE" asp-items="@ViewData["FLOWTYPE"] as SelectList" class="form-control-s">
+                        <option>請選擇</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="qtyDPTID" class="control-title">申請部門</label>
+                    <select asp-for="qtyDPTID" asp-items="@ViewData["APPLYDPT"] as SelectList" class="form-control">
+                        <option>請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <div style="margin-left:115px">
+                        <input id="btnQTY" type="submit" value="查詢" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,300 @@
+﻿@model X.PagedList.IPagedList<EDIS.Areas.BMED.Models.RepairModels.AssetModel>
+
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Common;
+@using EDIS.Models.Identity;
+
+@inject CustomUserManager UserManager
+@inject CustomRoleManager RoleManager
+
+<link href="~/css/PagedList.css" rel="stylesheet" type="text/css" />
+
+<style>
+    /* Style the scale of checkbox. */
+    input[type=checkbox] {
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FireFox */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+    }
+</style>
+
+<script type="text/javascript">
+    $('a[name="del"]').click(function () {
+        if (confirm("確定要刪除此記錄?")) {
+
+        }
+        else {
+            return false;
+        }
+    });
+
+    $('input[name="chkALL"]').change(function () {
+        if ($(this).prop("checked")) {
+            $("input[name='chkENG']").each(function () {
+                $(this).prop("checked", true);
+            });
+        }
+        else {
+            $("input[name='chkENG']").each(function () {
+                $(this).prop("checked", false);
+            });
+        }
+    });
+
+    /* Transfer Keep Engineers. */
+    $("#btnTRANS").click(function () {
+        var s = "";
+        $("input[name='chkENG']:checked").each(function () {
+            s += $(this).parents("tr").children().get(2).innerText.trim();
+            s += ";";
+        });
+        var eng = $("#KeepEngId").val();
+        if (s != "" && eng != "") {
+            $.ajax({
+                url: '../BMED/AssetKeep/UpdEngineer',
+                data: { id: eng, assets: s },
+                type: "POST",
+                beforeSend: $.Toast.showToast({
+                    'title': '作業進行中，請稍待...',
+                    'icon': 'loading',
+                    'duration': 0
+                }),
+                success: function (data) {
+                    alert('移轉工程師完成!!');
+                    $.Toast.hideToast();
+                },
+                error: function (msg) {
+                    alert(msg);
+                    $.Toast.hideToast();
+                }
+            });
+        }
+    });
+
+    /* Transfer Asset Engineers. */
+    $("#btnAssetTRANS").click(function () {
+        var s = "";
+        $("input[name='chkENG']:checked").each(function () {
+            s += $(this).parents("tr").children().get(2).innerText.trim();
+            s += ";";
+        });
+        var eng = $("#AssetEngId").val();
+        if (s != "" && eng != "") {
+            $.ajax({
+                url: '../BMED/Asset/UpdEngineer',
+                data: { id: eng, assets: s },
+                type: "POST",
+                beforeSend: $.Toast.showToast({
+                    'title': '作業進行中，請稍待...',
+                    'icon': 'loading',
+                    'duration': 0
+                }),
+                success: function (data) {
+                    alert('移轉工程師完成!!');
+                    $.Toast.hideToast();
+                },
+                error: function (msg) {
+                    alert(msg);
+                    $.Toast.hideToast();
+                }
+            });
+        }
+    });
+</script>
+
+@if (UserManager.IsInRole(User, "Admin") || UserManager.IsInRole(User, "MedAdmin"))
+{
+    @*@Html.ActionLink("新增設備", "Create", null, new { @class = "btn btn-default" })
+        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modalFILES">
+                <img class="pull-left" width="20" height="20" src="~/Images/excel_icon.png" />&nbsp;匯入資料
+            </button>*@
+    <div style="display: block; padding-bottom: 40px;">
+        <div class="form-group">
+            <div class="col-md-2">
+                <a class="btn btn-primary" href="@Url.Action("Create")">新增設備</a>
+                @*@Html.ActionLink("新增設備", "Create", null, new { @class = "btn btn-default" })*@
+            </div>
+            <div class="col-md-5 text-left">
+                <div class="form-inline">
+                    @Html.Label("AssetEngId", "設備工程師", new { @class = "control-label" })
+                    @Html.DropDownList("AssetEngId", null, "請選擇", new { @class = "form-control" })
+                    <input class="btn btn-default" id="btnAssetTRANS" type="button" value="確定轉移" />
+                </div>
+            </div>
+            <div class="col-md-5 text-left">
+                <div class="form-inline">
+                    @Html.Label("KeepEngId", "保養工程師", new { @class = "control-label" })
+                    @Html.DropDownList("KeepEngId", null, "請選擇", new { @class = "form-control" })
+                    <input class="btn btn-default" id="btnTRANS" type="button" value="確定轉移" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- 夾帶檔案 Modal -->
+@*<div id="modalFILES" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">選擇上傳檔案</h4>
+            </div>
+            <div class="modal-body">
+                @Html.Action("UpdAssetExcel", "AttainFiles")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+<div>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.CheckBox("chkALL")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().AssetClass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().AssetNo)
+            </th>
+            <th>
+                中/英文名稱
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().AccDate)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().BuyDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().BmedNo)
+            </th>
+            <th>
+                廠牌/規格/型號
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.VendorId)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.DisposeKind)
+                </th>*@
+            <th>
+                保管部門/保管人
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().LeaveSite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().AccDpt)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Cost)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Shares)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().MakeNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Note)
+            </th>
+            <th></th>
+        </tr>
+        @{
+            var role = "";
+            if (UserManager.IsInRole(User, "Admin") || UserManager.IsInRole(User, "MedAdmin"))
+            {
+                role = "admin";
+            }
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.CheckBox("chkENG")
+                    </td>
+                    <td>
+                        @if (item.DisposeKind == "報廢")
+                        {
+                            <span style="color: red;">報廢</span>
+                        }
+                        @Html.DisplayFor(modelItem => item.AssetClass)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AssetNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cname)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.Ename)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.AccDate)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BuyDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BmedNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Brand)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.Standard)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.Type)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.VendorId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DisposeKind)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DelivDptName)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.DelivEmp)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LeaveSite)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccDptName)
+                    </td>
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.Cost)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Shares)
+                        </td>*@
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MakeNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Note)
+                    </td>
+                    <td style="width:100px">
+                        @if (role == "admin")
+                        {
+                            @Html.ActionLink("修改", "Edit", new { id = item.AssetNo }, new { target = "_blank" })
+                            <br />
+                            @Html.ActionLink("刪除", "Delete", new { id = item.AssetNo }, new { name = "del" })
+                            <br />
+                        }
+                        @Html.ActionLink("預覽", "Details", new { id = item.AssetNo }, new { target = "_blank" })
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>
+
+<div>
+    @Html.PagedListPager(Model,
+    page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+</div>
+

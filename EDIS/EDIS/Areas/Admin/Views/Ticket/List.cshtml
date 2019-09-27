@@ -1,0 +1,119 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.TicketModel>
+
+@{
+    ViewBag.Title = "列表/發票";
+}
+
+@if (Model.Count() <= 0)
+{
+    <p class="text-danger">無任何資料!</p>
+}
+else
+{
+    @foreach (var item in Model)
+    {
+        <div class="panel">
+            <div class="panel-body" style="">
+
+                <h4>發票主檔</h4>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.StockType)
+                        </th>
+                        <th>
+                            發票號碼
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TicDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.VendorName)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TradeCode)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TotalAmt)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.TaxAmt)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Note)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ScrapValue)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ApplyDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CancelDate)
+                        </th>
+                        @*<th>
+                                @Html.DisplayNameFor(model => model.ShutDate)
+                            </th>*@
+                        <th></th>
+                    </tr>
+
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StockType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicketNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TicDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VendorId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.VendorName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TradeCode)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TotalAmt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TaxAmt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ScrapValue)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplyDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CancelDate)
+                        </td>
+                        @*<td>
+                                @Html.DisplayFor(modelItem => item.ShutDate)
+                            </td>*@
+                        <td style="text-align:center;">
+                            <a class="btn btn-primary" href="@Url.Action("Edit", "Ticket", new { Area = "Admin", id = item.TicketNo })">編輯</a>
+                            @*@Html.ActionLink("編輯", "Edit", new { id = item.TicketNo }) |*@
+                            @*@Html.ActionLink("預覽", "Details", new { id=item.TicketNo })*@
+                            @*@Html.ActionLink("刪除", "Delete", new { id=item.TicketNo })*@
+                        </td>
+                    </tr>
+                </table>
+
+                <div>
+                    @await Component.InvokeAsync("TicketDtlList", new { id = item.TicketNo, viewType = "List2" })
+                </div>
+            </div>
+        </div>
+    }
+}

@@ -1,0 +1,12 @@
+﻿
+@media (max-width: 768px) {
+
+    .navbar-static-side {
+        display: none;
+    }
+
+}
+
+.text-danger {
+    color: #ff9c00;
+}

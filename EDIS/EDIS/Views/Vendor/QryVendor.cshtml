@@ -1,0 +1,67 @@
+﻿@model EDIS.Models.RepairModels.QryVendor
+
+<script src="~/js/QryVendor.js"></script>
+
+<form asp-action="QryVendor" asp-controller="Vendor" asp-area="" data-ajax="true"
+      data-ajax-update="#pnlSELECTVENDOR" data-ajax-method="POST" LoadingElementId="imgLOADINGVendor">
+
+    <div class="form-horizontal">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        @*<div class="form-group">
+            <label asp-for="QryType" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <input type="radio" asp-for="QryType" value="關鍵字" />關鍵字
+                <input type="radio" asp-for="QryType" value="統一編號" />統一編號
+                <span asp-validation-for="QryType" class="text-danger"></span>
+            </div>
+        </div>*@
+
+        <input asp-for="QryType" type="hidden" />
+
+        <div class="form-group">
+            <label class="control-title col-md-10">請以【關鍵字】或【統一編號】擇一查詢。</label>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="KeyWord" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <div class="form-inline">
+                    <input asp-for="KeyWord" class="form-control" />
+                    <span asp-validation-for="KeyWord" class="text-danger"></span>
+                    <input type="submit" value="查詢" class="btn btn-default" id="keyWordBtn" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="UniteNo" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <div class="form-inline">
+                    <input asp-for="UniteNo" class="form-control" />
+                    <span asp-validation-for="UniteNo" class="text-danger"></span>
+                    <input type="submit" value="查詢" class="btn btn-default" id="uniteNoBtn" />
+                    <img id="imgLOADINGVendor" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Vno" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="Vno" asp-items="@Model.VendorList" class="form-control"></select>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+<div>
+    <button class="btn btn-primary" id="createVendorBtn">新增廠商</button>
+    <span style="color : #ff9c00;">&nbsp;&nbsp;若查無廠商，請新增廠商。</span>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

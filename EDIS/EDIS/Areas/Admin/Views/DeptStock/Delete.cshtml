@@ -1,0 +1,111 @@
+﻿@model EDIS.Models.RepairModels.DeptStockModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Delete";
+}
+
+<h2>刪除</h2>
+
+<h3>是否確認刪除此項庫存資料?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DeptStockClass.StockClsName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeptStockClass.StockClsName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DeptStockItem.StockItemName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeptStockItem.StockItemName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StockNo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StockNo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StockName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StockName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Unite)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Unite)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Qty)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Qty)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SafeQty)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SafeQty)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Loc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Loc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Standard)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Standard)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Brand)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Brand)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CustOrgan_CustId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CustOrgan_CustId)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="StockId" />
+        <a class="btn btn-default" href="@Url.Action("Index", new { area = "Admin", stockClsId = Model.StockClsId, stockItemId = Model.StockItemId } )">回到列表</a>
+        <input type="submit" value="刪除" class="btn btn-primary" />
+    </form>
+</div>

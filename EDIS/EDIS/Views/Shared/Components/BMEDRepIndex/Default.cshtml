@@ -1,0 +1,232 @@
+﻿@model EDIS.Areas.BMED.Models.RepairModels.QryRepListData
+@using EDIS.Models.Identity
+
+@inject CustomUserManager UserManager
+<link href="~/css/bootstrap-combobox.css" rel="stylesheet" />
+<script src="~/js/bootstrap-combobox.js"></script>
+
+<style>
+    /* Style the scale of radio. */
+    input[type=radio] {
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FireFox */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+    }
+    /* Style the scale of checkbox. */
+    input[type=checkbox] {
+        -ms-transform: scale(2); /* IE */
+        -moz-transform: scale(2); /* FireFox */
+        -webkit-transform: scale(2); /* Safari and Chrome */
+        -o-transform: scale(2); /* Opera */
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.BMEDcombobox').combobox();
+        /* Only first visit the page, will submit the form. */
+        var count = 0;
+        $('.nav-tabs a[href="#menu1"]').on('shown.bs.tab', function (event) {
+            if (count == 0) {
+                $("#BMEDrepSearchForm").submit();
+                count++;
+            };
+        });
+
+        $("#BMEDexportExcelBtn").click(function () {
+            var DocId = $("#BMEDqtyDOCID").val();
+            var AssetNo = $("#BMEDqtyASSETNO").val();
+            var AccDpt = $("#BMEDqtyACCDPT").val();
+            var AssetName = $("#BMEDqtyASSETNAME").val();
+            var FlowType = $("#BMEDqtyFLOWTYPE").val();
+            var DptId = $("#BMEDqtyDPTID").val();;
+            var Date1 = $("#BMEDqtyApplyDateFrom").val();
+            var Date2 = $("#BMEDqtyApplyDateTo").val();
+            var DealStatus = $("#BMEDqtyDealStatus").val();
+            var IsCharged = $("#BMEDqtyIsCharged").val();
+            var DateType = $("#BMEDqtyDateType").val();
+            var SearchAllDoc = false;
+            var EngCode = $("#BMEDqtyEngCode").val();
+            var TicketNo = $("#BMEDqtyTicketNo").val();
+            var Vendor = $("#BMEDqtyVendor").val();
+            if ($("#BMEDqtySearchAllDoc").is(':checked') == true) {
+                SearchAllDoc = true;
+            }
+
+            $.ajax({
+                url: "@Url.Action("ExportToExcel", "Repair", new { Area = "BMED" })",
+                data: {
+                    qtyDocId: DocId,
+                    qtyAssetNo: AssetNo,
+                    qtyAccDpt: AccDpt,
+                    qtyAssetName: AssetName,
+                    qtyFlowType: FlowType,
+                    qtyDptId: DptId,
+                    Date1: Date1,
+                    Date2: Date2,
+                    DealStatus: DealStatus,
+                    IsCharged: IsCharged,
+                    DateType: DateType,
+                    SearchAllDoc: SearchAllDoc,
+                    EngCode: EngCode,
+                    TicketNo: TicketNo,
+                    Vendor: Vendor,
+                },
+                success: function (response, textStatus, jqXHR) {
+
+                    window.location.href = '@Url.Action("ExportToExcel", "Repair", new { Area = "BMED" })' + '?qtyDocId=' + DocId + '&qtyAssetNo=' + AssetNo
+                        + '&qtyAccDpt=' + AccDpt + '&qtyAssetName=' + AssetName + '&qtyFlowType=' + FlowType + '&qtyDptId=' + DptId
+                        + '&Date1=' + Date1 + '&Date2=' + Date2 + '&DealStatus=' + DealStatus + '&IsCharged=' + IsCharged
+                        + '&DateType=' + DateType + '&SearchAllDoc=' + SearchAllDoc + '&EngCode=' + EngCode + '&TicketNo=' + TicketNo + '&Vendor=' + Vendor;
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        });
+    });
+    function BMEDRepReSubmit() {
+        $("#BMEDrepSearchForm").submit();
+        /* Refresh repair count. */
+        $.ajax({
+            url: '@Url.Action("GetRepairCounts", "Repair", new { Area = "BMED" })',
+            type: "GET",
+            success: function (data) {
+                $("#BMEDrepCount").html(data);
+            }
+        });
+    }
+</script>
+
+<form asp-controller="Repair" asp-action="Index" asp-area="BMED" data-ajax="true"
+      data-ajax-update="#BMEDpnlREPLIST" data-ajax-method="POST" id="BMEDrepSearchForm"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'查詢中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()">
+
+    <h4>查詢條件 - 個人案件</h4>
+
+    <div class="container">
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="BMEDqtyDOCID" class="control-title">表單編號</label>
+                    <input asp-for="BMEDqtyDOCID" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="BMEDqtyASSETNO" class="control-title">財產編號</label>
+                    <input asp-for="BMEDqtyASSETNO" class="form-control-s" />
+                </div>
+                <div class="form-group">
+                    <label for="BMEDqtyACCDPT" class="control-title">成本中心</label>
+                    <select asp-for="BMEDqtyACCDPT" asp-items="@ViewData["BMEDAccDpt"] as SelectList" class="form-control BMEDcombobox">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="BMEDqtyASSETNAME" class="control-title">設備名稱<br />(關鍵字)</label>
+                    <input asp-for="BMEDqtyASSETNAME" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="BMEDqtyFLOWTYPE" class="control-title">流程狀態</label>
+                    <select asp-for="BMEDqtyFLOWTYPE" asp-items="@ViewData["BMEDFlowType"] as SelectList" class="form-control-s">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="BMEDqtyDPTID" class="control-title">申請部門</label>
+                    <select asp-for="BMEDqtyDPTID" asp-items="@ViewData["BMEDApplyDpt"] as SelectList" class="form-control BMEDcombobox">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="BMEDqtyDealStatus" class="control-title">處理狀態</label>
+                    <select asp-for="BMEDqtyDealStatus" asp-items="@ViewData["BMEDDealStatus"] as SelectList" class="form-control">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+                <label for="BMEDqtyIsCharged" class="control-title">[有][無]費用</label>
+                <select asp-for="BMEDqtyIsCharged" asp-items="@ViewData["BMEDIsCharged"] as SelectList" class="form-control-s">
+                    <option value="">請選擇</option>
+                </select>
+                <div class="form-group">
+                    <label for="BMEDqtyEngCode" class="control-title">負責工程師</label>
+                    <select asp-for="BMEDqtyEngCode" asp-items="@ViewData["BMEDEngs"] as SelectList" class="form-control BMEDcombobox">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="BMEDqtyTicketNo" class="control-title">發票號碼</label>
+                    <input asp-for="BMEDqtyTicketNo" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="BMEDqtyVendor" class="control-title">廠商(關鍵字)</label>
+                    <input asp-for="BMEDqtyVendor" class="form-control-s" />
+                </div>
+                @if (UserManager.IsInRole(User, "MedEngineer") == true) /* Only MedEngineer can search all engineer docs. */
+                {
+                    <div class="form-group">
+                        <label class="control-title">查詢其他<br />工程師案件</label>
+                        <input type="checkbox" asp-for="BMEDqtySearchAllDoc" style="margin: 7px 0px 0px 7px;" />
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="qtyApplyDateFrom" class="control-title">日期查詢</label>
+                    <span>
+                        <select asp-for="BMEDqtyDateType" asp-items="@ViewData["BMEDDateType"] as SelectList" class="form-control-s">
+                        </select>
+                    </span>
+                    <input asp-for="BMEDqtyApplyDateFrom" class="form-control" />
+                    <span> ~ </span>
+                    <input asp-for="BMEDqtyApplyDateTo" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group col-md-offset-1 col-md-1">
+                    <div>
+                        <input id="BMEDbtnQTY" type="submit" value="查詢" class="btn btn-default btn-group-justified" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        <input type="button" class="btn btn-primary" id="BMEDexportExcelBtn" value="匯出Excel" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="BMEDpnlREPLIST"></div>
+
+
+@if (UserManager.IsInRole(User, "MedAssetMgr") || UserManager.IsInRole(User, "Admin"))
+{
+    <hr />
+    <h4>未分派案件</h4>
+    <br />
+    <div id="unsignListDiv">
+        @await Component.InvokeAsync("BMEDRepResign")
+    </div>
+}

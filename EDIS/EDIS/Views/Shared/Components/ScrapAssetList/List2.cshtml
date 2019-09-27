@@ -1,0 +1,31 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.ScrapAssetModel>
+
+<h4>報廢財產編號列表</h4>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.AssetNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assets.Cname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Assets.AccDate)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssetNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Assets.Cname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Assets.AccDate)
+            </td>
+        </tr>
+    }
+</table>

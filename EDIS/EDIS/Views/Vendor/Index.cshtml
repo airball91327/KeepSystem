@@ -1,0 +1,119 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.VendorModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.VendorName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Fax)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UniteNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TaxAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TaxZipCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Contact)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ContactTel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ContactEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.StartDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EndDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Kind)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.VendorName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UniteNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaxAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TaxZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Contact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactTel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kind)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.VendorId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.VendorId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.VendorId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

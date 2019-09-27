@@ -1,0 +1,323 @@
+﻿@model EDIS.Areas.BMED.Models.RepairModels.AssetModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "新增資產設備";
+}
+<script src="~/js/BMED/AssetCreate.js"></script>
+
+<h2>新增</h2>
+
+<form asp-action="Create" asp-controller="Asset" asp-area="BMED" data-ajax="true" data-ajax-method="POST"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'新增資料中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-success="showmsg">
+
+    <div class="form-horizontal">
+        <h4>資產設備</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="AssetNo" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="AssetNo" class="form-control" />
+                <span asp-validation-for="AssetNo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="BmedNo" class="control-label col-md-2"></label>
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.TextBox("BmedNoKeyName", "", new { @class = "form-control", placeholder = "關鍵字" })
+                    <input id="btnQtyBmedNo" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.BmedNo, null, "請選擇", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BmedNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AssetClass" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.AssetClass, "醫療儀器")醫療儀器
+                @Html.RadioButtonFor(model => model.AssetClass, "工程設施")工程設施
+                @Html.ValidationMessageFor(model => model.AssetClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Cname" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Cname" class="form-control" />
+                <span asp-validation-for="Cname" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Ename" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Ename" class="form-control" />
+                <span asp-validation-for="Ename" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AccDate" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="AccDate" type="date" class="form-control" />
+                <span asp-validation-for="AccDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="BuyDate" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="BuyDate" type="date" class="form-control" />
+                <span asp-validation-for="BuyDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="RelDate" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="RelDate" type="date" class="form-control" />
+                <span asp-validation-for="RelDate" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Brand" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Brand" class="form-control" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Standard" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Standard" class="form-control" />
+                <span asp-validation-for="Standard" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Type" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Origin" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Origin" class="form-control" />
+                <span asp-validation-for="Origin" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Voltage" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Voltage" class="form-control" />
+                <span asp-validation-for="Voltage" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Current" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Current" class="form-control" />
+                <span asp-validation-for="Current" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <input type="hidden" asp-for="VendorId" />
+            <label asp-for="VendorId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <div class="form-inline">
+                    <input asp-for="VendorName" class="form-control" />
+                    <input id="btnQtyVendor" type="button" value="查詢" class="btn btn-default" data-toggle="modal" data-target="#modalVENDOR">
+                    <span asp-validation-for="VendorName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DisposeKind" class="control-label col-md-2"></label>
+            <div class="col-md-10 form-inline">
+                <select asp-for="DisposeKind" asp-items="@ViewData["DisposeKind"] as SelectList" class="form-control">
+                    <option disabled selected>請選擇</option>
+                </select>
+                <span asp-validation-for="DisposeKind" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DelivDpt" class="control-label col-md-2"></label>
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.TextBox("DelivdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtyDelivdpt" type="button" value="查詢" class="btn btn-default">
+                    <select asp-for="DelivDpt" asp-items="@ViewData["DelivDpt"] as SelectList" class="form-control">
+                        <option disabled selected>請選擇</option>
+                    </select>
+                    <span asp-validation-for="DelivDpt" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DelivEmp" class="control-label col-md-2"></label>
+            <div class="form-inline">
+                <div class="col-md-10">
+                    @Html.TextBox("DelivUidKeyName", "", new { @class = "form-control", placeholder = "姓名關鍵字" })
+                    <input id="btnQtyDelivUid" type="button" value="查詢" class="btn btn-default">
+                    <select asp-for="DelivUid" class="form-control">
+                        <option disabled selected>請選擇</option>
+                    </select>
+                    <span asp-validation-for="DelivUid" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="LeaveSite" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="LeaveSite" class="form-control" />
+                <span asp-validation-for="LeaveSite" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AccDpt" class="control-label col-md-2"></label>
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.TextBox("AccdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtyAccdpt" type="button" value="查詢" class="btn btn-default">
+                    <select asp-for="AccDpt" asp-items="@ViewData["AccDpt"] as SelectList" class="form-control">
+                        <option disabled selected>請選擇</option>
+                    </select>
+                    <span asp-validation-for="AccDpt" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Cost" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Shares" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Shares" class="form-control" />
+                <span asp-validation-for="Shares" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="RiskLvl" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.RiskLvl, "1")I
+                @Html.RadioButtonFor(model => model.RiskLvl, "2")II
+                @Html.RadioButtonFor(model => model.RiskLvl, "3")III
+                @Html.RadioButtonFor(model => model.RiskLvl, "0")無
+                <span asp-validation-for="RiskLvl" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="UseLife" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="UseLife" class="form-control" />
+                <span asp-validation-for="UseLife" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IpAddr" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="IpAddr" class="form-control" />
+                <span asp-validation-for="IpAddr" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="MacAddr" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="MacAddr" class="form-control" />
+                <span asp-validation-for="MacAddr" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="MakeNo" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="MakeNo" class="form-control" />
+                <span asp-validation-for="MakeNo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AssetEngId" class="control-label col-md-2"></label>
+            <div class="col-md-10 form-inline">
+                <select asp-for="AssetEngId" asp-items="@ViewData["AssetEngId"] as SelectList" class="form-control">
+                    <option disabled selected>請選擇</option>
+                </select>
+                <span asp-validation-for="AssetEngId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Note" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="確定送出" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- 廠商 Modal -->
+<div id="modalVENDOR" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #1D3C4C">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
+                <h4 class="modal-title">選擇廠商</h4>
+            </div>
+            <div id="pnlSELECTVENDOR" class="modal-body">
+                @await Component.InvokeAsync("BMEDQryVendor")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a href="@Url.Content("~/BMED/Asset/Index")" class="btn btn-primary">回到資產列表</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

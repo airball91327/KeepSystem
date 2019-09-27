@@ -1,0 +1,146 @@
+﻿@model IEnumerable<EDIS.Areas.BMED.Models.RepairModels.RepairListVModel>
+
+@{
+    ViewData["Title"] = "分派案件";
+}
+<link href="~/css/bootstrap-combobox.css" rel="stylesheet" />
+<script src="~/js/bootstrap-combobox.js"></script>
+
+<style>
+    /* Style the scale of checkbox. */
+    input[class='IsSelected'], input[name="checkAll"] {
+        -ms-transform: scale(1.5) !important; /* IE */
+        -moz-transform: scale(1.5) !important; /* FireFox */
+        -webkit-transform: scale(1.5) !important; /* Safari and Chrome */
+        -o-transform: scale(1.5) !important; /* Opera */
+    }
+</style>
+
+<script>
+    var updateFailed = function (data) {
+        alert(data.responseText);
+        $.Toast.hideToast();
+    };
+
+    $(function () {
+        $(".combobox3").combobox();
+        // Default setting
+        $("input[class='IsSelected']").each(function () {
+            $(this).prop("checked", false);
+        });
+
+        $('input[name="checkAll"]').change(function () {
+            if ($(this).prop("checked")) {
+                $("input[class='IsSelected']").each(function () {
+                    $(this).prop("checked", true);
+                });
+            }
+            else {
+                $("input[class='IsSelected']").each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+        });
+    });
+</script>
+
+<form asp-action="ResignEng" asp-controller="Repair" asp-area="BMED"
+      data-ajax="true" data-ajax-update="#unsignListDiv" data-ajax-method="POST"
+      data-ajax-begin="$.Toast.showToast({
+              'title':'作業進行中，請稍待...',
+              'icon':'loading',
+              'duration':0
+              })"
+      data-ajax-complete="$.Toast.hideToast()"
+      data-ajax-failure="updateFailed">
+
+    <div class="form-inline">
+        <div class="form-group col-md-7">
+            <label class="control-label col-md-3">指派工程師:</label>
+            <div class="col-md-5">
+                @Html.DropDownList("BMEDassignEngId", null, "選擇人員", htmlAttributes: new { @class = "form-control combobox3", required = "required" })
+            </div>
+            <div class="col-md-4">
+                <input type="submit" class="btn btn-primary" value="確定送出" />
+            </div>
+        </div>
+    </div>
+    <br /><br />
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="col-md-1" style="text-align:center">
+                    <input type="checkbox" name="checkAll" />
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DocType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DocId)
+                    <br />
+                    @Html.DisplayNameFor(model => model.ApplyDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AccDptName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AssetName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlaceLoc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TroubleDes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Days)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 0; }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @Html.Hidden("data[" + i + "].DocId", item.DocId)
+                    <td style="text-align:center">
+                        @Html.CheckBox("data[" + i + "].IsSelected", item.IsSelected, new { @class = "IsSelected" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DocId)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.ApplyDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AccDptName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AssetNo)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.AssetName)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.Brand)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.Type)
+                        <br />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PlaceLoc)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TroubleDes)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Days)
+                    </td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</form>
+

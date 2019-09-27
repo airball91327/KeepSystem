@@ -1,0 +1,130 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.QryKeepListData
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "保養單查詢";
+}
+
+<link href="~/css/bootstrap-combobox.css" rel="stylesheet" />
+<script src="~/js/bootstrap-combobox.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.combobox').combobox();
+        /* While loading this page, default search repairDocs. */
+        //$("#repSearchForm").submit();
+    });
+</script>
+
+<h3>保養單查詢 - 全院</h3>
+<h4>醫療儀器</h4>
+<hr />
+
+<form asp-controller="Search" asp-action="GetKeepQryList" asp-area="BMED" data-ajax="true"
+      data-ajax-update="#pnlKEEPLIST" data-ajax-method="POST" id="keepSearchForm"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'查詢中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()">
+
+    <h4>查詢條件 - 全院案件</h4>
+
+    <div class="container">
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="BMEDKqtyDOCID" class="control-title">表單編號</label>
+                    <input asp-for="BMEDKqtyDOCID" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="BMEDKqtyASSETNO" class="control-title">財產編號</label>
+                    <input asp-for="BMEDKqtyASSETNO" class="form-control-s" />
+                </div>
+                <div class="form-group">
+                    <label for="BMEDKqtyACCDPT" class="control-title">成本中心</label>
+                    <select asp-for="BMEDKqtyACCDPT" asp-items="@ViewData["ACCDPT"] as SelectList" class="form-control combobox">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="BMEDKqtyASSETNAME" class="control-title">儀器名稱<br />(關鍵字)</label>
+                    <input asp-for="BMEDKqtyASSETNAME" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="BMEDKqtyFLOWTYPE" class="control-title">流程狀態</label>
+                    <select asp-for="BMEDKqtyFLOWTYPE" asp-items="@ViewData["FLOWTYPE"] as SelectList" class="form-control-s">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="BMEDKqtyDPTID" class="control-title">申請部門</label>
+                    <select asp-for="BMEDKqtyDPTID" asp-items="@ViewData["APPLYDPT"] as SelectList" class="form-control combobox">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="BMEDKqtyKeepResult" class="control-title">保養狀態</label>
+                    <select asp-for="BMEDKqtyKeepResult" asp-items="@ViewData["KeepResults"] as SelectList" class="form-control">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+                <label for="BMEDKqtyIsCharged" class="control-title">[有][無]費用</label>
+                <select asp-for="BMEDKqtyIsCharged" asp-items="@ViewData["IsCharged"] as SelectList" class="form-control-s">
+                    <option value="">請選擇</option>
+                </select>
+                <div class="form-group">
+                    <label for="BMEDKqtyEngCode" class="control-title">負責工程師</label>
+                    <select asp-for="BMEDKqtyEngCode" asp-items="@ViewData["BMEDEngs"] as SelectList" class="form-control combobox">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="BMEDKqtyTicketNo" class="control-title">發票號碼</label>
+                    <input asp-for="BMEDKqtyTicketNo" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="BMEDKqtyVendor" class="control-title">廠商(關鍵字)</label>
+                    <input asp-for="BMEDKqtyVendor" class="form-control-s" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="BMEDKqtyApplyDateFrom" class="control-title">日期查詢</label>
+                    <span>
+                        <select asp-for="BMEDKqtyDateType" asp-items="@ViewData["DateType"] as SelectList" class="form-control-s"></select>
+                    </span>
+                    <input asp-for="BMEDKqtyApplyDateFrom" class="form-control" />
+                    <span> ~ </span>
+                    <input asp-for="BMEDKqtyApplyDateTo" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <div style="margin-left:115px">
+                        <input id="btnQTY" type="submit" value="查詢" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="pnlKEEPLIST"></div>

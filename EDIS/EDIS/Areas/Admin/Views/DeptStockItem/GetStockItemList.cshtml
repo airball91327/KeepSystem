@@ -1,0 +1,56 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.DeptStockItemModel>
+
+<h2>@ViewBag.StockClassName</h2>
+
+<p>
+    <a class="btn btn-primary"  href="@Url.Action("Create", new { Area = "Admin", stockClsId = ViewBag.StockClsId } )">新增品項</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DeptStockClass.StockClsName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StockItemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtt)
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeptStockClass.StockClsName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RtpName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rtt)
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="@Url.Action("Edit", new { Area = "Admin", stockClsId = item.StockClsId, stockItemId = item.StockItemId })">編輯</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,34 @@
+@using Microsoft.AspNetCore.Identity
+@using EDIS.Models
+@using EDIS.Models.Identity
+
+@inject CustomSignInManager SignInManager
+@inject CustomUserManager UserManager
+
+<style>
+    #logoutForm > ul > li > button:hover {
+        color: aliceblue;
+    }
+</style>
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-left">
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @*<a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>*@
+                <a asp-area="" asp-controller="" asp-action="">Hello @UserManager.GetUserFullName(User)!</a>
+            </li>
+            <li>
+                <button type="submit" class="btn btn-link navbar-btn navbar-link">登出</button>
+            </li>
+        </ul>
+    </form>
+}
+else
+{
+    @*<ul class="nav navbar-nav navbar-right">
+            <li><a asp-area="" asp-controller="Account" asp-action="Register">註冊</a></li>
+            <li><a asp-area="" asp-controller="Account" asp-action="Login">登入</a></li>
+        </ul>*@
+}

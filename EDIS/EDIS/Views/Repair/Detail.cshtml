@@ -1,0 +1,199 @@
+﻿@model EDIS.Models.RepairModels.RepairModel
+
+<form role="form">
+    <fieldset disabled>
+        <div class="container">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class=form-group>
+                        <label asp-for="UserName" class="control-title"></label>
+                        <input asp-for="UserId" class="form-control" />
+                        <input asp-for="UserName" class="form-control" />
+                        <span asp-validation-for="UserId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class=form-group>
+                        <label asp-for="DptId" class="control-title"></label>
+                        <input asp-for="DptId" class="form-control" />
+                        <input asp-for="DptName" class="form-control" />
+                        <span asp-validation-for="DptId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label class="control-title">聯絡方式</label>
+                        <label asp-for="Ext" class="control-label"></label>
+                        <input asp-for="Ext" class="form-control-s" />
+                        <span asp-validation-for="Ext" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Mvpn" class="control-label"></label>
+                        <input asp-for="Mvpn" class="form-control-s" />
+                        <span asp-validation-for="Mvpn" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="ApplyDate" class="control-title"></label>
+                        <input asp-for="ApplyDate" class="form-control" />
+                        <span asp-validation-for="ApplyDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="AccDpt" class="control-title"></label>
+                        <input asp-for="AccDpt" class="form-control" />
+                        <input asp-for="AccDptName" class="form-control" />
+                        <span asp-validation-for="AccDpt" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="AssetNo" class="control-title"></label>
+                        <input asp-for="AssetNo" class="form-control" />
+                        <input type="button" value="讀取" class="btn btn-default" />
+                        <span asp-validation-for="AssetNo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="AssetName" class="control-title"></label>
+                        <input asp-for="AssetName" class="form-control" />
+                        <span asp-validation-for="AssetName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-inline">
+                    <label asp-for="RepType" class="control-title"></label>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="RepType" id="RepType1" value="送修">
+                            送修(物品送工務部)
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="RepType" id="RepType2" value="請修" checked>
+                            請修
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="RepType" id="RepType3" value="增設">
+                            增設
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="form-inline">
+                    <label asp-for="LocType" class="control-title"></label>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="LocType" id="LocType1" value="本單位" checked>
+                            本單位
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="LocType" id="LocType2" value="公共區域">
+                            公共區域(含跨院區)
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="LocType" id="LocType3" value="其他單位">
+                            其他單位
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="Building" class="control-title"></label>
+                        <select asp-for="Building" asp-items="@Model.Buildings" class="form-control">
+                            <option>請選擇</option>
+
+                        </select>
+                        <span asp-validation-for="Building" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="Floor" class="control-title"></label>
+                        <select asp-for="Floor" class="form-control">
+                            <option value="B2F">B2F</option>
+                            <option value="B1F">B1F</option>
+                            <option value="1F">1F</option>
+                            <option value="2F">2F</option>
+                            <option value="3F">3F</option>
+                            <option value="4F">4F</option>
+                        </select>
+                        <span asp-validation-for="Floor" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="Area" class="control-title"></label>
+                        <select asp-for="Area" class="form-control" id="Area">
+                            <option value="工務部">工務部</option>
+                            <option value="工務一課">工務一課</option>
+                            <option value="勞工安全衛生室">勞工安全衛生室</option>
+                            <option value="醫工部">醫工部</option>
+                            <option value="正子造影中心">正子造影中心</option>
+                            <option value="尿失禁暨排尿障礙中心">尿失禁暨排尿障礙中心</option>
+                        </select>
+                        <span asp-validation-for="Area" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="TroubleDes" class="control-title"></label>
+                        <textarea asp-for="TroubleDes" rows="3" class="form-control"></textarea>
+                        <span asp-validation-for="TroubleDes" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="EngId" class="control-title"></label>
+                        <select class="form-control" id="EngId">
+                            <option value="1814">1814馮惠真</option>
+                            <option value="11800">11800柯國棟</option>
+                            <option value="15873">15873劉振邦</option>
+                            <option value="23328">23328賈志成</option>
+                            <option value="47216">47216韋永恆</option>
+                            <option value="48825">48825賴慧真</option>
+                        </select>
+                        <span asp-validation-for="EngId" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>  
+</form>

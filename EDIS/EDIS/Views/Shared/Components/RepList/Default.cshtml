@@ -1,0 +1,122 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.RepairListVModel>
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
+@using EDIS.Models.Identity
+
+@inject CustomUserManager UserManager
+@{
+}
+
+<style>
+    td a {
+        color: deepskyblue;
+    }
+</style>
+
+@if (Model.Count() <= 0)
+{
+    <p class="text-danger" style="color:red">無任何資料!</p>
+
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DocType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DocId)
+                <br />
+                @Html.DisplayNameFor(model => model.ApplyDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccDptName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AssetName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlaceLoc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TroubleDes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DealState)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DealDes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Days)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocId)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.ApplyDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccDptName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AssetNo)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.AssetName)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Brand)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Type)
+                    <br />
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlaceLoc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TroubleDes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DealState)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DealDes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    @if (item.Flg != "2")
+                    {
+                        @Html.DisplayFor(modelItem => item.Days)
+                    }
+                </td>
+                <td width="100px">
+                    @if (item.Flg == "?" && item.FlowUid == UserManager.GetCurrentUserId(User))
+                    {
+                        @Html.ActionLink("編輯", "Edit", "Repair", new { Area = "", id = item.DocId })
+                        @Html.Raw("|")
+                    }
+                    @Html.ActionLink("預覽", "Views", "Repair", new { Area = "", id = item.DocId }) |
+                    @*@Html.ActionLink("列印", "Print", new { id = item.DocId }, new { target = "_blank" }) |*@
+                    @if (item.Flg == "?" && item.FlowUid == UserManager.GetCurrentUserId(User) && item.FlowCls == "申請人")
+                    {
+                        @Html.ActionLink("廢除", "Delete", "Repair", new { id = item.DocId })
+                    }
+                </td>
+            </tr>
+        }
+
+    </table>
+}

@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "庫存列表";
+}
+
+<h2>庫存列表</h2>
+<br />
+
+<form asp-action="Index" asp-controller="DeptStock" asp-area="BMED" id="frmDEPTSTOCKLIST">
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            @Html.Label("qtySTOCKNO", "材料編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("qtySTOCKNO", "", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("qtyDEPTNAME", "材料名稱", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("qtyDEPTNAME", "", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("qtyBRAND", "廠牌", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("qtyBRAND", "", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnQTY" type="button" value="查詢" class="btn btn-default" />
+                <img id="imgLOADING_STOCK" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div id="pnlDEPTSTOCKLIST" style="margin-top: 40px">
+    @*@await Component.InvokeAsync("DeptStockList")*@
+</div>
+
+<script>
+    $(function () {
+        var page = window.location.hash
+            ? window.location.hash.slice(1) : 1;
+        fetchPage(page); // Default display all stocks.
+        $('#btnQTY').click(function () {
+            fetchPage(1);
+        });
+    });
+
+    var fetchPage = function (page) {
+        var pagedPartialUrl = '@Url.Action("Index","DeptStock", new { Area = "BMED" })';
+        var s = $('#frmDEPTSTOCKLIST').serialize();
+        $('#imgLOADING_STOCK').show();
+        $.ajax({
+            url: pagedPartialUrl,
+            type: "POST",
+            data: s + "&page=" + page,
+            success: function (data) {
+
+                window.location.hash = page;
+
+                $('#pnlDEPTSTOCKLIST').html(data);
+
+                //$('#pnlDEPTSTOCKLIST .pagination li a').each(function (i, item) {
+                //    var hyperLinkUrl = $(item).attr('href');
+                //    if (typeof hyperLinkUrl !== 'undefined' && hyperLinkUrl !== false) {
+                //        var pageNumber = $(item).attr('href').replace(pagedPartialUrl + '?page=', '');
+                //        $(item).attr('href', '#').click(function (event) {
+                //            event.preventDefault();
+                //            $(event.target).attr('href');
+                //            fetchPage(pageNumber);
+                //        });
+                //    }
+                //});
+                $('#imgLOADING_STOCK').hide();
+            }
+        });
+    };
+</script>

@@ -1,0 +1,132 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.KeepModel
+
+<script>
+    var onFailed = function (data) {
+        alert(data.responseText);
+        $.Toast.hideToast();
+    }
+    function updatemsg(data) {
+        alert("送出成功!");
+    }
+</script>
+
+<h4>申請資料</h4>
+
+<form asp-action="Update" asp-controller="Keep" asp-area="BMED" data-ajax="true" data-ajax-method="POST"
+      data-ajax-update="#pnlKEEPDTL2"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()"
+      data-ajax-success="updatemsg" data-ajax-failure="onFailed">
+
+    <div>
+        @Html.HiddenFor(model => model.DocId)
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="container">
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DocId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DocId)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.UserName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Company)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Company)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AccDpt)
+                    </dt>
+
+                    <dd>
+                        <input asp-for="AccDpt" class="form-control-s" />
+                    </dd>
+                </dl>
+                <input type="submit" value="儲存" class="btn btn-default col-md-offset-6" style="margin-bottom: 15px;" />
+            </div>
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Ext)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Ext)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Cycle)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Cycle) @Html.Raw("個月")
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AssetNo)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.AssetNo)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AssetName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.AssetName)
+                    </dd>
+                </dl>
+
+            </div>
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PlaceLoc)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PlaceLoc)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.SentDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.SentDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CheckerName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CheckerName)
+                    </dd>
+                </dl>
+
+            </div>
+        </div>
+    </div>
+</form>
+

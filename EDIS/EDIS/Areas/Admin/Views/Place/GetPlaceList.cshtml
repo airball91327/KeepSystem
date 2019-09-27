@@ -1,0 +1,65 @@
+﻿@model IEnumerable<EDIS.Models.LocationModels.PlaceModel>
+
+
+<h3>@ViewBag.BuildingName</h3>
+<h4>@ViewBag.FloorName</h4>
+
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Create", new { buildingId = ViewBag.BuildingId, floorId = ViewBag.FloorId } )">
+        新增地點
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PlaceId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlaceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtt)
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlaceId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlaceName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RtpName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rtt)
+                </td>
+                <td>
+                    <a class="btn btn-primary" href="@Url.Action("Edit", new { buildingId = item.BuildingId, floorId = item.FloorId, PlaceId = item.PlaceId })">
+                        編輯
+                    </a>
+                    <a class="btn btn-primary" href="@Url.Action("Details", new { buildingId = item.BuildingId, floorId = item.FloorId, PlaceId = item.PlaceId })">
+                        詳細內容
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

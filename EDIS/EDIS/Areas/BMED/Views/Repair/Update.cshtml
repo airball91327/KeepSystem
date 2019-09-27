@@ -1,0 +1,6 @@
+﻿@model EDIS.Areas.BMED.Models.RepairModels.RepairModel
+@{
+    Layout = null;
+}
+
+@await Component.InvokeAsync("BMEDRepEdit", new { id = Model.DocId })

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<EDIS.Areas.BMED.Models.RepairModels.RepairFlowModel>
+
+<h3>流程資訊</h3>
+<div class="container">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.StepId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Opinions)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rtt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cls)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StepId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Opinions)
+                    </td>
+                    <td>
+                        @if (item.Status == "1")
+                        {
+                            <div>已處理</div>
+                        }
+                        else if (item.Status == "?")
+                        {
+                            <div>未處理</div>
+                        }
+                        else if (item.Status == "2")
+                        {
+                            <div>結案</div>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Rtt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cls)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

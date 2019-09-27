@@ -1,0 +1,33 @@
+﻿@model EDIS.Models.RepairModels.ScrapAssetModel
+<script src="~/js/ScrapAssetsEdit.js"></script>
+
+<form asp-controller="ScrapAsset" asp-action="Create" data-ajax="true"
+      data-ajax-method="POST" data-ajax-update="#pnlSCRAPLIST" data-ajax-success="showmsg5">
+
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(model => model.DocId)
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AssetNo" class="control-title"></label>
+                    <input asp-for="AssetNo" class="form-control" />
+                    <span asp-validation-for="AssetNo" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div style="padding-left: 115px">
+                <input type="submit" value="儲存" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="pnlSCRAPLIST">
+    @if (Model != null)
+    {
+        @await Component.InvokeAsync("ScrapAssetList", new { id = Model.DocId })
+    }
+</div>

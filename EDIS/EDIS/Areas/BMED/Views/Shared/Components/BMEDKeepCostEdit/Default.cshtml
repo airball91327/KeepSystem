@@ -1,0 +1,201 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.KeepCostModel
+
+<script src="~/js/BMED/KeepCost.js"></script>
+
+<form asp-controller="KeepCost" asp-action="Edit" asp-area="BMED" id="keepCostForm" data-ajax="true"
+      data-ajax-method="POST" data-ajax-update="#pnlKEEPCOSTLIST"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()"
+      data-ajax-success="showMsg" data-ajax-failure="onFailed">
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.DocId, new { id = "costDocId" })
+    @Html.HiddenFor(model => model.SeqNo, new { id = "costSeqNo" })
+
+    <div class="container">
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="StockType" class="control-title"></label>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="StockType" id="StockType1" value="0">
+                        庫存
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="StockType" id="StockType2" value="2" checked>
+                        發票
+                    </label>
+                </div>
+                @*<div class="radio">
+                    <label>
+                        <input type="radio" name="StockType" id="StockType3" value="3">
+                        簽單
+                    </label>
+                </div>*@
+            </div>
+        </div>
+        <div id="pnlPETTY" class="row">
+            <div class="form-inline">
+                <label asp-for="IsPetty" class="control-title"></label>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="IsPetty" id="IsPettyY" value="Y">
+                        是
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="IsPetty" id="IsPettyN" value="N" checked>
+                        否
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.HiddenFor(model => model.VendorId)
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="VendorName" class="control-title"></label>
+                    <input asp-for="VendorName" class="form-control" />
+                    <input type="button" value="選擇" class="btn btn-default" data-toggle="modal" data-target="#modalVENDOR" />
+                    <span asp-validation-for="VendorName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div id="pnlTICKET" class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="TicketDtl.TicketDtlNo" class="control-title"></label>
+                    <input asp-for="TicketDtl.TicketDtlNo" class="form-control" style="text-transform:uppercase;" />
+                    <input id="btnGETSEQ" type="button" value="取收據號(免用統一發票)" class="btn btn-default" />
+                    <span asp-validation-for="TicketDtl.TicketDtlNo" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div id="pnlSIGN" class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="SignNo" class="control-title"></label>
+                    <input asp-for="SignNo" class="form-control" style="text-transform:uppercase;" />
+                    <span asp-validation-for="SignNo" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div id="pnlACCDATE" class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AccountDate" class="control-title"></label>
+                    <input asp-for="AccountDate" class="form-control" />
+                    <span asp-validation-for="AccountDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.HiddenFor(model => model.PartNo)
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="PartName" class="control-title"></label>
+                    <input asp-for="PartName" class="form-control" />
+                    <input type="button" value="選擇庫存品項" class="btn btn-default" data-toggle="modal" data-target="#modalSTOCK" id="btnQtyStock" />
+                    <span asp-validation-for="PartName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="Standard" class="control-title"></label>
+                    <input asp-for="Standard" class="form-control" />
+                    <span asp-validation-for="Standard" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="Unite" class="control-title"></label>
+                    <input asp-for="Unite" class="form-control-s" />
+                    <span asp-validation-for="Unite" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-title"></label>
+                    <input asp-for="Price" class="form-control-s" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="Qty" class="control-title"></label>
+                    <input asp-for="Qty" class="form-control-s" />
+                    <span asp-validation-for="Qty" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TotalCost" class="control-title"></label>
+                    <input asp-for="TotalCost" class="form-control-s" />
+                    <span asp-validation-for="TotalCost" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div style="padding-left: 115px">
+                <input type="submit" value="儲存" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<div id="pnlKEEPCOSTLIST">
+    @if (Model != null)
+    {
+        @await Component.InvokeAsync("BMEDKeepCostList", new { id = Model.DocId, viewType = "Edit" })
+    }
+</div>
+
+<!-- 庫存品 Modal -->
+<div id="modalSTOCK" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="background-color: #1D3C4C">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
+                <h4 class="modal-title">選擇庫存品</h4>
+            </div>
+            <div class="modal-body">
+                @await Component.InvokeAsync("BMEDDeptStockIndex")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 廠商 Modal -->
+<div id="modalVENDOR" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #1D3C4C">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
+                <h4 class="modal-title">選擇廠商</h4>
+            </div>
+            <div id="pnlSELECTVENDOR" class="modal-body">
+                @await Component.InvokeAsync("BMEDQryVendor")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">儲存</button>
+            </div>
+        </div>
+    </div>
+</div>

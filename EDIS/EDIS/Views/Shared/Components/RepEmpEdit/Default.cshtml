@@ -1,0 +1,59 @@
+﻿@model EDIS.Models.RepairModels.RepairEmpModel
+<script src="~/js/RepairEmp.js"></script>
+
+<form asp-controller="RepairEmp" asp-action="Edit" data-ajax="true"
+    data-ajax-method="POST" data-ajax-update="#pnlREPEMPLIST" 
+    data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+    data-ajax-complete="$.Toast.hideToast()"
+    data-ajax-success="showmsg4">
+
+    @Html.AntiForgeryToken()
+    <div class="container">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(model => model.DocId)
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="UserName" class="control-title"></label>
+                    <select asp-for="UserId" asp-items="@ViewData["EmpList"] as SelectList" class="form-control">
+                    </select>
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="Hour" class="control-title"></label>
+                    <input asp-for="Hour" class="form-control-s" />
+                    <span asp-validation-for="Hour" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="Minute" class="control-title"></label>
+                    <input asp-for="Minute" class="form-control-s" />
+                    <span asp-validation-for="Minute" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div style="padding-left: 115px">
+                <input type="submit" value="儲存" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="pnlREPEMPLIST">
+    @if (Model != null)
+    {
+        @await Component.InvokeAsync("RepEmpList", new { id = Model.DocId })
+    }
+</div>

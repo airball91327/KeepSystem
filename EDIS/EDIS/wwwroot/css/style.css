@@ -1,0 +1,136 @@
+﻿.arrow {
+    float: right;
+}
+
+.fa.arrow:before {
+    content: "\f104";
+}
+
+.active > a > .fa.arrow:before {
+    content: "\f107";
+}
+
+.nav > li > a {
+    color: #a7b1c2;
+    font-weight: 600;
+    padding: 14px 20px 14px 25px;
+}
+
+.navbar-default {
+    padding-top: 50px;
+    background-color: #0e2b3a;
+    border-color: #2f4050;
+    height: 100vh;
+}
+
+.navbar-default .nav > li > a:hover,
+.navbar-default .nav > li > a:focus {
+    background-color: #293846;
+    color: white;
+}
+
+ul.nav-second-level {
+    background: #293846;
+}
+
+.nav#side-menu > li.active {
+    border-left: 4px solid #19aa8d;
+    background: #293846;
+}
+
+.nav.nav-second-level > li.active {
+    border: none;
+}
+
+.nav.nav-second-level.collapse[style] {
+    height: auto !important;
+}
+
+.nav-second-level li,
+.nav-third-level li,
+.nav-fourth{
+    border-bottom: none !important;
+}
+
+.nav-second-level li a {
+    padding: 14px 10px 14px 10px;
+    padding-left: 40px;
+}
+
+.nav-third-level li a {
+    padding-left: 50px;
+}
+
+.nav-fourth-level li a {
+    padding-left: 60px;
+}
+
+.nav-second-level li:last-child {
+    margin-bottom: 10px;
+}
+
+@media (min-width: 1200px) {
+}
+@media (min-width: 768px) {
+    #page-wrapper {
+        position: inherit;
+        margin: 0 0 0 220px;
+        min-height: calc(100vh - 70px);
+    }
+
+    #page-wrapper > footer {
+        /*position: absolute;*/
+        width: inherit;
+        height: 50px;
+        bottom: 0px;
+    }
+
+    .navbar-static-side {
+        z-index: 2001;
+        position: absolute;
+        width: 220px;
+    }
+
+    .mobileNavBar {
+        display:none;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .navbar-static-side {
+        display: none;
+    }
+    .navbar-form-custom {
+        display: none;
+    }
+
+    .navbar-header {
+        display: inline;
+        float: left;
+    }
+}
+
+.text-danger {
+    color: #ff9c00;
+}
+
+.nav-header {
+    padding: 18px 15px;
+    background-color: #0e2b3a;
+}
+
+.nav-header a {
+    color: #777;
+    text-decoration: none;
+}
+
+.nav-header {
+    color: #8095a8;
+    text-align: center;
+}
+
+.nav-header a:hover,
+.nav-header .btn:hover{
+    color: #DFE4ED;
+}

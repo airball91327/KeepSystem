@@ -1,0 +1,108 @@
+﻿@model IEnumerable<EDIS.Models.Identity.ExternalUserModel>
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    td a {
+        color: deepskyblue;
+    }
+</style>
+
+<h2>外包人員 & 值班人員</h2>
+
+<h4>帳號列表</h4>
+<hr />
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">新增帳號</a>
+</p>
+<table class="table" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppUsers.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppUsers.Password)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppUsers.Email)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.AppUsers.Ext)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppUsers.Mobile)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.AppUsers.DptId)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.AppUsers.VendorId)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.AppUsers.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppUsers.LastActivityDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AppUsers.Status)
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUsers.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUsers.Password)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUsers.Email)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.AppUsers.Ext)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUsers.Mobile)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUsers.DptId)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.AppUsers.VendorId)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUsers.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUsers.LastActivityDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AppUsers.Status)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">編輯</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">詳細內容</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">刪除</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

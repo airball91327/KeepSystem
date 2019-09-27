@@ -1,0 +1,32 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.KeepFormatModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "預覽/保養格式";
+}
+
+<h2>預覽</h2>
+
+<fieldset>
+    <legend style="color:white">保養格式</legend>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Plants)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Plants)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Format)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Format)
+    </div>
+</fieldset>
+
+<br />
+<div>
+    <a class="btn btn-default" href="@Url.Action("Edit","KeepFormat", new { Area = "BMED", id = Model.FormatId })">編輯</a>
+    <a class="btn btn-primary" href="@Url.Action("Index")">回到列表</a>
+</div>

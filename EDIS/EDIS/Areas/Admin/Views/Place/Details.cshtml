@@ -1,0 +1,51 @@
+﻿@model EDIS.Models.LocationModels.PlaceModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Details";
+}
+
+<h2>詳細內容</h2>
+
+<div>
+    <h3>@ViewBag.BuildingName</h3>
+    <h4>@ViewBag.FloorName</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaceId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PlaceId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaceName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PlaceName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Flg)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Flg)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.RtpName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-default" href="@Url.Action("Index", new { buildingId = Model.BuildingId, floorId = Model.FloorId } )">
+        回到列表
+    </a>
+</div>

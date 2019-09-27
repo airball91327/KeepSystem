@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "庫存列表";
+}
+
+<h2>庫存列表</h2>
+<br />
+
+<form asp-action="Index" asp-controller="DeptStock" id="frmDEPTSTOCKLIST">
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <label class="control-label col-md-2">選擇類別:</label>
+            <div class="col-md-10">
+                @Html.DropDownList("StockClsId", null, "選擇類別", htmlAttributes: new { @class = "form-control", required = "required", style = "width:200px" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">選擇品項:</label>
+            <div class="col-md-10">
+                <select name="StockItemId" id="StockItemId" class="form-control" style="width:200px">
+                    <option value="">請先選擇類別</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("qtySTOCKNO", "材料編號", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("qtySTOCKNO", "", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("qtyDEPTNAME", "材料名稱", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("qtyDEPTNAME", "", new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("qtyBRAND", "廠牌", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("qtyBRAND", "", new { @class = "form-control" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnQTY" type="button" value="查詢" class="btn btn-default" />
+                <img id="imgLOADING_STOCK" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="pnlDEPTSTOCKLIST" style="margin-top: 40px">
+    @*@await Component.InvokeAsync("DeptStockList")*@
+</div>
+
+<script>
+    $(function () {
+        var page = window.location.hash
+            ? window.location.hash.slice(1) : 1;
+        fetchPage(page); // Default display all stocks.
+        $('#btnQTY').click(function () {
+            fetchPage(1);
+        });
+
+        // While page loaded, show the selected class if user has selected before.
+        var selectClass = $("#StockClsId").val();
+        var selectItem = "@ViewBag.StockItemId";
+
+        /* When user selected an building, update the floors of the building. */
+        var url = '@Url.Action("GetItems", "DeptStock", new { Area = "" })'; // Don't hard code your url's!
+        var stockItems = $("#StockItemId"); // Get dropdown
+        var defaultOption = 0; // Set default selected option
+        $("#StockClsId").change(function () {
+            var i = 0;
+            stockClsId = $(this).val();     // Use $(this) so you don't traverse the DOM again
+            $.getJSON(url, { StockClsId: stockClsId }, function (response) {
+                //console.log(response); //For debug
+                async: false,
+                stockItems.empty();        // remove any existing options
+                $.each(response, function (index, item) {
+                    if (i == defaultOption) {
+                        stockItems.append($('<option selected="selected"></option>').text(item.stockItemName).val(item.stockItemId));
+                    }
+                    else {
+                        stockItems.append($('<option></option>').text(item.stockItemName).val(item.stockItemId));
+                    }
+                    i++;
+                });
+            });
+            $.ajaxSettings.async = true; // Set this ajax async back to true.
+        });
+    });
+
+    var fetchPage = function (page) {
+        var pagedPartialUrl = '@Url.Action("Index","DeptStock")';
+        var s = $('#frmDEPTSTOCKLIST').serialize();
+        $('#imgLOADING_STOCK').show();
+        $.ajax({
+            url: pagedPartialUrl,
+            type: "POST",
+            data: s + "&page=" + page,
+            success: function (data) {
+
+                window.location.hash = page;
+
+                $('#pnlDEPTSTOCKLIST').html(data);
+
+                //$('#pnlDEPTSTOCKLIST .pagination li a').each(function (i, item) {
+                //    var hyperLinkUrl = $(item).attr('href');
+                //    if (typeof hyperLinkUrl !== 'undefined' && hyperLinkUrl !== false) {
+                //        var pageNumber = $(item).attr('href').replace(pagedPartialUrl + '?page=', '');
+                //        $(item).attr('href', '#').click(function (event) {
+                //            event.preventDefault();
+                //            $(event.target).attr('href');
+                //            fetchPage(pageNumber);
+                //        });
+                //    }
+                //});
+                $('#imgLOADING_STOCK').hide();
+            }
+        });
+    };
+</script>

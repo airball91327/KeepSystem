@@ -1,0 +1,103 @@
+﻿@model EDIS.Models.RepairModels.RepairModel
+
+@using EDIS.Models.Identity
+@inject CustomUserManager UserManager
+@inject CustomRoleManager RoleManager
+
+@{;
+    ViewBag.Title = "編輯/請修";
+
+    if (TempData["SendMsg"] != null)
+    {
+        <script>
+            var message = @Json.Serialize(TempData["SendMsg"]);
+            alert(message);
+        </script>
+    }
+}
+
+<script>
+    $(function () {
+        var activePage = @ViewData["Page"];
+        if (activePage != 0) {
+            $("#page" + activePage).children("a").click();
+        }
+    });
+</script>
+
+<h2 style="margin-top:10px;">編輯</h2>
+<h4>請修單</h4>
+<hr />
+@*<div id="pnlFILES" style="margin: 10pt">
+    @await Component.InvokeAsync("AttainFileList2", new { id = Model.DocId, typ = "1" })
+</div>
+<div class="form-group">
+    <div>
+        <input id="btnFILES" type="button" value="夾帶附件檔案" class="btn btn-default" data-toggle="modal" data-target="#modalFILES">
+    </div>
+</div>*@
+<!-- 夾帶檔案 Modal -->
+@*<div id="modalFILES" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #1D3C4C">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
+                <h4 class="modal-title">選擇上傳檔案</h4>
+            </div>
+            <div class="modal-body">
+                @await Component.InvokeAsync("AttainFileUpload2", new { doctype = "1", docid = Model.DocId })
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+<ul class="nav nav-pills" style="font-size:120%">
+    <li role="presentation" id="page1" class="active"><a href="#repair" data-toggle="tab" style="padding-left:20px">申請資料</a></li>
+    <li role="presentation" id="page2"><a href="#repairdtl" data-toggle="tab" style="padding-left:20px">請修紀錄</a></li>
+    @*<li role="presentation" id="page3"><a href="#repairemp" data-toggle="tab" style="padding-left:20px">工程師工時</a></li>
+    @if (Model.UserId != UserManager.GetCurrentUserId(User) || 
+        RoleManager.GetUsersInRole("RepEngineer").Contains(User.Identity.Name)) //申請人不能檢視維修花費
+    {
+        <li role="presentation" id="page4"><a href="#repaircost" data-toggle="tab" style="padding-left:20px">費用明細</a></li>
+    }
+    <li role="presentation" id="page5"><a href="#repairflow" data-toggle="tab" style="padding-left:20px">簽核作業</a></li>*@
+</ul>
+<hr />
+<div class="tab-content">
+    <div id="repair" class="tab-pane fade in active">
+        <div>
+            @await Component.InvokeAsync("mRepDetail2", new { id = Model.DocId })
+        </div>
+    </div>
+    <div id="repairdtl" class="tab-pane fade">
+        <p>
+            @await Component.InvokeAsync("mRepDtlEdit", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="repairemp" class="tab-pane fade">
+        <p>
+            @*@await Component.InvokeAsync("RepEmpEdit", new { DocId = Model.DocId })*@
+        </p>
+    </div>
+    <div id="repaircost" class="tab-pane fade">
+        <div>
+            @*@await Component.InvokeAsync("RepCostEdit", new { id = Model.DocId })*@
+        </div>
+    </div>
+    <div id="repairflow" class="tab-pane fade">
+        <div>
+            @*@await Component.InvokeAsync("RepNextFlow", new { id = Model.DocId })*@
+        </div>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-default" href="@Url.Action("Index", "Repair", new { Area = "Mobile" } )">回到簽核列表</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

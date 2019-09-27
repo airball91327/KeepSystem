@@ -1,0 +1,110 @@
+﻿@model EDIS.Models.RepairModels.RepairCostModel
+
+@{
+    ViewData["Title"] = "列印明細";
+}
+
+<style>
+    #printTable {
+        padding-top: 10%;
+        text-align: center;
+    }
+    #printTable .row {      
+        margin: 0 0 0 0;
+    }
+    #printTable .row > div {
+        padding: 0 0 0 0;
+    }
+</style>
+
+<div class="container" id="printTable">
+
+    <div class="row" style="border: 1px solid black">
+        <div class="col-xs-8" style="vertical-align: middle; font-size: 25px; border-right: 1px solid black; padding:3px 0px 3px 0px;">
+            工務部請修單
+        </div>
+        <div class="col-xs-4">
+            <div class="row" style="border-bottom: 1px solid black;">
+                申請單位
+            </div>
+            <div class="row">
+                <div class="col-xs-6" style="border-right: 1px solid black;">副院長</div>
+                <div class="col-xs-6">部門主任</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="border-left: 1px solid black; border-right: 1px solid black">
+        <div class="col-xs-2" style="border-right: 1px solid black; border-bottom: 1px solid black;">請修單號</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2" style="border-right: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">維修別</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black; border-right: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2" style="border-right: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2">&nbsp</div>
+    </div>
+
+    <div class="row" style="border-left: 1px solid black; border-right: 1px solid black">
+        <div class="col-xs-2" style="border-right: 1px solid black; border-bottom: 1px solid black;">請修日期</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2" style="border-right: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">成本中心</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black; border-right: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2" style="border-right: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2">&nbsp</div>
+    </div>
+
+    <div class="row" style="border-left: 1px solid black; border-right: 1px solid black">
+        <div class="col-xs-2" style="border-right: 1px solid black; border-bottom: 1px solid black;">申請人員</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2" style="border-right: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">申請部門</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black; border-right: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2" style="border-right: 1px solid black; border-bottom: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black;">&nbsp</div>
+    </div>
+
+    <div class="row" style="border-left: 1px solid black; border-right: 1px solid black">
+        <div class="col-xs-2" style="border-right: 1px solid black; border-bottom: 1px solid black;">財產編號</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2" style="border-right: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">連絡電話</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black; border-right: 1px solid black;">&nbsp</div>
+        <div class="col-xs-4" style="border-bottom: 1px solid black;">工務部簽核</div>
+    </div>
+
+    <div class="row" style="border-left: 1px solid black; border-right: 1px solid black">
+        <div class="col-xs-2" style="border-right: 1px solid black; border-bottom: 1px solid black; padding: 11px 0px 10px 0px;">擺設地點</div>
+        <div class="col-xs-2" style="padding-bottom:21px; border-bottom: 1px solid black;">&nbsp</div>
+        <div class="col-xs-4" style="border-right: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">
+            <div class="row">
+                <div class="col-xs-6" style="border-right: 1px solid black; border-bottom: 1px solid black;">MVPN</div>
+                <div class="col-xs-6" style="border-bottom: 1px solid black;">&nbsp</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" style="border-right: 1px solid black;">送修類型</div>
+                <div class="col-xs-6">&nbsp</div>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="row">
+                <div class="col-xs-6" style="border-bottom: 1px solid black; border-right: 1px solid black;">主任</div>
+                <div class="col-xs-6" style="border-bottom: 1px solid black;">主管</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6" style="border-right: 1px solid black; padding-top:1px;">&nbsp</div>
+                <div class="col-xs-6">&nbsp</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="border-left: 1px solid black; border-right: 1px solid black">
+        <div class="col-xs-2" style="border-right: 1px solid black; border-bottom: 1px solid black;">設備名稱</div>
+        <div class="col-xs-6" style="border-bottom: 1px solid black; border-right: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2" style="border-right: 1px solid black;">&nbsp</div>
+        <div class="col-xs-2">&nbsp</div>
+    </div>
+
+    <div class="row" style="border-left: 1px solid black; border-right: 1px solid black">
+        <div class="col-xs-2" style="border-right: 1px solid black; border-bottom: 1px solid black; padding: 11px 0px 10px 0px;">故障情形</div>
+        <div class="col-xs-6" style="border-bottom: 1px solid black; border-right: 1px solid black; padding: 11px 0px 10px 0px;">&nbsp</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black; border-right: 1px solid black; padding: 11px 0px 10px 0px;">&nbsp</div>
+        <div class="col-xs-2" style="border-bottom: 1px solid black; padding: 11px 0px 10px 0px;">&nbsp</div>
+    </div>
+</div>

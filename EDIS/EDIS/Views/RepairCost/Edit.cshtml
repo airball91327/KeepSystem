@@ -1,0 +1,148 @@
+﻿@model EDIS.Models.RepairModels.RepairCostModel
+
+<form asp-controller="RepairCostController" asp-action="Edit"
+      data-ajax-success="onSuccess"
+      data-ajax="true" data-ajax-method="POST">
+
+
+    @Html.AntiForgeryToken()
+
+       <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.DocId)
+
+        @Html.HiddenFor(model => model.SeqNo)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StockType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.StockType, "0")庫存
+                @Html.RadioButtonFor(model => model.StockType, "2")發票(含收據)
+                @Html.ValidationMessageFor(model => model.StockType)
+                @Html.ValidationMessageFor(model => model.StockType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.VendorNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.VendorNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.VendorNo, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        @Html.HiddenFor(model => model.VendorId)
+        <div id="CVendor" class="form-group">
+            @Html.LabelFor(model => model.VendorName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.EditorFor(model => model.VendorName, new { htmlAttributes = new { @class = "form-control" } })
+                    <input id="btnQtyVendor" type="button" value="查詢" class="btn btn-default" data-toggle="modal" data-target="#modalVENDOR">
+                    @Html.ValidationMessageFor(model => model.VendorName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.PartNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PartNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PartNo, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        @Html.HiddenFor(model => model.PartNo)
+        <div class="form-group">
+            @Html.LabelFor(model => model.PartName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.EditorFor(model => model.PartName, new { htmlAttributes = new { @class = "form-control" } })
+                    <input id="btnQtyStok" type="button" value="選擇庫存品項" class="btn btn-default" data-toggle="modal" data-target="#modalSTOK">
+                    @Html.ValidationMessageFor(model => model.PartName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Standard, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Standard, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Standard, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Unite, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Unite, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Unite, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Qty, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Qty, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Qty, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.TotalCost, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.TotalCost, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TotalCost, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="pnlTICKET" class="form-group">
+            @Html.LabelFor(model => model.TicketDtl.TicketDtlNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.EditorFor(model => model.TicketDtl.TicketDtlNo, new { htmlAttributes = new { @class = "form-control" } })
+                    <input id="btnGETSEQ" type="button" value="取收據號(免用統一發票)" class="btn btn-default">
+                    @Html.ValidationMessageFor(model => model.PartName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        @*
+            <div class="form-group">
+                @Html.LabelFor(model => model.IsPetty, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.IsPetty, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IsPetty, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div id="pnlSIGN" class="form-group">
+            @Html.LabelFor(model => model.SignNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SignNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SignNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div id="pnlACCDATE" class="form-group">
+            @Html.LabelFor(model => model.AccountDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AccountDate, "DateTime", new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AccountDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="新增儲存" class="btn btn-default" />
+                <img id="imgLOADING3" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+
+</form>

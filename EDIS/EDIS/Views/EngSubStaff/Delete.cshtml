@@ -1,0 +1,46 @@
+﻿@model EDIS.Models.RepairModels.EngSubStaff
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Delete";
+}
+
+<h2>刪除</h2>
+
+<h3>確定刪除這筆資料?</h3>
+<div>
+    <h4>代理人</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SubUserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubAppUsers.UserName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SubstituteId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SubAppUsers.FullName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="EngId" />
+        <input type="submit" value="確定刪除" class="btn btn-default" /> |
+        <a class="btn btn-primary" asp-action="Index">回到列表</a>
+    </form>
+</div>

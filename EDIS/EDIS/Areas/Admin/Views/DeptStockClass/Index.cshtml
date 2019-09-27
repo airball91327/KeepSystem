@@ -1,0 +1,53 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.DeptStockClassModel>
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<h2>庫存類別一覽</h2>
+<hr />
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Create", new { Area = "Admin" })">新增類別</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StockClsName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flg)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockClsName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Flg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RtpName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rtt)
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@item.StockClsId">編輯</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.DeptStockItemModel>
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+<style>
+    .panel {
+        background-color: inherit;
+        border-color: white;
+    }
+
+    form label {
+        padding-top: 7px;
+        font-size: 120%;
+    }
+</style>
+
+<h2>庫存品項一覽</h2>
+
+<hr />
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <form name="searchForm" action="DeptStockItem/GetStockItemList" method="GET" data-ajax="true" data-ajax-update="#itemListDiv" id="searchForm">
+            <div class="form-inline">
+
+                <div class="form-group col-md">
+                    <label class="control-label col-md-4">選擇類別:</label>
+                    <div class="col-md-8">
+                        @Html.DropDownList("StockClsId", null, "選擇類別", htmlAttributes: new { @class = "form-control", required = "required" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md">
+                    <input type="submit" class="btn btn-primary" id="btnQuery" value="查詢" style="width: 120%" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="itemListDiv"></div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            // While page loaded, show the selected building if user has selected before.
+            var selectVal = $("#StockClsId").val();
+            if (selectVal != "") {
+                $("#searchForm").submit();
+            }
+        });
+    </script>
+}

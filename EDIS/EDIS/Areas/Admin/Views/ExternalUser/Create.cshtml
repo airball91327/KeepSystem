@@ -1,0 +1,72 @@
+﻿@model EDIS.Models.Identity.AppUserModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+
+<h2>新增</h2>
+
+<h4>外部帳號</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" type="number" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="text"/>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ext" class="control-label"></label>
+                <input asp-for="Ext" class="form-control" />
+                <span asp-validation-for="Ext" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Mobile" class="control-label"></label>
+                <input asp-for="Mobile" class="form-control" />
+                <span asp-validation-for="Mobile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DptId" class="control-label"></label>
+                <input asp-for="DptId" class="form-control" required />
+                <span asp-validation-for="DptId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">所屬廠商代號</label>
+                <input asp-for="VendorId" class="form-control" />
+                <span asp-validation-for="VendorId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Status" value="Y" />
+            @*<div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <input type="submit" value="新增" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-default">回到列表</a>
+</div>
+

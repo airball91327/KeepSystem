@@ -1,0 +1,66 @@
+﻿@model EDIS.Models.RepairModels.TicketDtlModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "刪除/發票明細";
+}
+
+<h2>刪除</h2>
+
+<h3>確定刪除此明細?</h3>
+<div>
+    <h4>發票明細</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ObjName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ObjName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Qty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Unite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="刪除" class="btn btn-default" />
+            <a class="btn btn-primary" href="@Url.Action("Edit", "Ticket", new { Area = "Admin", id = Model.TicketDtlNo })">回到上一頁</a>
+        </div>
+    }
+</div>

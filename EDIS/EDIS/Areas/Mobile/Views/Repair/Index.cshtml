@@ -1,0 +1,14 @@
+﻿@model EDIS.Models.RepairModels.UnsignCounts
+
+<h4>簽核列表</h4>
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">請修 <span class="badge">@Model.RepairCount</span></a></li>
+</ul>
+<div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+        <div>
+            @await Component.InvokeAsync("mRepIndex")
+        </div>
+    </div>
+
+</div>

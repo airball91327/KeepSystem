@@ -1,0 +1,44 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.KeepFormatDtlModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "刪除/保養格式明細";
+}
+
+<h2>刪除</h2>
+
+<h3>您確定要刪除此記錄嗎?</h3>
+<div>
+    <h4>保養格式明細</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.KeepFormat.Plants)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KeepFormat.Plants)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Descript)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Descript)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.FormatId)
+        @Html.HiddenFor(model => model.Sno)
+        <div class="form-actions no-color">
+            <input type="submit" value="確定刪除" class="btn btn-default" />
+            <a class="btn btn-primary" href="@Url.Action("Edit", "KeepFormat", new { Area = "BMED", id = Model.FormatId })">回到列表</a>
+        </div>
+    }
+</div>

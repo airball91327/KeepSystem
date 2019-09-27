@@ -1,0 +1,117 @@
+﻿@model EDIS.Models.RepairModels.DeptStockModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+
+<h2>新增</h2>
+
+<h4>庫存</h4>
+<hr />
+<form asp-action="Create" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="StockClsId" />
+    <input type="hidden" asp-for="StockItemId" />
+
+    <div class="form-group">
+        <label asp-for="StockClsId" class="control-label col-md-2"></label>
+        <p class="col-md-10" style="padding-top: 7px">@ViewBag.StockClsName</p>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StockItemId" class="control-label col-md-2"></label>
+        <p class="col-md-10" style="padding-top: 7px">@ViewBag.StockItemName</p>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StockNo" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="StockNo" class="form-control" />
+            <span asp-validation-for="StockNo" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="StockName" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="StockName" class="form-control" />
+            <span asp-validation-for="StockName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Unite" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Unite" class="form-control" />
+            <span asp-validation-for="Unite" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Price" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Qty" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Qty" class="form-control" />
+            <span asp-validation-for="Qty" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="SafeQty" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="SafeQty" class="form-control" />
+            <span asp-validation-for="SafeQty" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Loc" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Loc" class="form-control" />
+            <span asp-validation-for="Loc" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Standard" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Standard" class="form-control" />
+            <span asp-validation-for="Standard" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Brand" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Brand" class="form-control" />
+            <span asp-validation-for="Brand" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Status" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="Status" class="form-control" />
+            <span asp-validation-for="Status" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="CustOrgan_CustId" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="CustOrgan_CustId" class="form-control" />
+            <span asp-validation-for="CustOrgan_CustId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="新增" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-default" href="@Url.Action("Index", new { area = "Admin", stockClsId = Model.StockClsId, stockItemId = Model.StockItemId } )">回到列表</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,59 @@
+﻿@model EDIS.Models.RepairModels.FloorEngModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>FloorEngModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EngName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EngName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Buildings)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Buildings.BuildingId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Floors)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Floors.FloorId)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="EngId" />
+        <input type="hidden" asp-for="BuildingId" />
+        <input type="hidden" asp-for="FloorId" />
+        <input type="submit" value="Delete" class="btn btn-default" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

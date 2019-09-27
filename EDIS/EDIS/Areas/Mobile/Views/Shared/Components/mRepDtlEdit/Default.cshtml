@@ -1,0 +1,76 @@
+﻿@model EDIS.Models.RepairModels.RepairDtlModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<script>
+    function showmsg2() {
+        alert("儲存成功!");
+        $("#imgLOADING2").hide();
+    }
+</script>
+
+<form asp-action="Edit" asp-controller="RepairDtl" asp-area="Mobile" data-ajax="true" data-ajax-method="POST" 
+    data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+    data-ajax-complete="$.Toast.hideToast()"
+    data-ajax-loading="imgLOADING2" data-ajax-success="showmsg2">
+
+    <div class="container">
+        @Html.HiddenFor(model => model.DocId)
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="DealState" class="control-title"></label>
+                    <select asp-for="DealState" asp-items="@Model.DealStates" class="form-control" required>
+
+                    </select>
+                    <span asp-validation-for="DealState" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="FailFactor" class="control-title"></label>
+                    <select asp-for="FailFactor" asp-items="@Model.FailFactors" class="form-control">
+                        <option selected disabled>請選擇</option>
+
+                    </select>
+                    <span asp-validation-for="FailFactor" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        
+        @Html.HiddenFor(model => model.Hour)
+        @Html.HiddenFor(model => model.Cost)
+
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="EndDate" class="control-title"></label>
+                    <input asp-for="EndDate" class="form-control" style="width:100%;" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div style="text-align:center;">
+                <input type="submit" value="儲存" class="btn btn-default" style="width:40%;" />
+                <img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

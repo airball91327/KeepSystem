@@ -1,0 +1,54 @@
+﻿@model EDIS.Models.RepairModels.FloorEngModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>FloorEngModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EngName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EngName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Buildings)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Buildings.BuildingId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Floors)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Floors.FloorId)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

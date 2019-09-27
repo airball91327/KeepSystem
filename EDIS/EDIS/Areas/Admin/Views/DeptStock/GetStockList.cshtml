@@ -1,0 +1,95 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.DeptStockModel>
+@{
+    ViewData["Title"] = "GetStockList";
+}
+
+<h3>@ViewBag.StockClsName</h3>
+<h4>@ViewBag.StockItemName</h4>
+<br />
+
+<p>
+    <a asp-action="Create" class="btn btn-primary" asp-route-stockClsId="@ViewBag.StockClsId"
+                                                    asp-route-StockItemId="@ViewBag.StockItemId"
+                                                    asp-route-Area="Admin">新增庫存</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StockNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StockName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SafeQty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Loc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtt)
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unite)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SafeQty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Loc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rtp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rtt)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.StockId" class="btn btn-primary">編輯</a>
+                    <a asp-action="Details" asp-route-id="@item.StockId" class="btn btn-primary">詳細內容</a>
+                    <a asp-action="Delete" asp-route-id="@item.StockId" class="btn btn-primary">刪除</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

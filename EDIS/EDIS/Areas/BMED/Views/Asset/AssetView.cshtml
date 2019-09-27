@@ -1,0 +1,32 @@
+﻿@model EDIS.Areas.BMED.Models.RepairModels.AssetModel
+
+<div>
+    <h4>儀器基本資料</h4>
+</div>
+<table class="table table-bordered">
+    <tr>
+        <td>財產編號</td>
+        <td>@Model.AssetNo</td>
+        <td>成本中心</td>
+        <td>@Model.AccDptName</td>
+    </tr>
+    <tr>
+        <td>廠    牌</td>
+        <td>@Model.Brand</td>
+        <td>型    號</td>
+        <td>@Model.Type</td>
+    </tr>
+    <tr>
+        <td>中文名稱</td>
+        <td>@Model.Cname</td>
+        <td>取得金額</td>
+        <td>@Html.Raw(Model.Cost.HasValue ? Convert.ToInt32(Model.Cost.Value).ToString() : "0")</td>
+    </tr>
+    <tr>
+        <td>取得日期</td>
+        <td>@Html.Raw(Model.BuyDate == null ? "" : Model.BuyDate.Value.ToString("yyyy/MM/dd"))</td>
+        <td>耐用年限</td>
+        <td>@Html.Raw(Model.UseLife == null ? "" : Model.UseLife.Value.ToString())</td>
+    </tr>
+</table>
+

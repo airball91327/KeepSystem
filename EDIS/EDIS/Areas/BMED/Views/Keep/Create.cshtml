@@ -1,0 +1,201 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.KeepModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+<script src="~/js/BMED/KeepCreate.js"></script>
+
+<h2>新增</h2>
+
+<h4>保養單 - 醫療儀器</h4>
+<hr />
+
+<div>
+    <input id="btnFILES" type="button" value="夾帶附件檔案" class="btn btn-default" data-toggle="modal" data-target="#modalFILES">
+</div>
+<div>
+    <div id="pnlFILES"></div>
+</div>
+<hr />
+
+<form asp-action="Create" data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-failure="onFailed"
+      data-ajax-success="onSuccess()">
+    <div class="container">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(model => model.UserId)
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="DocId" class="control-title"></label>
+                    <input asp-for="DocId" class="form-control" readonly />
+                    <span asp-validation-for="DocId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="UserName" class="control-title"></label>
+                    <input asp-for="UserAccount" class="form-control" readonly />
+                    <input asp-for="UserName" class="form-control" readonly />
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="DptId" class="control-title"></label>
+                    <input asp-for="DptId" class="form-control" readonly />
+                    <input asp-for="Company" class="form-control" readonly />
+                    <span style="color:red" id="DptNameErrorMsg"></span>
+                    <span asp-validation-for="DptId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AccDpt" class="control-title"></label>
+                    <input asp-for="AccDpt" class="form-control" readonly />
+                    <input asp-for="AccDptName" class="form-control" readonly />
+                    <span style="color:red" id="AccDptNameErrorMsg"></span>
+                    <span asp-validation-for="AccDpt" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="SentDate" class="control-title"></label>
+                    <input asp-for="SentDate" class="form-control" readonly />
+                    <span asp-validation-for="SentDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label class="control-title">聯絡方式</label>
+                    <label asp-for="Ext" class="control-label"></label>
+                    <input asp-for="Ext" class="form-control-s" />
+                    <span asp-validation-for="Ext" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mvpn" class="control-label"></label>
+                    <input asp-for="Mvpn" class="form-control-s" />
+                    <span asp-validation-for="Mvpn" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="Email" class="control-title"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="rowAssetNo">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AssetNo" class="control-title"></label>
+                    <input type="text" placeholder="輸入財編或關鍵字查詢" class="form-control" id="AssetQry" />
+                    <button type="button" class="btn btn-default" id="AssetQryBtn">查詢</button>
+                    <select asp-for="AssetNo" class="form-control" id="AssetNo">
+                        <option disabled selected>無</option>
+                    </select>
+                    <span asp-validation-for="AssetNo" class="text-danger"></span>
+                    <span style="color:red" id="AssetNoErrorMsg"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label class="control-title"></label>
+                    <input type="text" placeholder="輸入成本中心代號查詢" class="form-control" id="AssetAccDptQry" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label class="control-title"></label>
+                    <input type="text" placeholder="輸入保管部門代號查詢" class="form-control" id="AssetDelivDptQry" />
+                </div>
+            </div>
+        </div>
+        <div class="row" id="rowAssetName">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AssetName" class="control-title"></label>
+                    <input asp-for="AssetName" class="form-control" />
+                    <span asp-validation-for="AssetName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="PlaceLoc" class="control-title"></label>
+                    <input asp-for="PlaceLoc" class="form-control" />
+                    <span asp-validation-for="PlaceLoc" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="CheckerId" class="control-title"></label>
+                    <input type="text" placeholder="輸入code或關鍵字查詢" class="form-control" id="CheckerQry" />
+                    <button type="button" class="btn btn-default" id="CheckerQryBtn">查詢</button>
+                    <select asp-for="CheckerId" asp-items="@ViewData["DptMembers"] as SelectList" class="form-control" id="CheckerId">
+                        <option disabled selected>請選擇</option>
+                    </select>
+                    <span asp-validation-for="CheckerId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div style="padding-left: 115px">
+                <input type="submit" value="確定送出" class="btn btn-default" />
+            </div>
+        </div>
+
+        <!-- 夾帶檔案 Modal -->
+        <div id="modalFILES" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content" style="background-color: #1D3C4C">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
+                        <h4 class="modal-title">選擇上傳檔案</h4>
+                    </div>
+                    <div class="modal-body">
+                        @await Component.InvokeAsync("BMEDAttainFileUpload", new { doctype = "2", docid = Model.DocId, viewType = "AjaxView" })
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div>
+    <a asp-action="Index" asp-controller="Home" asp-area="" style="color:deepskyblue">回到列表</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

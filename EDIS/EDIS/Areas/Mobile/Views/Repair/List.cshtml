@@ -1,0 +1,43 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.RepairListVModel>
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
+@using EDIS.Models.Identity
+
+@inject CustomUserManager UserManager
+@{
+    Layout = null;
+}
+<link rel="stylesheet" href="~/css/Mobile/MyMobileTabStyle.css" />
+
+@if (Model.Count() <= 0)
+{
+    <p class="text-danger">無任何資料!</p>
+
+}
+else
+{
+    <h4>待處理案件</h4>
+    @foreach (var item in Model)
+    {
+        <div class="tab row">
+            <button class="col-xs-12" onclick="location.href='@Url.Action("Edit", "Repair", new { area = "Mobile", id = item.DocId, page = 5 })'">
+
+                <div class="col-xs-12">
+                    <h4>
+                        @Html.DisplayFor(modelItem => item.DocId)                  
+                    </h4>
+                </div>
+
+                <div class="col-xs-12 myStyle">
+                    <span>@Html.DisplayFor(modelItem => item.repdata.UserName)&nbsp;</span>
+                    <span>分機 @Html.DisplayFor(modelItem => item.repdata.Ext)&nbsp;</span>
+                    <span>@Html.DisplayFor(modelItem => item.ApplyDptName)&nbsp;</span>
+                    <span>@Html.DisplayFor(modelItem => item.ApplyDate)&nbsp;</span>
+                    <span>@Html.DisplayFor(modelItem => item.AssetName)&nbsp;</span>
+                    <span>@Html.DisplayFor(modelItem => item.TroubleDes)</span>
+                </div>
+
+            </button>
+        </div>
+    }
+}

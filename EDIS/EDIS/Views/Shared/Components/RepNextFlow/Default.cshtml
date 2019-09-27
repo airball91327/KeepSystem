@@ -1,0 +1,135 @@
+﻿@model EDIS.Models.RepairModels.AssignModel
+
+<script src="~/js/RepNextFlow.js"></script>
+
+<form asp-controller="RepairFlow" asp-action="NextFlow" data-ajax="true" data-ajax-method="POST" id="nextFlowForm"
+    data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+    data-ajax-complete="$.Toast.hideToast()" 
+    data-ajax-success="flowmsg" data-ajax-failure="onFailed">
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.DocId)
+    @Html.HiddenFor(model => model.Cls)
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hint, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="color: #00ff21; padding-top: 7px;">
+                請修流程：<br />
+                @Html.DisplayFor(model => model.Hint)
+                <div>
+                    增設流程：<br />
+                    @ViewData["Hint2"]
+                </div>
+                <div>
+                    列管/固資設備報廢流程：<br />
+                    @ViewData["Hint3"]
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">請修類別 / 處理狀態</label>
+            <div class="col-md-10" style="padding-top: 7px;">
+                @ViewData["HintRepType"]
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div id="pnlREPFLOWLIST" class="col-md-12">
+                @if (Model != null)
+                {
+                    @await Component.InvokeAsync("RepFlowList", new { id = Model.DocId })
+                }
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssignCls, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="padding-top: 7px;">
+                @Html.RadioButtonFor(model => model.AssignCls, "同意")同意
+                @Html.RadioButtonFor(model => model.AssignCls, "不同意")不同意
+                @Html.RadioButtonFor(model => model.AssignCls, "其他")其他
+                @Html.ValidationMessageFor(model => model.AssignCls, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssignOpn, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.AssignOpn, 5, 50, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AssignOpn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FlowCls, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="form-inline">
+                    @Html.DropDownListFor(model => model.FlowCls, null, "請選擇", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.FlowCls, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        @*<div id="pnlFLOWVENDOR" class="form-group">
+            @Html.HiddenFor(model => model.FlowVendor)
+            @Html.LabelFor(model => model.FlowVendor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.FlowVendor, null, "請選擇", new { @class = "form-control" })
+                @Html.Editor("VendorName2", new { htmlAttributes = new { @class = "form-control" } })
+                <input id="btnQtyVendor" type="button" value="查詢" class="btn btn-default" data-toggle="modal" data-target="#modalVENDOR">
+                @Html.ValidationMessageFor(model => model.FlowVendor, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FlowUid, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.DropDownListFor(model => model.FlowUid, null, "請選擇", new { @class = "form-control" })
+                    @*<input id="btnSelUsr" type="button" value="..." class="btn btn-default" data-toggle="modal" data-target="#modalSELUSER" />*@
+                    @Html.ValidationMessageFor(model => model.FlowUid, "", new { @class = "text-danger" })
+                    <span id="searchUid">
+                        <input type="text" placeholder="輸入code或關鍵字查詢" class="form-control" id="DptMgrQry" />
+                        <button type="button" class="btn btn-default" id="MgrQryBtn">查詢</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnGO" type="submit" value="確定送出" class="btn btn-primary" />
+                <img id="imgLOADING_Flow" src="~/images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+</form>
+<!-- 夾帶檔案 Modal -->
+<div id="modalSELUSER" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">選擇人員</h4>
+            </div>
+            <div class="modal-body">
+                @*@Html.Action("SelectUser", "AppUsers")*@
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">確定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*<div id="pnlREPFLOWLIST">
+    @if (Model != null)
+    {
+        @await Component.InvokeAsync("RepFlowList", new { id = Model.DocId })
+    }
+</div>*@

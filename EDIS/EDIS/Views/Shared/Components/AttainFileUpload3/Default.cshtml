@@ -1,0 +1,71 @@
+﻿@model EDIS.Models.RepairModels.AttainFileModel
+
+<script src="~/js/FileUpload3.js"></script>
+
+<form asp-action="Upload3" asp-controller="AttainFile" enctype="multipart/form-data">
+
+    @Html.HiddenFor(model => model.SeqNo)
+    @Html.HiddenFor(model => model.IsPublic)
+    @Html.HiddenFor(model => model.DocType)
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DocId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DocId, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.DocId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.SeqNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SeqNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SeqNo, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FileLink, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.HiddenFor(model => model.FileLink)
+                @Html.EditorFor(model => model.Files, new { htmlAttributes = new { @class = "form-control", type = "file" } })
+                @Html.ValidationMessageFor(model => model.FileLink, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.IsPublic, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.RadioButtonFor(model => model.IsPublic, "Y")是
+                @Html.RadioButtonFor(model => model.IsPublic, "N")否
+                @Html.ValidationMessageFor(model => model.IsPublic, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        @*<div class="form-group">
+            @Html.LabelFor(model => model.AssetNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AssetNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.AssetNo, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnUPLOAD" type="button" value="確定上傳" class="btn btn-default" />
+                <img id="imgLOADING" src="~/images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+</form>

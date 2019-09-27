@@ -1,0 +1,137 @@
+﻿@model EDIS.Areas.BMED.Models.RepairModels.RepairDtlModel
+<script src="~/js/BMED/RepairDtl.js"></script>
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4>請修紀錄</h4>
+<hr />
+
+<form asp-action="Edit" asp-controller="RepairDtl" asp-area="BMED" data-ajax="true" data-ajax-method="POST"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-loading="imgLOADING2" data-ajax-success="showmsg2">
+
+    <div class="container">
+        @Html.HiddenFor(model => model.DocId)
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="DealState" class="control-title"></label>
+                    <select asp-for="DealState" asp-items="@Model.DealStates" class="form-control" required>
+                        <option selected disabled>請選擇</option>
+
+                    </select>
+                    <span asp-validation-for="DealState" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="DealDes" class="control-title"></label>
+                    <textarea asp-for="DealDes" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="DealDes" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="FailFactor" class="control-title"></label>
+                    <select asp-for="FailFactor" asp-items="@Model.FailFactors" class="form-control">
+                        <option selected disabled>請選擇</option>
+
+                    </select>
+                    <span style="color: #ff9c00;">*</span>
+                    <span asp-validation-for="FailFactor" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="InOut" class="control-title"></label>
+                @Html.RadioButtonFor(model => model.InOut, "內修")內修
+                @Html.RadioButtonFor(model => model.InOut, "外修")外修
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="AssetNo" class="control-title"></label>
+                <input asp-for="AssetNo" class="form-control" />
+                <span asp-validation-for="AssetNo" class="text-danger"></span>
+            </div>
+        </div>
+        @if (Model.AssetNo != null)
+        {
+            <div class="row">
+                <div class="form-inline">
+                    <label asp-for="AssetName" class="control-title"></label>
+                    <span id="AssetName">@Html.DisplayFor(model => model.AssetName)</span>
+                </div>
+            </div>
+            @*<div class="row">
+                <div class="form-inline">
+                    <label asp-for="AssetAccDate" class="control-title"></label>
+                    @Html.DisplayFor(model => model.AssetAccDate)
+                </div>
+            </div>*@
+        }
+        @Html.HiddenFor(model => model.Hour)
+        @Html.HiddenFor(model => model.Cost)
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="IsCharged" class="control-title"></label>
+                @Html.RadioButtonFor(model => model.IsCharged, "Y")有
+                @Html.RadioButtonFor(model => model.IsCharged, "N")無
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="NotInExceptDevice" class="control-title"></label>
+                @Html.RadioButtonFor(model => model.NotInExceptDevice, "Y") 是
+                @Html.RadioButtonFor(model => model.NotInExceptDevice, "N") 否
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="IsInstrument" class="control-title"></label>
+                @Html.RadioButtonFor(model => model.IsInstrument, "Y") 是
+                @Html.RadioButtonFor(model => model.IsInstrument, "N") 否
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="EndDate" class="control-title"></label>
+                    <input asp-for="EndDate" class="form-control" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="CheckerName" class="control-title"></label>
+                @Html.DisplayFor(model => model.CheckerName)
+            </div>
+        </div>
+
+        <div class="row">
+            <div style="padding-left: 115px">
+                <input type="submit" value="儲存" class="btn btn-default" />
+                <img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+                @*<input type="button" class="btn btn-primary" id="printDtlBtn" value="列印" />*@
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

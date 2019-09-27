@@ -1,0 +1,96 @@
+﻿@model EDIS.Areas.BMED.Models.RepairModels.QryRepListData
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Search";
+}
+
+<link href="~/css/bootstrap-combobox.css" rel="stylesheet" />
+<script src="~/js/bootstrap-combobox.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.combobox').combobox();
+    });
+</script>
+
+<h3>請修單查詢</h3>
+<hr />
+
+<form asp-controller="RepairSearch" asp-action="GetQueryList" asp-area="BMED" data-ajax="true"
+      data-ajax-update="#pnlREPLIST" data-ajax-method="POST" id="repSearchForm">
+
+    <h4>查詢條件 - 全院案件</h4>
+
+    <div class="container">
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="qtyDOCID" class="control-title">表單編號</label>
+                    <input asp-for="BMEDqtyDOCID" class="form-control-s" />
+                </div>
+                <div class="form-group">
+                    <label for="qtyASSETNO" class="control-title">財產編號</label>
+                    <input asp-for="BMEDqtyASSETNO" class="form-control-s" />
+                </div>
+                <div class="form-group">
+                    <label for="qtyACCDPT" class="control-title">成本中心</label>
+                    <select asp-for="BMEDqtyACCDPT" asp-items="@ViewData["ACCDPT"] as SelectList" class="form-control combobox">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="qtyASSETNAME" class="control-title">設備名稱<br />(關鍵字)</label>
+                    <input asp-for="BMEDqtyASSETNAME" class="form-control-s" />
+                </div>
+                <div class="form-group">
+                    <label for="qtyFLOWTYPE" class="control-title">流程狀態</label>
+                    <select asp-for="BMEDqtyFLOWTYPE" asp-items="@ViewData["FLOWTYPE"] as SelectList" class="form-control-s">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="qtyDPTID" class="control-title">申請部門</label>
+                    <select asp-for="BMEDqtyDPTID" asp-items="@ViewData["APPLYDPT"] as SelectList" class="form-control combobox">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="qtyDealStatus" class="control-title">處理狀態</label>
+                    <select asp-for="BMEDqtyDealStatus" asp-items="@ViewData["DealStatus"] as SelectList" class="form-control-s">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="qtyApplyDateFrom" class="control-title">日期查詢</label>
+                    <span>
+                        <select asp-for="BMEDqtyDateType" asp-items="@ViewData["DateType"] as SelectList" class="form-control-s">
+                        </select>
+                    </span>
+                    <input asp-for="BMEDqtyApplyDateFrom" class="form-control" />
+                    <span> ~ </span>
+                    <input asp-for="BMEDqtyApplyDateTo" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <div style="margin-left:115px">
+                        <input id="btnQTY" type="submit" value="查詢" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="pnlREPLIST"></div>

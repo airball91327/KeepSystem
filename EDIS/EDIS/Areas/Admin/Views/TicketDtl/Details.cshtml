@@ -1,0 +1,70 @@
+﻿@model EDIS.Models.RepairModels.TicketDtlModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "預覽/發票明細";
+}
+
+<h2>預覽</h2>
+
+<div>
+    <h4>發票明細</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ObjName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ObjName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Qty)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Qty)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Unite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Unite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DocId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @if (Model.DocId == null)
+    {
+        <a class="btn btn-default" href="@Url.Action("Edit", "TicketDtl", new { Area = "Admin", id = Model.TicketDtlNo, seq = Model.SeqNo })">修改</a>
+    }
+    <a class="btn btn-primary" href="@Url.Action("Edit", "Ticket", new { Area = "Admin", id = Model.TicketDtlNo })">回到上一頁</a>
+</p>

@@ -1,0 +1,88 @@
+﻿@model EDIS.Models.Identity.AppUserModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Delete";
+}
+
+<h2>刪除</h2>
+
+<h3>確定刪除此帳號?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Ext)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Ext)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Mobile)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Mobile)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DptId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DptId)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.VendorId)*@
+            所屬廠商代號
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VendorId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateCreated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.LastActivityDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastActivityDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="確定刪除" class="btn btn-primary" /> |
+        <a asp-action="Index" class="btn btn-default">回到列表</a>
+    </form>
+</div>

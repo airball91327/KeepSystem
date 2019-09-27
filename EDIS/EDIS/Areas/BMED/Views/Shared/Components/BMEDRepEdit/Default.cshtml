@@ -1,0 +1,168 @@
+﻿@model EDIS.Areas.BMED.Models.RepairModels.RepairModel
+
+@{
+    ViewBag.Title = "預覽請修";
+}
+
+<script>
+    var onFailed = function (data) {
+        alert(data.responseText);
+        $.Toast.hideToast();
+    }
+    function updatemsg(data) {
+        alert("送出成功!");
+    }
+</script>
+
+<h4>申請資料</h4>
+<form asp-action="Update" asp-controller="Repair" asp-area="BMED" data-ajax="true" data-ajax-method="POST"
+      data-ajax-update="#pnlREPDTL2"      
+      data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()"
+      data-ajax-success="updatemsg" data-ajax-failure="onFailed">
+
+    <div>
+        @Html.HiddenFor(model => model.DocId)
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="container">
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DocId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DocId)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.UserName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.DptId)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.DptName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Ext)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Ext)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AccDpt)
+                    </dt>
+
+                    <dd>
+                        <input asp-for="AccDpt" class="form-control-s" />
+                    </dd>
+
+                </dl>
+                <input type="submit" value="儲存" class="btn btn-default col-md-offset-6" style="margin-bottom: 15px;"/>
+            </div>
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.RepType)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.RepType)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AssetNo)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.AssetNo)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AssetName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.AssetName)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PlantDoc)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PlantDoc)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.Amt)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.Amt)
+                    </dd>
+                </dl>
+
+            </div>
+            <div class="col-md-4">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.AssetAccDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.AssetAccDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.PlaceLoc)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.PlaceLoc)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.ApplyDate)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ApplyDate)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TroubleDes)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.TroubleDes)
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayNameFor(model => model.CheckerName)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.CheckerName)
+                    </dd>
+                </dl>
+
+            </div>
+        </div>
+    </div>
+
+</form>

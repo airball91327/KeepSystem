@@ -1,0 +1,37 @@
+﻿@model IEnumerable<EDIS.Areas.BMED.Models.KeepModels.KeepEmpModel>
+
+<h3>工程師列表</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hour)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Minute)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hour)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Minute)
+            </td>
+        </tr>
+    }
+</table>

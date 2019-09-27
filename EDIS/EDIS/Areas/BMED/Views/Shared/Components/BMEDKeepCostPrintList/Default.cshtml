@@ -1,0 +1,119 @@
+﻿@model IEnumerable<EDIS.Areas.BMED.Models.KeepModels.KeepCostModel>
+@{
+    decimal i = 0m;
+    if (Model.Count() >= 0)
+    {
+        <table cellpadding="0" cellspacing="0" style="width: 100%; border:1px solid black; ">
+            <tr>
+                @*<th style="border-right:1px solid black;">
+                        @Html.DisplayNameFor(model => model.StockType)
+                    </th>*@
+                <th style="border-right:1px solid black;">
+                    料號/
+                    @Html.DisplayNameFor(model => model.PartName)
+                    (發票號碼/簽單編號)
+                </th>
+                <th style="border-right:1px solid black;">
+                    @Html.DisplayNameFor(model => model.VendorName)
+                </th>
+                <th style="border-right:1px solid black;">
+                    規格
+                </th>
+                <th style="border-right:1px solid black;">
+                    @Html.DisplayNameFor(model => model.Qty)
+                </th>
+                <th style="border-right:1px solid black;">
+                    @Html.DisplayNameFor(model => model.Price)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalCost)
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                i = i + item.TotalCost;
+                <tr>
+                    @*<td style="border-right: 1px solid black;border-top: 1px solid black;">
+                            @if (item.StockType == "0")
+                            {
+                                <div>庫存</div>
+                            }
+                            else
+                            {
+                                <div>發票</div>
+                            }
+                        </td>*@
+                    <td style="border-right: 1px solid black;border-top: 1px solid black;">
+                        <span style="color: blue;">@item.PartNo</span>
+                        @Html.DisplayFor(modelItem => item.PartName)
+                        <span>(
+                            @if(item.TicketDtl != null)
+                            {
+                                @item.TicketDtl.TicketDtlNo
+                            }
+                            else
+                            {
+                                @item.SignNo
+                            }                        
+                        )</span>
+                    </td>
+                    <td style="border-right: 1px solid black;border-top: 1px solid black;">
+                        @Html.DisplayFor(modelIterm => item.VendorName)
+                    </td>
+                    <td style="border-right: 1px solid black;border-top: 1px solid black;">
+                        @Html.DisplayFor(modelIterm => item.Standard)
+                    </td>
+                    <td style="border-right: 1px solid black;border-top: 1px solid black;text-align:center;">
+                        @Html.DisplayFor(modelItem => item.Qty)
+                    </td>
+                    <td style="border-right: 1px solid black;border-top: 1px solid black;text-align:right;">
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td style="border-top: 1px solid black;text-align:right;">
+                        @Html.DisplayFor(modelItem => item.TotalCost)
+                    </td>
+                </tr>
+            }
+            @for(int n = 0; n < 2; n++)
+            {
+                <tr>
+                    <td style="border-right:1px solid black;border-top: 1px solid black;">
+                        &nbsp;
+                    </td>
+                    <td style="border-right:1px solid black;border-top: 1px solid black;">
+                        &nbsp;
+                    </td>
+                    <td style="border-right:1px solid black;border-top: 1px solid black;">
+                        &nbsp;
+                    </td>
+                    <td style="border-right:1px solid black;border-top: 1px solid black;">
+                        &nbsp;
+                    </td>
+                    <td style="border-right:1px solid black;border-top: 1px solid black;">
+                        &nbsp;
+                    </td>
+                    <td style="border-right:1px solid black;border-top: 1px solid black;">
+                        &nbsp;
+                    </td>
+                </tr>
+            }           
+            <tr>
+                <td style="border-right: 1px solid black;border-top: 1px solid black;">
+                    總計
+                </td>
+                <td colspan="5" style="border-top: 1px solid black;text-align:right;">
+                    @if (Convert.ToInt32(i) == 0)
+                    {
+                        @:&nbsp;
+                    }
+                    else
+                    {
+                        @Html.Raw(i.ToString("N0"))
+                    }
+                </td>
+            </tr>
+        </table>
+    }
+}
+

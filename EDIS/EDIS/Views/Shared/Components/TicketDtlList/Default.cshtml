@@ -1,0 +1,87 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.TicketDtlModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h4>明細列表</h4>
+
+<a class="btn btn-primary" href="@Url.Action("Create", "TicketDtl", new { Area = "Admin", id = ViewData["TicketDtlNo"] })">新增發票明細</a>
+
+@if (Model.Count() <= 0)
+{
+    <p class="text-danger">無任何資料!</p>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ObjName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Unite)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DocId)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ObjName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Unite)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cost)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocId)
+                </td>
+                <td>
+                    @Html.ActionLink("預覽", "Details", "TicketDtl", new { Area = "Admin", id = item.TicketDtlNo, seq = item.SeqNo })
+                    @{
+                        if (item.DocId == null)
+                        {
+                            @Html.Raw(" | ")
+                            @Html.ActionLink("編輯", "Edit", "TicketDtl", new { Area = "Admin", id = item.TicketDtlNo, seq = item.SeqNo })
+                            @Html.Raw(" | ")
+                            @Html.ActionLink("刪除", "Delete", "TicketDtl", new { Area = "Admin", id = item.TicketDtlNo, seq = item.SeqNo })
+                        }
+                        else
+                        {
+                            @Html.Raw(" | ")
+                            @Html.ActionLink("至請修單編輯", "Edit", "Repair", new { Area = "", id = item.DocId })
+                        }
+                    }
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="4"></td>
+            <td style="color: aqua">@ViewData["Total"]</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+}

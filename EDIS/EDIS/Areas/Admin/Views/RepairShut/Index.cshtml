@@ -1,0 +1,80 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "列表/請修單";
+}
+
+<script>
+    function ReSubmit() {
+        $("#RepQtyForm").submit();
+    }
+</script>
+
+<style>
+    .panel {
+        background-color: inherit;
+        border-color: white;
+    }
+    td a {
+        color: deepskyblue;
+    }
+</style>
+
+<h2>關帳作業</h2>
+
+<br />
+
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <form asp-action="Index" asp-controller="RepairShut" asp-area="Admin" data-ajax="true" data-ajax-method="POST" id="RepQtyForm"
+              data-ajax-update="#pnlREPLIST"
+              data-ajax-begin="$.Toast.showToast({
+              'title':'查詢中，請稍待...',
+              'icon':'loading',
+              'duration':0
+              })"
+              data-ajax-complete="$.Toast.hideToast()">
+
+            <div class="container">
+                <div class="row">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            @Html.Label("qtyTICKET", "發票號碼", htmlAttributes: new { @class = "control-title" })
+                            @Html.TextBox("qtyTICKET", "", new { @class = "form-control", style = "text-transform:uppercase;" })
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("qtyVENDORNO", "廠商統編", htmlAttributes: new { @class = "control-title" })
+                            @Html.TextBox("qtyVENDORNO", "", new { @class = "form-control", type = "number" })
+                        </div>
+                        <div class="form-group">
+                            @Html.Label("qtyVENDORNAME", "廠商關鍵字", htmlAttributes: new { @class = "control-title" })
+                            @Html.TextBox("qtyVENDORNAME", "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            @Html.Label("qtyDOCID", "請修單號", htmlAttributes: new { @class = "control-title" })
+                            @Html.TextBox("qtyDOCID", "", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-11">
+                        <input id="btnQTY" type="submit" value="查詢" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div id="pnlREPLIST" style="margin: 20px 0">
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

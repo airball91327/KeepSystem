@@ -1,0 +1,107 @@
+﻿@model IEnumerable<EDIS.Models.LocationModels.PlaceModel>
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<script>
+    $(document).ready(function () {
+
+        // While page loaded, show the selected building if user has selected before.
+        var selectBuilding = $("#BuildingId").val();
+        var selectFloor = '@ViewBag.FloorId';
+
+        /* When user selected an building, update the floors of the building. */
+        var url = '@Url.Action("GetFloors", "Place")'; // Don't hard code your url's!
+        var floors = $("#FloorId"); // Get dropdown
+        var defaultOption = 0; // Set default selected option
+        $("#BuildingId").change(function () {
+            var i = 0;
+            buildingId = $(this).val();     // Use $(this) so you don't traverse the DOM again
+            $.getJSON(url, { BuildingId: buildingId }, function (response) {
+                //console.log(response);
+                async: false,
+                floors.empty();        // remove any existing options
+                $.each(response, function (index, item) { // item is now an object containing properties FloorId and FloorName
+                    if (i == defaultOption) {
+                        floors.append($('<option selected="selected"></option>').text(item.floorName).val(item.floorId));
+                    }
+                    else {
+                        floors.append($('<option></option>').text(item.floorName).val(item.floorId));
+                    }
+                    i++;
+                });
+            });
+            $.ajaxSettings.async = true; // Set this ajax async back to true.
+        });
+        if (selectBuilding != "" && selectFloor != "") {
+            buildingId = $("#BuildingId").val();     // Use $(this) so you don't traverse the DOM again
+            $.ajaxSettings.async = false; // Set this getJSON async to false to let the submitForm can get the right value.
+            $.getJSON(url, { BuildingId: buildingId }, function (response) {
+                //console.log(response);
+                floors.empty();        // remove any existing options
+                $.each(response, function (index, item) { // item is now an object containing properties FloorId and FloorName
+                    if (item.floorId == selectFloor) {
+                        floors.append($('<option selected="selected"></option>').text(item.floorName).val(item.floorId));
+                    }
+                    else {
+                        floors.append($('<option></option>').text(item.floorName).val(item.floorId));
+                    }
+                });
+            });
+            $.ajaxSettings.async = true; // Set this ajax async back to true.
+            $("#searchForm").submit();
+        }
+        
+    });
+</script>
+
+<style>
+    .panel {
+        background-color: inherit;
+        border-color: white;
+    }
+
+    form label {
+        padding-top: 7px;
+        font-size: 120%;
+    }
+</style>
+
+<h2>地點一覽</h2>
+<hr />
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <form name="searchForm" action="Place/GetPlaceList" method="GET" data-ajax="true" data-ajax-update="#placeListDiv" id="searchForm">
+            <div class="form-inline">
+
+                <div class="form-group col-md">
+                    <label class="control-label col-md-4">選擇建築:</label>
+                    <div class="col-md-8">
+                        @Html.DropDownList("BuildingId", null, "選擇建築", htmlAttributes: new { @class = "form-control", required = "required" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md">
+                    <label class="control-label col-md-4">選擇樓層:</label>
+                    <div class="col-md-8">
+                        <select name="FloorId" id="FloorId" class="form-control">
+                            <option>請先選擇建築</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md">
+                    <input type="submit" class="btn btn-primary" id="btnQuery" value="查詢" style="width: 120%" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="placeListDiv"></div>
+
+@section scripts{
+}

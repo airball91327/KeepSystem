@@ -1,0 +1,79 @@
+﻿@model EDIS.Areas.BMED.Models.RepairModels.AssignModel
+
+<script src="~/js/BMED/KeepNextFlow.js"></script>
+
+<form asp-controller="KeepFlow" asp-action="NextFlow" asp-area="BMED" data-ajax="true" data-ajax-method="POST" id="nextFlowForm"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()"
+      data-ajax-success="flowmsg" data-ajax-failure="onFailed">
+
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.DocId)
+    @Html.HiddenFor(model => model.Cls)
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Hint, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="color: #00ff21; padding-top: 7px;">
+                @Html.DisplayFor(model => model.Hint)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssignCls, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="padding-top: 7px;">
+                @Html.RadioButtonFor(model => model.AssignCls, "同意")同意
+                @Html.RadioButtonFor(model => model.AssignCls, "不同意")不同意
+                @Html.RadioButtonFor(model => model.AssignCls, "其他")其他
+                @Html.ValidationMessageFor(model => model.AssignCls, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AssignOpn, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.AssignOpn, 5, 50, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.AssignOpn, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FlowCls, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.FlowCls, null, "請選擇", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FlowCls, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FlowUid, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.DropDownListFor(model => model.FlowUid, null, "請選擇", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.FlowUid, "", new { @class = "text-danger" })
+                    <span id="searchUid">
+                        <input type="text" placeholder="輸入code或關鍵字查詢" class="form-control" id="DptMgrQry" />
+                        <button type="button" class="btn btn-default" id="MgrQryBtn">查詢</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnGO" type="submit" value="確定送出" class="btn btn-primary" />
+                <img id="imgLOADING_Flow" src="~/images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@*<div id="pnlKEEPFLOWLIST">
+    @if (Model != null)
+    {
+        @await Component.InvokeAsync("BMEDKeepFlowList", new { id = Model.DocId })
+    }
+</div>*@

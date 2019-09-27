@@ -1,0 +1,46 @@
+﻿@model IEnumerable<EDIS.Areas.BMED.Models.KeepModels.KeepFormatModel>
+@using System.Text.Encodings.Web;
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "Index";
+}
+
+<h2>保養格式列表</h2>
+
+<a class="btn btn-primary" href="@Url.Action("Create")">新增</a>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FormatId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Plants)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Format)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FormatId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plants)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Format)
+            </td>
+            <td width="100px">
+                @Html.ActionLink("修改", "Edit", new { id = HtmlEncoder.Default.Encode(item.FormatId) }) |
+                @*@Html.ActionLink("預覽", "Details", new { id= HtmlEncoder.Default.Encode(item.FormatId) }) |*@
+                @Html.ActionLink("刪除", "Delete", new { id = HtmlEncoder.Default.Encode(item.FormatId) })
+            </td>
+        </tr>
+    }
+
+</table>

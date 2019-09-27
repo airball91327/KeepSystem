@@ -1,0 +1,82 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.RepairCostModel>
+<script src="~/js/RepairCostList.js"></script>
+
+<h3>費用明細</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SeqNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StockType)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VendorName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TicketDtl.TicketDtlNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AccountDate)
+        </th>
+        <th>
+            料號/
+            @Html.DisplayNameFor(model => model.PartName)/
+            規格
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Qty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalCost)
+        </th>
+        <th></th>
+    </tr>
+    @if (Model.Count() > 0)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SeqNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StockType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VendorName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketDtl.TicketDtlNo)
+                    @Html.DisplayFor(motelItem => item.SignNo)
+                </td>
+                <td>
+                    @item.AccountDate.Value.ToString("yyyy/MM/dd")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PartNo)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.PartName)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.Standard)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalCost)
+                </td>
+                <td>
+                    <a class="btn btn-primary">刪除</a>
+                    @*@Html.ActionLink("刪除", "Delete", new { docid = item.DocId, seqno = item.SeqNo })*@
+                </td>
+            </tr>
+        }
+    }
+</table>

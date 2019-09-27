@@ -1,0 +1,333 @@
+﻿@model EDIS.Models.RepairModels.RepairModel
+
+@{
+    var isMobile = (string)ViewData["IsMobile"];
+    if (isMobile == "Y")
+    {
+        Layout = "~/Areas/Mobile/Views/Shared/_Layout.cshtml";
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    }
+    ViewData["Title"] = "Create";
+}
+<script src="~/js/RepCreate.js"></script>
+
+<h2>新增</h2>
+
+<h4>請修單</h4>
+<hr />
+
+<div>
+    <input id="btnFILES" type="button" value="夾帶附件檔案" class="btn btn-default" data-toggle="modal" data-target="#modalFILES">
+</div>
+<div>
+    <div id="pnlFILES"></div>
+</div>
+<hr />
+
+<form asp-action="Create" data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-failure="onFailed"
+      data-ajax-success="onSuccess()">
+    <div class="container">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(model => model.UserId)
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="DocId" class="control-title"></label>
+                    <input asp-for="DocId" class="form-control" readonly />
+                    <span asp-validation-for="DocId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="UserName" class="control-title"></label>
+                    <input asp-for="UserAccount" class="form-control" readonly />
+                    <input asp-for="UserName" class="form-control" readonly />
+                    <span asp-validation-for="UserId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="DptId" class="control-title"></label>
+                    <input asp-for="DptId" class="form-control" readonly />
+                    <input asp-for="DptName" class="form-control" readonly />
+                    <span style="color:red" id="DptNameErrorMsg"></span>
+                    <span asp-validation-for="DptId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label class="control-title">聯絡方式</label>
+                    <label asp-for="Ext" class="control-label"></label>
+                    <input asp-for="Ext" class="form-control-s" />
+                    <span asp-validation-for="Ext" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Mvpn" class="control-label"></label>
+                    <input asp-for="Mvpn" class="form-control-s" />
+                    <span asp-validation-for="Mvpn" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="ApplyDate" class="control-title"></label>
+                    <input asp-for="ApplyDate" class="form-control" readonly />
+                    <span asp-validation-for="ApplyDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AssetNo" class="control-title"></label>
+                    <input type="radio" name="assetControl" value="true" /> 有
+                    <input type="radio" name="assetControl" value="false" checked /> 無
+                </div>
+            </div>
+        </div>
+        <div class="row" id="rowAssetNo">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AssetNo" class="control-title"></label>
+                    <input asp-for="AssetNo" class="form-control" />
+                    <input type="button" value="讀取" class="btn btn-default" onclick="getAssetName()" />
+                    <span style="color:red" id="AssetNameErrorMsg"></span>
+                    <span asp-validation-for="AssetNo" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="rowAssetName">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AssetName" class="control-title"></label>
+                    <input asp-for="AssetName" class="form-control" required />
+                    <span asp-validation-for="AssetName" class="text-danger"></span>
+                    <span id="rowAssetAccDate">
+                        <label>立帳日</label>
+                        <input id="assetAccDate" class="form-control" readonly />
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="RepType" class="control-title"></label>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="RepType" id="RepType1" value="送修">
+                        送修(物品送工務部)
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="RepType" id="RepType2" value="請修" checked>
+                        請修
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="RepType" id="RepType3" value="增設">
+                        增設
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="LocType" class="control-title"></label>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="LocType" id="LocType1" value="本單位" checked>
+                        本單位
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="LocType" id="LocType2" value="公共區域">
+                        其他單位或公共區域
+                    </label>
+                </div>
+                @*<div class="radio">
+                        <label>
+                            <input type="radio" name="LocType" id="LocType3" value="其他單位">
+                            其他單位
+                        </label>
+                    </div>*@
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AccDpt" class="control-title"></label>
+                    <input asp-for="AccDpt" class="form-control" readonly />
+                    <input asp-for="AccDptName" class="form-control" readonly />
+                    <span style="color:red" id="AccDptNameErrorMsg"></span>
+                    <span asp-validation-for="AccDpt" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="PlaceLoc" class="control-title"></label>
+                    <input asp-for="PlaceLoc" class="form-control" />
+                    <span asp-validation-for="PlaceLoc" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div id="divLocations">
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="Building" class="control-title"></label>
+                        <select asp-for="Building" asp-items="@Model.Buildings" class="form-control" id="Building">
+                            <option disabled selected>請選擇</option>
+
+                        </select>
+                        <span asp-validation-for="Building" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="Floor" class="control-title"></label>
+                        <select asp-for="Floor" class="form-control" id="Floor">
+                            <option disabled selected>請選擇</option>
+
+                        </select>
+                        <span asp-validation-for="Floor" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class=form-inline>
+                    <div class="form-group">
+                        <label asp-for="Area" class="control-title"></label>
+                        <select asp-for="Area" class="form-control" id="Area">
+                            <option disabled selected>請選擇</option>
+
+                        </select>
+                        <span asp-validation-for="Area" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="TroubleDes" class="control-title"></label>
+                    <textarea asp-for="TroubleDes" rows="3" class="form-control"></textarea>
+                    <span asp-validation-for="TroubleDes" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="DptMgr">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="DptMgrId" class="control-title"></label>
+                    <input type="text" placeholder="輸入code或關鍵字查詢" class="form-control" id="DptMgrQry" />
+                    <button type="button" class="btn btn-default" id="MgrQryBtn">查詢</button>
+                    <select asp-for="DptMgrId" class="form-control" id="DptMgrId">
+                        <option disabled selected>請選擇</option>
+                    </select>
+                    <span asp-validation-for="DptMgrId" class="text-danger"></span>
+                    <span style="color:#ff6161">*需簽至單位主任，再轉工程師</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <input type="hidden" asp-for="EngId" id="EngId" />
+                    <label asp-for="EngId" class="control-title"></label>
+                    <input asp-for="EngName" class="form-control" id="EngName" readonly />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="PrimaryEngId" class="control-title"></label>
+                    <select asp-for="PrimaryEngId" asp-items="@ViewData["AllEngs"] as SelectList" class="form-control" id="PrimaryEngId">
+                        <option value=0>無</option>
+                    </select>
+                    <span asp-validation-for="PrimaryEngId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="CheckerId" class="control-title"></label>
+                    <input type="text" placeholder="輸入code或關鍵字查詢" class="form-control" id="CheckerQry" />
+                    <button type="button" class="btn btn-default" id="CheckerQryBtn">查詢</button>
+                    <select asp-for="CheckerId" asp-items="@ViewData["DptMembers"] as SelectList" class="form-control" id="CheckerId">
+                        <option disabled selected>請選擇</option>
+                    </select>
+                    <span asp-validation-for="CheckerId" class="text-danger"></span>
+                    <span style="color:#ff6161">*驗收人才可以結案</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div style="padding-left: 115px">
+                <input type="submit" value="確定送出" class="btn btn-default" />
+            </div>
+        </div>
+
+        <!-- 夾帶檔案 Modal -->
+        <div id="modalFILES" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content" style="background-color: #1D3C4C">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
+                        <h4 class="modal-title">選擇上傳檔案</h4>
+                    </div>
+                    <div class="modal-body">
+                        @await Component.InvokeAsync("AttainFileUpload3", new { doctype = "1", docid = Model.DocId })
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<input type="hidden" id="isMobile" value="@isMobile" />
+@if (isMobile == "Y")
+{
+    <div>
+        <a asp-action="Index" asp-controller="Repair" asp-area="Mobile" style="color:deepskyblue">回到列表</a>
+    </div>
+}
+else
+{
+    <div>
+        <a asp-action="Index" asp-controller="Home" style="color:deepskyblue">回到列表</a>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

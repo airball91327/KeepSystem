@@ -1,0 +1,50 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.AttainFileModel>
+
+@{
+    Layout = "";
+}
+@if (Model.Count() > 0)
+{
+    <table style="width: 100%;margin-left: 30px;">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SeqNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileLink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Rtp)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.SeqNo)</td>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                @if (item.DocType == "2")
+                {
+                    <td><a href='@Url.Content("~/Files/")@item.FileLink' target="_blank" style="color:deepskyblue">下載</a></td>
+                }
+                else
+                {
+                    <td><a href='@Url.Content("~/Files/")@item.FileLink' target="_blank" style="color:deepskyblue">下載</a></td>
+                }
+                <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                <td>@Html.ActionLink("刪除", "Delete2", "AttainFile",  new { id = item.DocId, seq = item.SeqNo, typ = item.DocType },
+                                                                       new
+                                                                       {
+                                                                           data_ajax = "true",
+                                                                           data_ajax_method = "GET",
+                                                                           data_ajax_update = "#pnlFILES",
+                                                                           style = "color:deepskyblue"
+                                                                       })</td>
+            </tr>
+        }
+    </table>
+    <hr />
+}

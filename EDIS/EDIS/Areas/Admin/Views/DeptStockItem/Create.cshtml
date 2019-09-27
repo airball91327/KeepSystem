@@ -1,0 +1,59 @@
+﻿@model EDIS.Models.RepairModels.DeptStockItemModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Create";
+}
+<style>
+    /* Style the scale of radio. */
+    input[type=radio] {
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FireFox */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+    }
+
+    #radioBtns {
+        padding-top: 7px;
+    }
+</style>
+
+<h2>新增</h2>
+
+<h4>品項</h4>
+<hr />
+<form asp-action="Create" class="form-horizontal">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="StockClsId" />
+
+    <div class="form-group">
+        <label asp-for="StockClsId" class="control-label col-md-2"></label>
+        <p class="col-md-10" style="padding-top: 7px">@ViewBag.StockClassName</p>
+    </div>
+    <div class="form-group">
+        <label asp-for="StockItemName" class="control-label col-md-2"></label>
+        <div class="col-md-10">
+            <input asp-for="StockItemName" class="form-control" />
+            <span asp-validation-for="StockItemName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Flg" class="control-label col-md-2"></label>
+        <div class="col-md-10" id="radioBtns">
+            @Html.RadioButtonFor(model => model.Flg, "Y") 顯示
+            <span style="padding-right: 5px"></span>
+            @Html.RadioButtonFor(model => model.Flg, "N") 不顯示
+            @Html.ValidationMessageFor(model => model.Flg, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="新增" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index" asp-route-stockClsId="@Model.StockClsId" class="btn btn-default">回到列表</a>
+</div>
+

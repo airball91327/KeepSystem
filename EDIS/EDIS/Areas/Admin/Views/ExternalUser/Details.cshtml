@@ -1,0 +1,91 @@
+﻿@model EDIS.Models.Identity.ExternalUserModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Details";
+}
+
+<style>
+    a {
+        color: deepskyblue;
+    }
+</style>
+
+<h2>詳細內容</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers.FullName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.FullName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers.Password)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.Password)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers.Ext)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.Ext)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers.Mobile)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.Mobile)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers.DptId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.DptId)
+        </dd>
+        <dt>
+            @*@Html.DisplayNameFor(model => model.AppUsers.VendorId)*@
+            所屬廠商代號
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.VendorId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers.DateCreated)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.DateCreated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers.LastActivityDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.LastActivityDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AppUsers.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AppUsers.Status)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">編輯</a> |
+    <a asp-action="Index" class=" btn btn-default">回到列表</a>
+</div>

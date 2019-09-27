@@ -1,0 +1,106 @@
+﻿@model X.PagedList.IPagedList<EDIS.Models.RepairModels.DeptStockModel>
+
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Common;
+
+<link href="~/css/PagedList.css" rel="stylesheet" type="text/css" />
+
+<script>
+    $(function () {
+
+    });
+    function setStockValue(clickedBtn) {
+        var $row = $(clickedBtn).parent()     // Moves up from <button> to <td>
+                                .parent();    // Moves up from <td> to <tr>
+        var partName = $row.find("td:nth-child(2)").text().trim(); // Finds the 2nd <td> element
+        var standard = $row.find("td:nth-child(7)").text().trim();
+        var unite = $row.find("td:nth-child(3)").text().trim();
+        var price = $row.find("td:nth-child(4)").text().trim();
+        $("#PartName").val(partName);
+        $("#Standard").val(standard);
+        $("#Unite").val(unite); 
+        $("#Price").val(price);
+        /* Close Modal. */
+        $("#modalSTOCK").modal('toggle');
+    }
+</script>
+
+<table class="table stockListTable">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().StockNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().StockName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Unite)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Qty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().SafeQty)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Standard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Brand)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Status)
+        </th>
+        @*<th>
+                @Html.DisplayNameFor(model => model.CustOrgan_CustId)
+            </th>*@
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StockNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StockName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unite)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Qty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SafeQty)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Standard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Brand)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            @*<td>
+                    @Html.DisplayFor(modelItem => item.CustOrgan_CustId)
+                </td>*@
+            <td>
+                <button type="button" class="btn btn-primary" value="@item.StockId" id="setStockBtn" onclick="setStockValue(this)">選擇</button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.OnlyShowFivePagesAtATime)
+</div>

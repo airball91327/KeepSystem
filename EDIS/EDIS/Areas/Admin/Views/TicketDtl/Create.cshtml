@@ -1,0 +1,104 @@
+﻿@model EDIS.Models.RepairModels.TicketDtlModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "新增/發票明細";
+}
+
+<h2>新增</h2>
+
+<form asp-action="Create" asp-controller="TicketDtl" asp-area="Admin">
+    <div class="form-horizontal">
+        <h4>發票明細</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="TicketDtlNo" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="TicketDtlNo" class="form-control" readonly />
+                <span asp-validation-for="TicketDtlNo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SeqNo" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="SeqNo" class="form-control" readonly />
+                <span asp-validation-for="SeqNo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ObjName" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="ObjName" class="form-control" />
+                <span asp-validation-for="ObjName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Qty" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Qty" class="form-control" />
+                <span asp-validation-for="Qty" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Unite" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Unite" class="form-control" />
+                <span asp-validation-for="Unite" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Price" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Cost" class="control-title col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Cost" class="form-control"/>
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="新增" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-primary" href="@Url.Action("Edit", "Ticket", new { Area = "Admin", id = Model.TicketDtlNo })">回到上一頁</a>
+</div>
+
+
+
+<script>
+    $(function () {
+        /* Auto calculate total price when input price or qty. */
+        $('#Price').change(function () {
+            var v1 = $(this).val();
+            var v2 = $('#Qty').val();
+            if (v1 !== null && v2 !== null) {
+                $('#Cost').val(v1 * v2);
+            }
+        });
+        $('#Qty').change(function () {
+            var v1 = $(this).val();
+            var v2 = $('#Price').val();
+            if (v1 !== null && v2 !== null) {
+                $('#Cost').val(v1 * v2);
+            }
+        });
+    });
+</script>

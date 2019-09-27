@@ -1,0 +1,106 @@
+﻿@model IEnumerable<EDIS.Models.RepairModels.DeptStockModel>
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+<style>
+    .panel {
+        background-color: inherit;
+        border-color: white;
+    }
+
+    form label {
+        padding-top: 7px;
+        font-size: 120%;
+    }
+</style>
+
+<h2>庫存一覽</h2>
+<hr />
+
+<div class="panel panel-primary">
+    <div class="panel-body">
+        <form name="searchForm" asp-action="GetStockList" asp-controller="DeptStock" asp-area="Admin" method="GET" data-ajax="true" data-ajax-update="#stockListDiv" id="searchForm">
+            <div class="form-inline">
+
+                <div class="form-group col-md">
+                    <label class="control-label col-md-4">選擇類別:</label>
+                    <div class="col-md-8">
+                        @Html.DropDownList("StockClsId", null, "選擇類別", htmlAttributes: new { @class = "form-control", required = "required" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md">
+                    <label class="control-label col-md-4">選擇品項:</label>
+                    <div class="col-md-8">
+                        <select name="StockItemId" id="StockItemId" class="form-control">
+                            <option>請先選擇類別</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md">
+                    <input type="submit" class="btn btn-primary" id="btnQuery" value="查詢" style="width: 120%" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="stockListDiv"></div>
+
+@section scripts{
+    <script>
+    $(document).ready(function () {
+
+        // While page loaded, show the selected class if user has selected before.
+        var selectClass = $("#StockClsId").val();
+        var selectItem = "@ViewBag.StockItemId";
+
+        /* When user selected an building, update the floors of the building. */
+        var url = '@Url.Action("GetItems", "DeptStock", new { Area = "Admin" })'; // Don't hard code your url's!
+        var stockItems = $("#StockItemId"); // Get dropdown
+        var defaultOption = 0; // Set default selected option
+        $("#StockClsId").change(function () {
+            var i = 0;
+            stockClsId = $(this).val();     // Use $(this) so you don't traverse the DOM again
+            $.getJSON(url, { StockClsId: stockClsId }, function (response) {
+                //console.log(response); //For debug
+                async: false,
+                stockItems.empty();        // remove any existing options
+                $.each(response, function (index, item) {
+                    if (i == defaultOption) {
+                        stockItems.append($('<option selected="selected"></option>').text(item.stockItemName).val(item.stockItemId));
+                    }
+                    else {
+                        stockItems.append($('<option></option>').text(item.stockItemName).val(item.stockItemId));
+                    }
+                    i++;
+                });
+            });
+            $.ajaxSettings.async = true; // Set this ajax async back to true.
+        });
+
+        if (selectClass != "" && selectItem != "") {
+            stockClsId = $("#StockClsId").val();     // Use $(this) so you don't traverse the DOM again
+            $.ajaxSettings.async = false; // Set this getJSON async to false to let the submitForm can get the right value.
+            $.getJSON(url, { StockClsId: stockClsId }, function (response) {
+                //console.log(response); //For debug
+                stockItems.empty();        // remove any existing options
+                $.each(response, function (index, item) { // item is now an object containing properties StockItemName and StockItemId
+                    if (item.stockItemId.toString() == selectItem) {
+                        stockItems.append($('<option selected="selected"></option>').text(item.stockItemName).val(item.stockItemId));
+                    }
+                    else {
+                        stockItems.append($('<option></option>').text(item.stockItemName).val(item.stockItemId));
+                    }
+                });
+            });
+            $.ajaxSettings.async = true; // Set this ajax async back to true.
+            $("#searchForm").submit();
+        }
+    });
+    </script>
+}

@@ -1,0 +1,124 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $("#exportExcelBtn").click(function () {
+            var QtyMonth = $("#qtyMonth").val();
+            var QtyDptId = $("#qtyDptId").val();
+
+            $.ajax({
+                url: "@Url.Action("ExportToExcel", "RepairReport", new { Area = "" })",
+                data: {
+                    qtyMonth: QtyMonth,
+                    qtyDptId: QtyDptId
+                },
+                beforeSend: $.Toast.showToast({
+                            'title': '報表產生中，因資料較龐大，請稍待片刻...',
+                            'icon': 'loading',
+                            'duration': 0
+                }),
+                success: function (response, textStatus, jqXHR) {
+                    window.location.href = '@Url.Action("ExportToExcel", "RepairReport", new { Area = "" })' + '?qtyMonth=' + QtyMonth + '&qtyDptId=' + QtyDptId;
+                    $.Toast.hideToast();
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                    $.Toast.hideToast();
+                }
+            });
+        });
+
+        $("#exportExcelBtn_2").click(function () {
+            var qtyMonth = $("#qtyMonth_2").val();
+
+            $.ajax({
+                url: "@Url.Action("EndDateReport", "RepairReport", new { Area = "" })",
+                data: { QtyMonth: qtyMonth },
+                beforeSend: $.Toast.showToast({
+                            'title': '報表產生中，因資料較龐大，請稍待片刻...',
+                            'icon': 'loading',
+                            'duration': 0
+                }),
+                success: function (response, textStatus, jqXHR) {
+                    window.location.href = '@Url.Action("EndDateReport", "RepairReport", new { Area = "" })' + '?QtyMonth=' + qtyMonth;
+                    $.Toast.hideToast();
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                    $.Toast.hideToast();
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    .panel {
+        background-color: inherit;
+        border-color: white;
+    }
+
+    .panel-body label {
+        padding-top: 7px;
+        font-size: 120%;
+    }
+</style>
+
+<h2>報表輸出</h2>
+<hr />
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h4><b>維護月指標</b></h4>
+    </div>
+    <div class="panel-body">
+        <div class="container">
+            <div class="row col-md-12">
+                <div class="form-inline">
+                    <div class="form-group col-md-4">
+                        <label class="control-label col-md-4">選擇月份:</label>
+                        <div class="col-md-8">
+                            <input type="month" class="form-control" id="qtyMonth" />
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="control-label col-md-4">選擇部門:</label>
+                        <select asp-items="@ViewData["DPTID"] as SelectList" class="form-control" id="qtyDptId">
+                            <option value="">所有(除外包人員)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="button" class="btn btn-primary" value="匯出Excel" id="exportExcelBtn" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h4><b>月請修完工日資料</b></h4>
+    </div>
+    <div class="panel-body">
+        <div class="container">
+            <div class="row col-md-12">
+                <div class="form-inline">
+                    <div class="form-group col-md-4">
+                        <label class="control-label col-md-4">選擇月份:</label>
+                        <div class="col-md-8">
+                            <input type="month" class="form-control" id="qtyMonth_2" />
+                        </div>
+                    </div>
+                    <div>
+                        <input type="button" class="btn btn-primary" value="匯出Excel" id="exportExcelBtn_2" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+﻿@model EDIS.Models.RepairModels.VendorModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>VendorModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.VendorName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VendorName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Tel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Tel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Fax)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Fax)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UniteNo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UniteNo)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TaxAddress)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TaxAddress)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TaxZipCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TaxZipCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Contact)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactTel)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ContactTel)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ContactEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ContactEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Kind)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Kind)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.VendorId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

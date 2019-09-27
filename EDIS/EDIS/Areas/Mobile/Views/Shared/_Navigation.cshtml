@@ -1,0 +1,29 @@
+﻿@using EDIS.Models.Identity
+
+@inject CustomUserManager UserManager
+@inject CustomSignInManager SignInManager
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">醫工工務智能保修系統 - 行動版</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-layout-content">
+                <li>
+                    <a href="@Url.Action("Index", "Repair", new { Area = "Mobile" })">個人首頁</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Create", "Repair", new { Area = "" })">請修單</a>
+                </li>
+                <li></li>
+            </ul>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</nav>

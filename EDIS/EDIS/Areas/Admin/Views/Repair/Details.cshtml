@@ -1,0 +1,120 @@
+﻿@model EDIS.Models.RepairModels.RepairModel
+
+@{
+    ViewBag.Title = "預覽/請修單";
+}
+
+<div>
+    <h3>申請資料</h3>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DocId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DocId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DptId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DptId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ext)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ext)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Mvpn)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Mvpn)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccDpt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccDpt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RepType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RepType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlaceLoc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlaceLoc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LocType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LocType)
+        </dd>
+
+        <dt>
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuildingName)
+            @Html.DisplayFor(model => model.FloorName)
+            @Html.DisplayFor(model => model.AreaName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplyDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplyDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TroubleDes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TroubleDes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckerName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a class="btn btn-primary" href="@Url.Action("Edit", "Repair", new { Area = "Admin", id = Model.DocId })">編輯</a>
+</p>

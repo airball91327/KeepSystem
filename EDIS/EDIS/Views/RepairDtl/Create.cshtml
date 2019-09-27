@@ -1,0 +1,85 @@
+﻿@model EDIS.Models.RepairModels.RepairDtlModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>RepairDtlModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DealState" class="control-label"></label>
+                <input asp-for="DealState" class="form-control" />
+                <span asp-validation-for="DealState" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DealDes" class="control-label"></label>
+                <input asp-for="DealDes" class="form-control" />
+                <span asp-validation-for="DealDes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DealState2" class="control-label"></label>
+                <input asp-for="DealState2" class="form-control" />
+                <span asp-validation-for="DealState2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FailFactor" class="control-label"></label>
+                <input asp-for="FailFactor" class="form-control" />
+                <span asp-validation-for="FailFactor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FailFactor2" class="control-label"></label>
+                <input asp-for="FailFactor2" class="form-control" />
+                <span asp-validation-for="FailFactor2" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InOut" class="control-label"></label>
+                <input asp-for="InOut" class="form-control" />
+                <span asp-validation-for="InOut" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hour" class="control-label"></label>
+                <input asp-for="Hour" class="form-control" />
+                <span asp-validation-for="Hour" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsCharged" class="control-label"></label>
+                <input asp-for="IsCharged" class="form-control" />
+                <span asp-validation-for="IsCharged" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cost" class="control-label"></label>
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CloseDate" class="control-label"></label>
+                <input asp-for="CloseDate" class="form-control" />
+                <span asp-validation-for="CloseDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShutDate" class="control-label"></label>
+                <input asp-for="ShutDate" class="form-control" />
+                <span asp-validation-for="ShutDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

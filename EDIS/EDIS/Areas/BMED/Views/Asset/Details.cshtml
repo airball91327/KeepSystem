@@ -1,0 +1,279 @@
+﻿@model EDIS.Areas.BMED.Models.RepairModels.AssetModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "預覽/資產設備";
+}
+
+<h2>預覽</h2>
+
+<div>
+    <h4>資產設備</h4>
+    <hr />
+    @*<div id="pnlFILES" style="margin: 10pt">
+        @Html.Action("List", "AttainFiles", new { id = Model.AssetNo, typ = "5" })
+    </div>*@
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BmedNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BmedNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ename)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ename)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BuyDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BuyDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RelDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RelDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Brand)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Brand)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Standard)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Standard)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Origin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Origin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Voltage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Voltage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Current)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Current)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VendorId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VendorName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisposeKind)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisposeKind)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DelivDpt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DelivDptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DelivEmp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DelivEmp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LeaveSite)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LeaveSite)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccDpt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccDptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Shares)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Shares)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RiskLvl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RiskLvl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UseLife)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UseLife)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IpAddr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IpAddr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MacAddr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MacAddr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MakeNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MakeNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AssetEngName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssetEngName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.Docid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Docid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Rtt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Rtt)
+        </dd>*@
+
+    </dl>
+</div>
+<div>
+    @await Component.InvokeAsync("BMEDAssetKeepEdit", new { id = Model.AssetNo, viewType = "Details" })
+    @*@Html.Action("Details", "AssetKeeps", new { id = Model.AssetNo })*@
+</div>
+

@@ -1,0 +1,50 @@
+﻿@model EDIS.Models.RepairModels.QryRepListData
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        /* While loading this page, default search repairDocs. */
+        $("#repSearchForm").submit();
+    });
+</script>
+
+<form asp-controller="Repair" asp-action="Index" asp-area="Mobile" data-ajax="true"
+      data-ajax-update="#pnlREPLIST" data-ajax-method="POST" id="repSearchForm"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'查詢中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()">
+
+    <h4>查詢條件 - 個人案件</h4>
+
+    <div class="container">
+        <div class="row">
+            <div class=form-inline>
+                <input asp-for="qtyFLOWTYPE" type="hidden" value="待簽核" />
+                <div class="form-group">
+                    <label for="qtyDealStatus" class="control-title">處理狀態</label>
+                    <select asp-for="qtyDealStatus" asp-items="@ViewData["DealStatus"] as SelectList" class="form-control-s">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="qtyACCDPT" class="control-title">成本中心</label>
+                    <select asp-for="qtyACCDPT" asp-items="@ViewData["ACCDPT"] as SelectList" class="form-control">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <input id="btnQTY" type="submit" value="查詢" class="btn btn-default btn-lg" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="pnlREPLIST"></div>

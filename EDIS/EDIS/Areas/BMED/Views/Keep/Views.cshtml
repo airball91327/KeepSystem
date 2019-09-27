@@ -1,0 +1,72 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.KeepModel
+
+@using EDIS.Models.Identity
+@inject CustomUserManager UserManager
+@inject CustomRoleManager RoleManager
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "預覽/保養";
+
+    if (TempData["SendMsg"] != null)
+    {
+        <script>
+            var message = @Json.Serialize(TempData["SendMsg"]);
+            alert(message);
+        </script>
+    }
+}
+
+<h2>預覽</h2>
+<h4>保養</h4>
+<hr />
+<div id="pnlFILES" style="margin: 10pt">
+    @await Component.InvokeAsync("BMEDAttainFileList", new { id = Model.DocId, typ = "2", viewType = "Views" })
+</div>
+
+<div>
+    @await Component.InvokeAsync("BMEDKeepDetail", new { id = Model.DocId })
+</div>
+
+<ul class="nav nav-pills" style="font-size:120%">
+    <li role="presentation" class="active"><a href="#keepdtl" data-toggle="tab" style="padding-left:20px">保養紀錄與工時</a></li>
+    <li role="presentation"><a href="#keeprecord" data-toggle="tab" style="padding-left:20px">保養項目登錄</a></li>
+    <li role="presentation"><a href="#keepcost" data-toggle="tab" style="padding-left:20px">費用明細</a></li>
+    <li role="presentation"><a href="#flowlist" data-toggle="tab" style="padding-left:20px">流程紀錄</a></li>
+</ul>
+<hr />
+<div class="tab-content">
+    <div id="keepdtl" class="tab-pane fade in active">
+        <p>
+            @await Component.InvokeAsync("BMEDKeepDtlDetail", new { id = Model.DocId })
+        </p>
+        <p>
+            @await Component.InvokeAsync("BMEDKeepEmpList", new { id = Model.DocId, viewType = "Views" })
+        </p>
+    </div>
+    <div id="keeprecord" class="tab-pane fade">
+        <p>
+            @await Component.InvokeAsync("BMEDKeepRecordDetail", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="keepcost" class="tab-pane fade">
+        <div>
+            @await Component.InvokeAsync("BMEDKeepCostList", new { id = Model.DocId, viewType = "Views" })
+        </div>
+    </div>
+    <div id="flowlist" class="tab-pane fade">
+        <div>
+            @await Component.InvokeAsync("BMEDKeepFlowList", new { id = Model.DocId })
+        </div>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-default" href="@Url.Action("Index", "Home", new { Area = "" } )">回到簽核列表</a>
+    <a class="btn btn-primary" href="@Url.Action("PrintKeepDoc", "Keep", new { Area = "BMED", DocId = Model.DocId } )" target="_blank">列印</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

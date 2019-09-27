@@ -1,0 +1,90 @@
+﻿@model EDIS.Models.RepairModels.RepairDtlModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RepairDtlModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DealState)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DealState)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DealDes)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DealDes)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DealState2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DealState2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FailFactor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FailFactor)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FailFactor2)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FailFactor2)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.InOut)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.InOut)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Hour)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Hour)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCharged)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.IsCharged)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.CloseDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CloseDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShutDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ShutDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.DocId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

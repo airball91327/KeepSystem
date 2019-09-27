@@ -1,0 +1,58 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.KeepFormatModel
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "編輯/保養格式";
+}
+
+<h2>編輯</h2>
+
+<form asp-action="Edit" asp-controller="KeepFormat" asp-area="BMED" method="post">
+    <div class="form-horizontal">
+        <h4>保養格式</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="FormatId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input type="hidden" asp-for="FormatId" />
+                <p class="form-control-static">@Html.DisplayFor(model => model.FormatId)</p>           
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Plants" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <textarea asp-for="Plants" class="form-control"></textarea>
+                <span asp-validation-for="Plants" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Format" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <textarea asp-for="Format" class="form-control"></textarea>
+                <span asp-validation-for="Format" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="確定送出" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a class="btn btn-primary" href="@Url.Action("Index")">回到列表</a>
+</div>
+
+<div>
+    @await Component.InvokeAsync("BMEDKeepFormatDtl", new { id = Model.FormatId })
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+}

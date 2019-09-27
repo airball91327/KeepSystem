@@ -1,0 +1,219 @@
+﻿@model EDIS.Areas.BMED.Models.RepairModels.QryAsset
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "資產設備列表";
+}
+
+<script>
+    $(function () {
+        var page = window.location.hash
+            ? window.location.hash.slice(1) : 1;
+        fetchPage(page);
+        $('#btnQTY').click(function () {
+            fetchPage(1);
+        });
+
+        $("#btnQtyAccdpt").click(function () {
+            var keynam = $("#AccdptKeyName").val();
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url: '../BMED/Department/GetDptsByKeyname',
+                type: "GET",
+                data: { keyname: keynam },
+                dataType: "json",
+                success: function (data) {
+                    var jsdata = JSON.parse(data);
+                    var appenddata;
+
+                    $.each(jsdata, function (key, value) {
+                        appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                    });
+                    if (keynam == "")
+                        appenddata = "<option value = ''>請選擇</option>" + appenddata;
+                    else
+                        appenddata += "<option value = ''>請選擇</option>";
+                    $('#AccDpt').html(appenddata);
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+
+        $("#AccdptKeyName").change(function () {
+            $("#btnQtyAccdpt").trigger("click");
+        });
+
+        $("#btnQtyDelivdpt").click(function () {
+            var keynam = $("#DelivdptKeyName").val();
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url: '../BMED/Department/GetDptsByKeyname',
+                type: "GET",
+                data: { keyname: keynam },
+                dataType: "json",
+                success: function (data) {
+                    var jsdata = JSON.parse(data);
+                    var appenddata;
+
+                    $.each(jsdata, function (key, value) {
+                        appenddata += "<option value = '" + value.dptid + "'>" + value.dptname + " </option>";
+                    });
+                    if (keynam == "")
+                        appenddata = "<option value = ''>請選擇</option>" + appenddata;
+                    else
+                        appenddata += "<option value = ''>請選擇</option>";
+                    $('#DelivDpt').html(appenddata);
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+
+        $("#DelivdptKeyName").change(function () {
+            $("#btnQtyDelivdpt").trigger("click");
+        });
+
+        $("#btnQtyBmedNo").click(function () {
+            var keynam = $("#BmedNoKeyName").val();
+            $.ajax({
+                contentType: "application/json; charset=utf-8",
+                url: '../BMED/DeviceClassCode/GetDataByKeyname',
+                type: "GET",
+                data: { keyname: keynam },
+                dataType: "json",
+                success: function (data) {
+                    var jsdata = JSON.parse(data);
+                    var appenddata;
+                    $.each(jsdata, function (key, value) {
+                        appenddata += "<option value = '" + value.M_code + "'>" + value.M_name + " </option>";
+                    });
+                    if (keynam == "")
+                        appenddata = "<option value = ''>請選擇</option>" + appenddata;
+                    else
+                        appenddata += "<option value = ''>請選擇</option>";
+                    $('#BmedNo').html(appenddata);
+                },
+                error: function (msg) {
+                    alert(msg);
+                }
+            });
+        });
+
+        $("#BmedNoKeyName").change(function () {
+            $("#btnQtyBmedNo").trigger("click");
+        });
+    });
+
+    var fetchPage = function (page) {
+        var pagedPartialUrl = '@Url.Action("Index", "Asset", new { Area = "BMED" })';
+        var s = $('#frmASSETLIST').serialize();
+        $.Toast.showToast({
+            'title': '作業進行中，請稍待...',
+            'icon': 'loading',
+            'duration': 0
+        })
+        $.ajax({
+            url:pagedPartialUrl,
+            type: "POST",
+            data: s + "&page=" + page,
+            success: function (data) {
+
+                window.location.hash = page;
+
+                $('#pnlASSETLIST').html(data);
+
+                $('#pnlASSETLIST .pagination li a').each(function (i, item) {
+                    var hyperLinkUrl = $(item).attr('href');
+                    if (typeof hyperLinkUrl !== 'undefined' && hyperLinkUrl !== false) {
+                        var pageNumber = $(item).attr('href').replace(pagedPartialUrl + '?page=', '');
+                        $(item).attr('href', '#').click(function (event) {
+                            event.preventDefault();
+                            $(event.target).attr('href');
+                            fetchPage(pageNumber);
+                        });
+                    }
+                });
+                $.Toast.hideToast();
+            }
+        });
+
+    };
+</script>
+
+<h2>資產設備列表</h2>
+
+<form asp-action="Index" asp-controller="Asset" asp-area="BMED" method="post" id="frmASSETLIST">
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <label asp-for="AssetNo" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="AssetNo" class="form-control" />
+                <span asp-validation-for="AssetNo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="AssetName" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="AssetName" class="form-control" placeholder="輸入關鍵字" />
+                <span asp-validation-for="AssetName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="BmedNo" class="control-label col-md-2"></label>
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.TextBox("BmedNoKeyName", "", new { @class = "form-control", placeholder = "關鍵字" })
+                    <input id="btnQtyBmedNo" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.BmedNo, null, "請選擇", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.BmedNo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Type" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("AccdptKeyName", "成本中心", new { @class = "control-label col-md-2" })
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.TextBox("AccdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtyAccdpt" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.AccDpt, ViewData["ACCDPT"] as SelectList, "請選擇", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("DelivdptKeyName", "保管部門", new { @class = "control-label col-md-2" })
+            <div class="col-md-10 text-left">
+                <div class="form-inline">
+                    @Html.TextBox("DelivdptKeyName", "", new { @class = "form-control", placeholder = "代號或關鍵字" })
+                    <input id="btnQtyDelivdpt" type="button" value="查詢" class="btn btn-default">
+                    @Html.DropDownListFor(model => model.DelivDpt, ViewData["DELIVDPT"] as SelectList, "請選擇", new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnQTY" type="button" value="查詢" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<div id="pnlASSETLIST" style="margin-top: 40px">
+    @*@Html.Action("List")*@
+</div>

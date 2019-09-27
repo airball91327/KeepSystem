@@ -1,0 +1,43 @@
+﻿@model EDIS.Models.RepairModels.FloorEngModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>FloorEngModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EngId" />
+            <div class="form-group">
+                <label asp-for="EngName" class="control-label"></label>
+                <input asp-for="EngName" class="form-control" />
+                <span asp-validation-for="EngName" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="BuildingId" />
+            <input type="hidden" asp-for="FloorId" />
+            <div class="form-group">
+                <label asp-for="Rtp" class="control-label"></label>
+                <input asp-for="Rtp" class="form-control" />
+                <span asp-validation-for="Rtp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rtt" class="control-label"></label>
+                <input asp-for="Rtt" class="form-control" />
+                <span asp-validation-for="Rtt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

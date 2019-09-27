@@ -1,0 +1,6 @@
+﻿@model EDIS.Areas.BMED.Models.KeepModels.KeepModel
+@{
+    Layout = null;
+}
+
+@await Component.InvokeAsync("BMEDKeepEdit", new { id = Model.DocId })
