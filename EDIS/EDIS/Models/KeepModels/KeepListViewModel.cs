@@ -11,7 +11,7 @@ namespace EDIS.Models.KeepModels
         public string DocId { get; set; }
         [Display(Name = "財產編號")]
         public string AssetNo { get; set; }
-        [Display(Name = "儀器名稱")]
+        [Display(Name = "物品名稱")]
         public string AssetName { get; set; }
         [Display(Name = "廠牌")]
         public string Brand { get; set; }

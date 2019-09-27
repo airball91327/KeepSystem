@@ -27,8 +27,8 @@ namespace EDIS.Models.KeepModels
         [Display(Name = "保養費用")]
         [DisplayFormat(DataFormatString = "{0:N0}")]
         public decimal? Cost { get; set; }
-        [Display(Name = "[是][否]為統包")]
-        public string NotInExceptDevice { get; set; }
+        //[Display(Name = "[是][否]為統包")]
+        //public string NotInExceptDevice { get; set; }
         [Display(Name = "[是][否]為器械")]
         public string IsInstrument { get; set; }
         [DataType(DataType.Date)]
