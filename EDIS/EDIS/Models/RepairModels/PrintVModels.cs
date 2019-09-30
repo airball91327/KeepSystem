@@ -81,6 +81,8 @@ namespace EDIS.Models.RepairModels
         public int UserId { get; set; }
         [Display(Name = "申請人姓名")]
         public string UserName { get; set; }
+        [Display(Name = "申請人帳號")]
+        public string UserAccount { get; set; }
         [Display(Name = "所屬單位")]
         public string Company { get; set; }
         [Display(Name = "聯絡方式")]
@@ -120,5 +122,15 @@ namespace EDIS.Models.RepairModels
         public string DelivEmp { get; set; }
         [Display(Name = "驗收人姓名")]
         public string DelivEmpName { get; set; }
+        [Display(Name = "工務主管")]
+        public string EngMgr { get; set; }
+        [Display(Name = "工務主任")]
+        public string EngDirector { get; set; }
+        [Display(Name = "單位主管")]
+        public string DelivMgr { get; set; }
+        [Display(Name = "單位主任")]
+        public string DelivDirector { get; set; }
+        [Display(Name = "單位直屬副院長")]
+        public string ViceSuperintendent { get; set; }
     }
 }

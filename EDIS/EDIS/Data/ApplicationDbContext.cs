@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using EDIS.Models;
 using EDIS.Models.RepairModels;
+using EDIS.Models.KeepModels;
 using EDIS.Models.Identity;
 using EDIS.Models.LocationModels;
 
@@ -50,6 +51,18 @@ namespace EDIS.Data
         public DbSet<EngSubStaff> EngSubStaff { get; set; }
         public DbSet<ScrapAssetModel> ScrapAssets { get; set; }
         public DbSet<RepairShutRecordsModel> RepairShutRecords { get; set; }
+        // Keep tables
+        public DbSet<KeepModel> Keeps { get; set; }
+        public DbSet<KeepDtlModel> KeepDtls { get; set; }
+        public DbSet<KeepRecordModel> KeepRecords { get; set; }
+        public DbSet<KeepEmpModel> KeepEmps { get; set; }
+        public DbSet<KeepCostModel> KeepCosts { get; set; }
+        public DbSet<KeepFlowModel> KeepFlows { get; set; }
+        public DbSet<KeepFormatModel> KeepFormats { get; set; }
+        public DbSet<KeepFormatDtlModel> KeepFormatDtls { get; set; }
+        public DbSet<KeepResultModel> KeepResults { get; set; }
+        public DbSet<AssetKeepModel> AssetKeeps { get; set; }
+        //public DbSet<DeviceClassCode> DeviceClassCodes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -78,6 +91,17 @@ namespace EDIS.Data
             builder.Entity<EngSubStaff>().HasKey(c => new { c.EngId });
             builder.Entity<ScrapAssetModel>().HasKey(c => new { c.DocId, c.DeviceNo, c.AssetNo });
             builder.Entity<RepairShutRecordsModel>().HasKey(c => new { c.DocId });
+            // Keep tables
+            builder.Entity<KeepModel>().HasKey(c => new { c.DocId });
+            builder.Entity<KeepDtlModel>().HasKey(c => new { c.DocId });
+            builder.Entity<KeepRecordModel>().HasKey(c => new { c.DocId, c.FormatId, c.Sno });
+            builder.Entity<KeepEmpModel>().HasKey(c => new { c.DocId, c.UserId });
+            builder.Entity<KeepCostModel>().HasKey(c => new { c.DocId, c.SeqNo });
+            builder.Entity<KeepFlowModel>().HasKey(c => new { c.DocId, c.StepId });
+            builder.Entity<KeepFormatModel>().HasKey(c => new { c.FormatId });
+            builder.Entity<KeepFormatDtlModel>().HasKey(c => new { c.FormatId, c.Sno });
+            builder.Entity<KeepResultModel>().HasKey(c => new { c.Id });
+            builder.Entity<AssetKeepModel>().HasKey(c => new { c.AssetNo });
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);

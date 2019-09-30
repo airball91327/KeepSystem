@@ -12,6 +12,8 @@ namespace EDIS.Models.KeepModels
     {
         [Key]
         [Required]
+        [Display(Name = "設備編號")]
+        public string DeviceNo { get; set; }
         [Display(Name = "財產編號")]
         public string AssetNo { get; set; }
         [NotMapped]

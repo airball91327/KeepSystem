@@ -85,7 +85,7 @@ namespace EDIS.Areas.BMED.Controllers
                 {
                     if (repairDtl.IsCharged == "N")
                     {
-                        _context.BMEDRepairCosts.RemoveRange(_context.BMEDRepairCosts.Where(c => c.DocId == repairDtl.DocId));
+                        //_context.BMEDRepairCosts.RemoveRange(_context.BMEDRepairCosts.Where(c => c.DocId == repairDtl.DocId));
                         repairDtl.Cost = 0;
                     }
                     else

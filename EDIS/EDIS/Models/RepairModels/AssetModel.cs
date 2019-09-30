@@ -100,4 +100,15 @@ namespace EDIS.Models.RepairModels
         [NotMapped]
         public string upload { get; set; }
     }
+
+    [Table("DeviceClassCodes")]
+    public class DeviceClassCode
+    {
+        [Display(Name = "設備分類碼")]
+        [Key]
+        public string M_code { get; set; }
+        [Required(ErrorMessage = "必填寫項目")]
+        [Display(Name = "設備分類名稱")]
+        public string M_name { get; set; }
+    }
 }

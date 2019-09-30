@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using EDIS.Areas.BMED.Models.RepairModels;
+using EDIS.Models.RepairModels;
 
 namespace EDIS.Models.KeepModels
 {

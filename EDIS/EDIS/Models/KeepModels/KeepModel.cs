@@ -50,7 +50,7 @@ namespace EDIS.Models.KeepModels
         [Display(Name = "財產編號")]
         public string AssetNo { get; set; }
         [Required(ErrorMessage = "必填寫欄位")]
-        [Display(Name = "儀器名稱")]
+        [Display(Name = "物品名稱")]
         public string AssetName { get; set; }
         [Display(Name = "放置地點")]
         public string PlaceLoc { get; set; }
