@@ -1,0 +1,77 @@
+﻿@model EDIS.Models.KeepModels.KeepModel
+
+@using EDIS.Models.Identity
+@inject CustomUserManager UserManager
+@inject CustomRoleManager RoleManager
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewBag.Title = "預覽/保養";
+
+    if (TempData["SendMsg"] != null)
+    {
+        <script>
+            var message = @Json.Serialize(TempData["SendMsg"]);
+            alert(message);
+        </script>
+    }
+}
+
+<h2>預覽</h2>
+<h4>保養</h4>
+<hr />
+<div id="pnlFILES" style="margin: 10pt">
+    @await Component.InvokeAsync("AttainFileList", new { id = Model.DocId, typ = "2", viewType = "Views" })
+</div>
+
+<ul class="nav nav-pills" style="font-size:120%">
+    <li role="presentation" class="active"><a href="#keepdtl2" data-toggle="tab" style="padding-left:20px">申請資料</a></li>
+    <li role="presentation"><a href="#keepdtl" data-toggle="tab" style="padding-left:20px">保養紀錄</a></li>
+    <li role="presentation"><a href="#keepemp" data-toggle="tab" style="padding-left:20px">工程師工時</a></li>
+    <li role="presentation"><a href="#keeprecord" data-toggle="tab" style="padding-left:20px">保養項目登錄</a></li>
+    <li role="presentation"><a href="#keepcost" data-toggle="tab" style="padding-left:20px">費用明細</a></li>
+    <li role="presentation"><a href="#flowlist" data-toggle="tab" style="padding-left:20px">流程紀錄</a></li>
+</ul>
+<hr />
+<div class="tab-content">
+    <div id="keepdtl2" class="tab-pane fade in active">
+        <p>
+            @await Component.InvokeAsync("KeepDetail", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="keepdtl" class="tab-pane fade">
+        <p>
+            @await Component.InvokeAsync("KeepDtlDetail", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="keepemp" class="tab-pane fade">
+        <p>
+            @await Component.InvokeAsync("KeepEmpList", new { id = Model.DocId, viewType = "Views" })
+        </p>
+    </div>
+    <div id="keeprecord" class="tab-pane fade">
+        <p>
+            @await Component.InvokeAsync("KeepRecordDetail", new { id = Model.DocId })
+        </p>
+    </div>
+    <div id="keepcost" class="tab-pane fade">
+        <div>
+            @await Component.InvokeAsync("KeepCostList", new { id = Model.DocId, viewType = "Views" })
+        </div>
+    </div>
+    <div id="flowlist" class="tab-pane fade">
+        <div>
+            @await Component.InvokeAsync("KeepFlowList", new { id = Model.DocId })
+        </div>
+    </div>
+</div>
+
+<div>
+    <a class="btn btn-default" href="@Url.Action("Index", "Home", new { Area = "" } )">回到簽核列表</a>
+    <a class="btn btn-primary" href="@Url.Action("PrintKeepDoc", "Keep", new { Area = "", DocId = Model.DocId } )" target="_blank">列印</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

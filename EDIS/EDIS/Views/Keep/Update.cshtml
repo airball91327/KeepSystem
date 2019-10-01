@@ -1,0 +1,6 @@
+﻿@model EDIS.Models.KeepModels.KeepModel
+@{
+    Layout = null;
+}
+
+@await Component.InvokeAsync("KeepEdit", new { id = Model.DocId })

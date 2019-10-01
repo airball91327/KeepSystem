@@ -1,0 +1,36 @@
+﻿@model IEnumerable<EDIS.Models.KeepModels.KeepFormatDtlModel>
+
+<h2>格式細項</h2>
+<a class="btn btn-primary" href="@Url.Action("Create", "KeepFormatDtl", new { Area = "", id = ViewData["fid"] })">新增</a>
+<hr />
+@if (Model.Count() > 0)
+{
+    <table style="width: 100%;">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sno)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descript)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descript)
+                </td>
+                <td>
+                    @Html.ActionLink("修改", "Edit", "KeepFormatDtl", new { Area = "", id = item.FormatId, sno = item.Sno }) |
+                    @Html.ActionLink("刪除", "Delete", "KeepFormatDtl", new { Area = "", id = item.FormatId, sno = item.Sno })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

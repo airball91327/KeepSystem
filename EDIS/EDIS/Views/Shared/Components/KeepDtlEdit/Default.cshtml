@@ -1,0 +1,106 @@
+﻿@model EDIS.Models.KeepModels.KeepDtlModel
+
+@{
+    ViewBag.Title = "修改保養明細";
+}
+
+<h4>保養紀錄</h4>
+<hr />
+
+<script src="~/js/KeepDtl.js"></script>
+
+<form asp-action="Edit" asp-controller="KeepDtl" asp-area="" data-ajax="true" data-ajax-method="POST"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-loading="imgLOADING2" data-ajax-success="showmsg2">
+
+    <div class="container">
+        @Html.HiddenFor(model => model.DocId)
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="InOut" class="control-title"></label>
+                    <select asp-for="InOut" asp-items="@ViewData["InOut"] as SelectList" class="form-control" required>
+                        <option selected disabled>請選擇</option>
+                    </select>
+                    <span asp-validation-for="InOut" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="Result" class="control-title"></label>
+                    <select asp-for="Result" asp-items="@ViewData["Result"] as SelectList" class="form-control" required>
+                        <option selected disabled>請選擇</option>
+                    </select>
+                    <span asp-validation-for="Result" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class=form-group>
+                    <label asp-for="Memo" class="control-title"></label>
+                    <textarea asp-for="Memo" rows="5" class="form-control"></textarea>
+                    <span asp-validation-for="Memo" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.Hours)
+        @Html.HiddenFor(model => model.Cost)
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="IsCharged" class="control-title"></label>
+                @Html.RadioButtonFor(model => model.IsCharged, "Y")有
+                @Html.RadioButtonFor(model => model.IsCharged, "N")無
+            </div>
+        </div>
+        @*<div class="row">
+            <div class="form-inline">
+                <label asp-for="NotInExceptDevice" class="control-title"></label>
+                @Html.RadioButtonFor(model => model.NotInExceptDevice, "Y") 是
+                @Html.RadioButtonFor(model => model.NotInExceptDevice, "N") 否
+            </div>
+        </div>*@
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="IsInstrument" class="control-title"></label>
+                @Html.RadioButtonFor(model => model.IsInstrument, "Y") 是
+                @Html.RadioButtonFor(model => model.IsInstrument, "N") 否
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="EndDate" class="control-title"></label>
+                    <input asp-for="EndDate" class="form-control" />
+                    <span asp-validation-for="EndDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="CheckerName" class="control-title"></label>
+                @Html.DisplayFor(model => model.CheckerName)
+            </div>
+        </div>
+
+        <div class="row">
+            <div style="padding-left: 115px">
+                <input type="submit" value="儲存" class="btn btn-default" />
+                <img id="imgLOADING2" src="~/Images/opc-ajax-loader.gif" style="display: none" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

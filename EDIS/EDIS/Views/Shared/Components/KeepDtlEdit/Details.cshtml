@@ -1,0 +1,132 @@
+﻿@model EDIS.Models.KeepModels.KeepDtlModel
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Result)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResultTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Memo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Memo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InOut)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InOut)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsCharged)
+        </dt>
+
+        <dd>
+            @if (@Model.IsCharged == "N")
+            {
+                @Html.Raw("無")
+            }
+            else if (@Model.IsCharged == "Y")
+            {
+                @Html.Raw("有")
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hours)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hours)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cost)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cost)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.NotInExceptDevice)
+        </dt>
+
+        <dd>
+            @if (@Model.NotInExceptDevice == "Y")
+            {
+                @Html.Raw("是")
+            }
+            else if (@Model.NotInExceptDevice == "N")
+            {
+                @Html.Raw("否")
+            }
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsInstrument)
+        </dt>
+
+        <dd>
+            @if (@Model.IsInstrument == "Y")
+            {
+                @Html.Raw("是")
+            }
+            else if (@Model.IsInstrument == "N")
+            {
+                @Html.Raw("否")
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </dt>
+
+        <dd>
+            @if (@Model.EndDate != null)
+            {
+                @Model.EndDate.Value.ToString("yyyy/MM/dd");
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CheckerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CheckerName)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.CloseDate)
+        </dt>
+
+        <dd>
+            @if (@Model.CloseDate != null)
+            {
+                @Model.CloseDate.Value.ToString("yyyy/MM/dd");
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShutDate)
+        </dt>
+
+        <dd>
+            @if (@Model.ShutDate != null)
+            {
+                @Model.ShutDate.Value.ToString("yyyy/MM/dd");
+            }
+        </dd>*@
+
+    </dl>
+</div>

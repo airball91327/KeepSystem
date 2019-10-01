@@ -1,0 +1,114 @@
+﻿@model EDIS.Models.KeepModels.AssetKeepModel
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+}
+<link href="~/css/bootstrap-combobox.css" rel="stylesheet" />
+<script src="~/js/bootstrap-combobox.js"></script>
+
+<script>
+    $(function () {
+        $(".assetKeepCombobox").combobox();
+    });
+</script>
+
+<form asp-action="Edit" asp-controller="AssetKeep" asp-area="" data-ajax="true" data-ajax-method="POST"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'作業進行中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()"
+      data-ajax-success="showmsg">
+
+    <div class="form-horizontal">
+        <h4>設備保養資料</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="AssetNo" type="hidden" id="AssetNo2" />
+
+        <div class="form-group">
+            <label asp-for="ContractNo" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="ContractNo" class="form-control" />
+                <span asp-validation-for="ContractNo" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Cycle" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Cycle" class="form-control" />
+                <span asp-validation-for="Cycle" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="KeepYm" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="KeepYm" class="form-control" />
+                <span asp-validation-for="KeepYm" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="KeepYm2" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="KeepYm2" class="form-control" />
+                <span asp-validation-for="KeepYm2" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="KeepEngId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="KeepEngId" asp-items="@ViewData["KeepEngId"] as SelectList" class="form-control-s">
+                    <option disabled selected>請選擇</option>
+                </select>
+                <span asp-validation-for="KeepEngId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Cost" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Cost" class="form-control" />
+                <span asp-validation-for="Cost" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Hours" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <input asp-for="Hours" class="form-control" />
+                <span asp-validation-for="Hours" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="InOut" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="InOut" asp-items="@ViewData["InOut"] as SelectList" class="form-control-s">
+                    <option disabled selected>請選擇</option>
+                </select>
+                <span asp-validation-for="InOut" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="FormatId" class="control-label col-md-2"></label>
+            <div class="col-md-10">
+                <select asp-for="FormatId" asp-items="@ViewData["FormatId"] as SelectList" class="form-control-s assetKeepCombobox">
+                    <option disabled selected>請選擇</option>
+                </select>
+                <span asp-validation-for="FormatId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="儲存" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+
+</form>
