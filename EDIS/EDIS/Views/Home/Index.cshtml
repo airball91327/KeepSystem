@@ -6,6 +6,7 @@
 <h4>簽核列表</h4>
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#home">工務請修 <span class="badge" id="repairCount">@Model.RepairCount</span></a></li>
+    <li><a data-toggle="tab" href="#menu3">工務保養 <span class="badge" id="keepCount">@Model.KeepCount</span></a></li>
     <li><a data-toggle="tab" href="#menu1">醫工請修 <span class="badge" id="BMEDrepCount">@Model.BMEDrepCount</span></a></li>
     <li><a data-toggle="tab" href="#menu2">醫工保養 <span class="badge" id="BMEDkeepCount">@Model.BMEDkeepCount</span></a></li>
 
@@ -14,6 +15,11 @@
     <div id="home" class="tab-pane fade in active">
         <div>
             @await Component.InvokeAsync("RepIndex")
+        </div>
+    </div>
+    <div id="menu3" class="tab-pane fade">
+        <div>
+            @await Component.InvokeAsync("KeepIndex")
         </div>
     </div>
     <div id="menu1" class="tab-pane fade">
