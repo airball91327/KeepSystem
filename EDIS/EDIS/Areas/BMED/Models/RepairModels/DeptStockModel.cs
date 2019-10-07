@@ -13,7 +13,6 @@ namespace EDIS.Areas.BMED.Models.RepairModels
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "材料編號")]
         public int StockId { get; set; }
-        [Required]
         [Display(Name = "庫存類別")]
         public string StockCls { get; set; }
         [Required]
@@ -30,7 +29,7 @@ namespace EDIS.Areas.BMED.Models.RepairModels
         [Display(Name = "數量")]
         public int Qty { get; set; }
         [Display(Name = "安全存量")]
-        public int SafeQty { get; set; }
+        public int? SafeQty { get; set; }
         [Display(Name = "庫存地點")]
         public string Loc { get; set; }
         [Display(Name = "規格")]
@@ -46,7 +45,7 @@ namespace EDIS.Areas.BMED.Models.RepairModels
         [Display(Name = "異動人員帳號")]
         public string RtpName { get; set; }
         [Display(Name = "異動時間")]
-        public DateTime Rtt { get; set; }
+        public DateTime? Rtt { get; set; }
         [Display(Name = "機構")]
         public string CustOrgan_CustId { get; set; }
 

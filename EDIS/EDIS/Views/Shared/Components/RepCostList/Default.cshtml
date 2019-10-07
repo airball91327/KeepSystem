@@ -48,6 +48,8 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.VendorName)
+                    <br />
+                    @Html.DisplayFor(modelItem => item.VendorId)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TicketDtl.TicketDtlNo)
@@ -73,8 +75,8 @@
                     @Html.DisplayFor(modelItem => item.TotalCost)
                 </td>
                 <td>
-                    <a class="btn btn-primary">刪除</a>
-                    @*@Html.ActionLink("刪除", "Delete", new { docid = item.DocId, seqno = item.SeqNo })*@
+                    <a class="btn btn-primary delBtns">刪除</a>
+                    <a class="btn btn-primary" href="@Url.Action("Edit2", "RepairCost", new { Area = "", docid = item.DocId, seqno = item.SeqNo })">修改</a>
                 </td>
             </tr>
         }

@@ -1,6 +1,12 @@
-﻿function showmsg2() {
-    alert("儲存成功!");
-    window.location.reload();   //刷新RepairDtl與RepairDtl2的頁面資訊
+﻿function showmsg2(data) {
+    if (!data.success) {
+        alert(data.error);
+        $.Toast.hideToast();
+    }
+    else {
+        alert("儲存成功!");
+        window.location.reload();   //刷新RepairDtl與RepairDtl2的頁面資訊
+    }
 }
 
 $(document).ready(function () {

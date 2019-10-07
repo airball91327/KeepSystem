@@ -49,7 +49,7 @@ namespace EDIS.Components.RepairFlow
                 //{   /* 廢除選項在首頁 */
                 //    listItem.Add(new SelectListItem { Text = "廢除", Value = "廢除" });
                 //}
-                if (repairFlow.Cls == "驗收人")    //統一回申請人=驗收人結案
+                if (repairFlow.Cls == "驗收人" || repairFlow.Cls == "工務主管")    //統一回申請人=驗收人結案
                 {
                     listItem.Add(new SelectListItem { Text = "結案", Value = "結案" });
                 }

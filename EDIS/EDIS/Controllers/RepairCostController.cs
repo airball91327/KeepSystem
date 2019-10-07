@@ -132,8 +132,8 @@ namespace EDIS.Controllers
                             repairCost.TicketDtl.Ticket = t;
                             _context.Tickets.Add(t);
                         }
-                        _context.TicketDtls.Add(repairCost.TicketDtl);
-                    }
+                    _context.TicketDtls.Add(repairCost.TicketDtl);
+                }
                     else
                     {
                         repairCost.AccountDate = repairCost.AccountDate == null ? DateTime.Now.Date : repairCost.AccountDate;
@@ -175,6 +175,85 @@ namespace EDIS.Controllers
                 throw new Exception(msg);
             }
 
+        }
+
+        // GET: RepairCost/Edit2
+        public IActionResult Edit2(string docid, string seqno)
+        {
+            RepairCostModel repairCost = _context.RepairCosts.Include(rc => rc.TicketDtl)
+                                                             .SingleOrDefault(rc => rc.DocId == docid && rc.SeqNo == Convert.ToInt32(seqno));
+
+            if (repairCost.StockType == "0")
+                ViewData["StockType"] = "庫存";
+            else if (repairCost.StockType == "2")
+                ViewData["StockType"] = "發票(含收據)";
+            else if (repairCost.StockType == "4")
+                ViewData["StockType"] = "零用金";
+            else
+                ViewData["StockType"] = "簽單";
+
+            return View(repairCost);
+        }
+
+        [HttpPost]
+        public IActionResult Edit2(RepairCostModel repairCost)
+        {
+            var ur = _userRepo.Find(u => u.UserName == this.User.Identity.Name).FirstOrDefault();
+            if (ModelState.IsValid)
+            {
+                TicketModel t = _context.Tickets.Find(repairCost.TicketDtl.TicketDtlNo);
+                if (t == null)
+                {
+                    t = new TicketModel();
+                    t.TicketNo = repairCost.TicketDtl.TicketDtlNo;
+                    t.TicDate = repairCost.AccountDate;
+                    t.ApplyDate = null;
+                    t.CancelDate = null;
+                    t.VendorId = repairCost.VendorId;
+                    t.VendorName = repairCost.VendorName;
+                    repairCost.TicketDtl.Ticket = t;
+                    _context.Tickets.Add(t);
+                }
+
+                TicketDtlModel ticketDtl = _context.TicketDtls.Find(repairCost.TicketDtl.TicketDtlNo, repairCost.TicketDtl.SeqNo);
+                if (ticketDtl == null)
+                {
+                    int i = _context.TicketDtls.Where(d => d.TicketDtlNo == repairCost.TicketDtl.TicketDtlNo)
+                                                   .Select(d => d.SeqNo).DefaultIfEmpty().Max();
+                    repairCost.TicketDtl.SeqNo = i + 1;
+                    repairCost.TicketDtl.ObjName = repairCost.PartName;
+                    repairCost.TicketDtl.Qty = repairCost.Qty;
+                    repairCost.TicketDtl.Unite = repairCost.Unite;
+                    repairCost.TicketDtl.Price = repairCost.Price;
+                    repairCost.TicketDtl.Cost = repairCost.TotalCost;
+                    _context.TicketDtls.Add(repairCost.TicketDtl);
+                }
+                else
+                {
+                    ticketDtl.ObjName = repairCost.PartName;
+                    ticketDtl.Qty = repairCost.Qty;
+                    ticketDtl.Unite = repairCost.Unite;
+                    ticketDtl.Price = repairCost.Price;
+                    ticketDtl.Cost = repairCost.TotalCost;
+                    _context.Entry(ticketDtl).State = EntityState.Modified;
+                }
+
+                repairCost.Rtp = ur.Id;
+                repairCost.Rtt = DateTime.Now;
+                _context.Entry(repairCost).State = EntityState.Modified;
+                _context.SaveChanges();
+
+                return RedirectToAction("Edit", "Repair", new { Area = "", id = repairCost.DocId, page = 4 });
+            }
+            if (repairCost.StockType == "0")
+                ViewData["StockType"] = "庫存";
+            else if (repairCost.StockType == "2")
+                ViewData["StockType"] = "發票(含收據)";
+            else if (repairCost.StockType == "4")
+                ViewData["StockType"] = "零用金";
+            else
+                ViewData["StockType"] = "簽單";
+            return View(repairCost);
         }
 
         public IActionResult PrintStockDetails(string docId, int seqNo)

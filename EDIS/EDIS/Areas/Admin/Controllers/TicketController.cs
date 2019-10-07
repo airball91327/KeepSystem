@@ -95,15 +95,20 @@ namespace EDIS.Areas.Admin.Controllers
                 ts = ts.Where(t => t.VendorId != null)
                        .Where(t => t.VendorId == Convert.ToInt32(vendorno)).ToList();
             }
-            if (!string.IsNullOrEmpty(docid))   //Search Tickets related to DocId
+            if (!string.IsNullOrEmpty(docid))   //若依單號搜尋，搜尋該單的所有費用(包括簽單)
             {
-                /* 2 => 發票，4 => 零用金 */
-                repairCost = repairCost.Where(rc => rc.DocId == docid)
-                                       .Where(rc => rc.StockType == "2" || rc.StockType == "4")
-                                       .GroupBy(rc => rc.TicketDtl.TicketDtlNo).Select(group => group.First()).ToList();
-
-                ts = ts.Join(repairCost, t => t.TicketNo, r => r.TicketDtl.TicketDtlNo,
-                       (t, r) => t).ToList();
+                var rc = repairCost.Where(r => r.DocId == docid).OrderBy(r => r.SeqNo).ToList();
+                rc.ForEach(r => {
+                    if (r.StockType == "0")
+                        r.StockType = "庫存";
+                    else if (r.StockType == "2")
+                        r.StockType = "發票(含收據)";
+                    else if (r.StockType == "4")
+                        r.StockType = "零用金";
+                    else
+                        r.StockType = "簽單";
+                });
+                return PartialView("List2", rc);
             }
 
             /* Search date by Date. */

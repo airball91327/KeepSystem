@@ -80,6 +80,14 @@ namespace EDIS.Controllers
                 //{
                 //    throw new Exception("請輸入[處理描述]!!");
                 //}
+                if (repairDtl.EndDate != null)
+                {
+                    var repair = _context.Repairs.Find(repairDtl.DocId);
+                    if (DateTime.Compare(repairDtl.EndDate.Value, repair.ApplyDate) < 0)
+                    {
+                        throw new Exception("完工日期早於申請日期!");
+                    }
+                }
                 try
                 {
                     if (repairDtl.IsCharged == "N")

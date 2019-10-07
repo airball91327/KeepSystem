@@ -1,0 +1,227 @@
+﻿@model EDIS.Models.RepairModels.RepairCostModel
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+}
+
+<script>
+    $(function () {
+
+        /* Default setting for the view. */
+        $("#Price").attr('readonly', true);
+        $("#TotalCost").attr('readonly', true);
+        $('#PartName').attr("readonly", false);
+        $('#Price').attr("readonly", false);
+        $('#btnQtyStok').hide();
+        $("#pnlSIGN").hide();
+        $("#pnlACCDATE").show();
+        $("#CVendor").show();
+        $("#pnlTICKET").show();
+        $('label[for="AccountDate"]').text("發票日期");
+
+        var stockType = $('#StockType').val();
+        console.log(stockType);
+        /* According stock type to change labels and input textboxs. */
+        if (stockType === "2" || stockType === "4") {             // 點選"發票" 或 "零用金"
+            $('#btnQtyStok').hide();
+            $("#SignNo").val('');
+            $("#pnlSIGN").hide();
+            $("#pnlACCDATE").show();
+            $("#CVendor").show();
+            $("#pnlTICKET").show();
+            $('label[for="AccountDate"]').text("發票日期");
+            $('#TicketDtl_TicketDtlNo').attr("required", "required");
+            $('#AccountDate').attr("required", "required");
+        }
+        else {        // 點選"簽單"
+            $("#TicketDtl_TicketDtlNo").val('');
+            $("#pnlTICKET").hide();
+            $("#pnlACCDATE").show();
+            $("#pnlSIGN").show();
+            $('label[for="AccountDate"]').text("簽單日期");
+            $('input:radio[name="IsPetty"]').prop("disabled", true);
+        }
+
+        /* Auto calculate total price when input price or qty. */
+        $('#Price').change(function () {
+            var v1 = $(this).val();
+            var v2 = $('#Qty').val();
+            if (v1 !== null && v2 !== null) {
+                $('#TotalCost').val(v1 * v2);
+            }
+        });
+        $('#Qty').change(function () {
+            var v1 = $(this).val();
+            var v2 = $('#Price').val();
+            if (v1 !== null && v2 !== null) {
+                $('#TotalCost').val(v1 * v2);
+            }
+        });
+
+        /* Get ticket seq. */
+        $("#btnGETSEQ").click(function () {
+            $.ajax({
+                url: '../../Ticket/GetTicketSeq',
+                type: "POST",
+                async: true,
+                success: function (data) {
+                    //console.log(data); // For Debug
+                    $("#TicketDtl_TicketDtlNo").val("AA" + data);
+                }
+            });
+        });
+
+        $("#modalVENDOR").on("hidden.bs.modal", function () {
+            var vendorName = $("#Vno option:selected").text();
+            var vendorId = $("#Vno option:selected").val();
+
+            /* includes is not support in IE, so need to user indexOf. */
+            if ($("#Vno option:selected").text() == "請選擇" || $("#Vno option:selected").text() == "查無廠商" ||
+                $("#Vno option:selected").text().indexOf("請選擇廠商") != -1) {
+                $("#VendorName").val("");
+                $("#VendorId").val("");
+            }
+            else {
+                $("#VendorName").val(vendorName);
+                $("#VendorId").val(vendorId);
+            }
+        });
+
+    });
+</script>
+
+<h3>費用明細</h3>
+<h4>修改</h4>
+<hr />
+
+<form asp-controller="RepairCost" asp-action="Edit2" id="repCostEditForm">
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.DocId, new { id = "costDocId" })
+    @Html.HiddenFor(model => model.SeqNo, new { id = "costSeqNo" })
+    @Html.HiddenFor(model => model.StockType)
+    @Html.HiddenFor(model => model.TicketDtl.SeqNo)
+
+    <div class="container">
+        <div class="row">
+            <div class="form-inline">
+                <label asp-for="StockType" class="control-title"></label>
+                <span>@ViewData["StockType"]</span>
+            </div>
+        </div>
+        <div class="row">
+            @Html.HiddenFor(model => model.VendorId)
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="VendorName" class="control-title"></label>
+                    <input asp-for="VendorName" class="form-control" readonly placeholder="請於右方按鈕選擇廠商" />
+                    <input type="button" value="選擇" class="btn btn-default" data-toggle="modal" data-target="#modalVENDOR" />
+                    <span asp-validation-for="VendorName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            @Html.HiddenFor(model => model.PartNo)
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="PartName" class="control-title"></label>
+                    <input asp-for="PartName" class="form-control" />
+                    <span style="color: #ff9c00;">*</span>
+                    <span asp-validation-for="PartName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="Standard" class="control-title"></label>
+                    <input asp-for="Standard" class="form-control" />
+                    <span asp-validation-for="Standard" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="Unite" class="control-title"></label>
+                    <input asp-for="Unite" class="form-control-s" />
+                    <span style="color: #ff9c00;">*</span>
+                    <span asp-validation-for="Unite" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Price" class="control-title"></label>
+                    <input asp-for="Price" class="form-control-s" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="Qty" class="control-title"></label>
+                    <input asp-for="Qty" class="form-control-s" />
+                    <span>&nbsp;</span>
+                    <span asp-validation-for="Qty" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TotalCost" class="control-title"></label>
+                    <input asp-for="TotalCost" class="form-control-s" />
+                    <span asp-validation-for="TotalCost" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div id="pnlTICKET" class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="TicketDtl.TicketDtlNo" class="control-title"></label>
+                    <input asp-for="TicketDtl.TicketDtlNo" class="form-control" style="text-transform:uppercase;" />
+                    <input id="btnGETSEQ" type="button" value="取收據號(免用統一發票)" class="btn btn-default" />
+                    <span asp-validation-for="TicketDtl.TicketDtlNo" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div id="pnlSIGN" class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="SignNo" class="control-title"></label>
+                    <input asp-for="SignNo" class="form-control" style="text-transform:uppercase;" />
+                    <span asp-validation-for="SignNo" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div id="pnlACCDATE" class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AccountDate" class="control-title"></label>
+                    <input asp-for="AccountDate" class="form-control" />
+                    <span asp-validation-for="AccountDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div style="padding-left: 115px">
+                <input type="submit" value="儲存" class="btn btn-default" />
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<a class="btn btn-primary" href="@Url.Action("Edit","Repair" ,new { Area = "", id = Model.DocId, page = 4 })">回費用明細</a>
+
+<!-- 廠商 Modal -->
+<div id="modalVENDOR" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #1D3C4C">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="color:#fff">&times;</button>
+                <h4 class="modal-title">選擇廠商</h4>
+            </div>
+            <div id="pnlSELECTVENDOR" class="modal-body">
+                @await Component.InvokeAsync("QryVendor")
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">儲存</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -737,34 +737,37 @@ namespace EDIS.Controllers
                     repair.FloorName = _context.Floors.Where(f => f.BuildingId == Convert.ToInt32(repair.Building) && f.FloorId == repair.Floor).FirstOrDefault().FloorName;
                     repair.AreaName = _context.Places.Where(p => p.BuildingId == Convert.ToInt32(repair.Building) && p.FloorId == repair.Floor && p.PlaceId == repair.Area).FirstOrDefault().PlaceName;
                     //Send Mail 
-                    //To user and the next flow user.
-                    Tmail mail = new Tmail();
-                    string body = "";
-                    var mailToUser = _userRepo.Find(u => u.UserName == this.User.Identity.Name).FirstOrDefault();
-                    mail.from = new System.Net.Mail.MailAddress(mailToUser.Email); //u.Email
-                    mailToUser = _context.AppUsers.Find(flow.UserId);
-                    mail.to = new System.Net.Mail.MailAddress(mailToUser.Email); //u.Email
-                    //mail.cc = new System.Net.Mail.MailAddress("344027@cch.org.tw");
-                    mail.message.Subject = "工務智能請修系統[請修案]：設備名稱： " + repair.AssetName;
-                    body += "<p>表單編號：" + repair.DocId + "</p>";
-                    body += "<p>申請日期：" + repair.ApplyDate.ToString("yyyy/MM/dd") + "</p>";
-                    body += "<p>申請人：" + repair.UserName + "</p>";
-                    body += "<p>財產編號：" + repair.AssetNo + "</p>";
-                    body += "<p>設備名稱：" + repair.AssetName + "</p>";
-                    body += "<p>故障描述：" + repair.TroubleDes + "</p>";
-                    body += "<p>請修地點：" + repair.PlaceLoc + " " + repair.BuildingName + " " + repair.FloorName + " " + repair.AreaName + "</p>";
-                    //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
-                    body += "<p><a href='http://dms.cch.org.tw/EDIS/Account/Login" + "?docId=" + repair.DocId + "&dealType=Edit'" + ">處理案件</a></p>";
-                    body += "<br/>";
-                    body += "<p>使用ＩＥ瀏覽器注意事項：</p>";
-                    body += "<p>「工具」→「相容性檢視設定」→移除cch.org.tw</p>";
-                    body += "<br/>";
-                    body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                    body += "<br/>";
-                    body += "<h3 style='color:red'>如有任何疑問請聯絡工務部，分機3033或7033。<h3>";
-                    mail.message.Body = body;
-                    mail.message.IsBodyHtml = true;
-                    mail.SendMail();
+                    //To the next flow user, exclude engineers.
+                    if (flow.Cls.Contains("工程師") == false)
+                    {
+                        Tmail mail = new Tmail();
+                        string body = "";
+                        var mailToUser = _userRepo.Find(u => u.UserName == this.User.Identity.Name).FirstOrDefault();
+                        mail.from = new System.Net.Mail.MailAddress(mailToUser.Email); //u.Email
+                        mailToUser = _context.AppUsers.Find(flow.UserId);
+                        mail.to = new System.Net.Mail.MailAddress(mailToUser.Email); //u.Email
+                                                                                     //mail.cc = new System.Net.Mail.MailAddress("344027@cch.org.tw");
+                        mail.message.Subject = "工務智能請修系統[請修案]：設備名稱： " + repair.AssetName;
+                        body += "<p>表單編號：" + repair.DocId + "</p>";
+                        body += "<p>申請日期：" + repair.ApplyDate.ToString("yyyy/MM/dd") + "</p>";
+                        body += "<p>申請人：" + repair.UserName + "</p>";
+                        body += "<p>財產編號：" + repair.AssetNo + "</p>";
+                        body += "<p>設備名稱：" + repair.AssetName + "</p>";
+                        body += "<p>故障描述：" + repair.TroubleDes + "</p>";
+                        body += "<p>請修地點：" + repair.PlaceLoc + " " + repair.BuildingName + " " + repair.FloorName + " " + repair.AreaName + "</p>";
+                        //body += "<p>放置地點：" + repair.PlaceLoc + "</p>";
+                        body += "<p><a href='http://dms.cch.org.tw/EDIS/Account/Login" + "?docId=" + repair.DocId + "&dealType=Edit'" + ">處理案件</a></p>";
+                        body += "<br/>";
+                        body += "<p>使用ＩＥ瀏覽器注意事項：</p>";
+                        body += "<p>「工具」→「相容性檢視設定」→移除cch.org.tw</p>";
+                        body += "<br/>";
+                        body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
+                        body += "<br/>";
+                        body += "<h3 style='color:red'>如有任何疑問請聯絡工務部，分機3033或7033。<h3>";
+                        mail.message.Body = body;
+                        mail.message.IsBodyHtml = true;
+                        mail.SendMail();
+                    }
 
                     return Ok(repair);
                 }
@@ -1144,8 +1147,9 @@ namespace EDIS.Controllers
                     vm.EngName = "";
                 }
                 var engMgr = _context.RepairFlows.Where(r => r.DocId == DocId)
-                                                 .Where(r => r.Cls.Contains("工務主管") || r.Cls.Contains("營建主管")).ToList();
-                if(engMgr.Count() != 0)
+                                                 .Where(r => r.Cls.Contains("工務主管") || r.Cls.Contains("營建主管"))
+                                                 .Where(r => r.Opinions.Contains("[同意]")).ToList();
+                if (engMgr.Count() != 0)
                 {
                     engMgr = engMgr.GroupBy(e => e.UserId).Select(group => group.FirstOrDefault()).ToList();
                     foreach (var item in engMgr)
@@ -1155,11 +1159,22 @@ namespace EDIS.Controllers
                 }
 
                 var engDirector = _context.RepairFlows.Where(r => r.DocId == DocId)
-                                                      .Where(r => r.Cls.Contains("工務主任") || r.Cls.Contains("營建主任")).LastOrDefault();
-                vm.EngDirector = engDirector == null ? "" : _context.AppUsers.Find(engDirector.UserId).FullName;
+                                                      .Where(r => r.Cls.Contains("工務主任") || r.Cls.Contains("營建主任"))
+                                                      .Where(r => r.Opinions.Contains("[同意]")).LastOrDefault();
+                string firstString = "";
+                if (engDirector != null)
+                {
+                    if (engDirector.Opinions != null)
+                    {
+                        var firstBracketIndex = engDirector.Opinions.IndexOf("]");
+                        firstString = engDirector.Opinions.Substring(0, firstBracketIndex);
+                    }
+                }
+                vm.EngDirector = engDirector == null ? "" : firstString + "]" + _context.AppUsers.Find(engDirector.UserId).FullName;
 
                 var delivMgr = _context.RepairFlows.Where(r => r.DocId == DocId)
-                                                   .Where(r => r.Cls.Contains("單位主管")).ToList();
+                                                   .Where(r => r.Cls.Contains("單位主管"))
+                                                   .Where(r => r.Opinions.Contains("[同意]")).ToList();
                 if (delivMgr.Count() != 0)
                 {
                     delivMgr = delivMgr.GroupBy(e => e.UserId).Select(group => group.FirstOrDefault()).ToList();
@@ -1170,11 +1185,13 @@ namespace EDIS.Controllers
                 }
 
                 var delivDirector = _context.RepairFlows.Where(r => r.DocId == DocId)
-                                                        .Where(r => r.Cls.Contains("單位主任")).LastOrDefault();
+                                                        .Where(r => r.Cls.Contains("單位主任"))
+                                                        .Where(r => r.Opinions.Contains("[同意]")).LastOrDefault();
                 vm.DelivDirector = delivDirector == null ? "" : _context.AppUsers.Find(delivDirector.UserId).FullName;
 
                 var ViceSI = _context.RepairFlows.Where(r => r.DocId == DocId)
-                                                 .Where(r => r.Cls.Contains("副院長")).LastOrDefault();
+                                                 .Where(r => r.Cls.Contains("副院長"))
+                                                 .Where(r => r.Opinions.Contains("[同意]")).LastOrDefault();
                 vm.ViceSuperintendent = ViceSI == null ? "" : _context.AppUsers.Find(ViceSI.UserId).FullName;
 
                 if (flow != null)

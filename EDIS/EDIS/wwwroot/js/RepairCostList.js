@@ -1,7 +1,7 @@
 ﻿
 $(function () {
 
-    $("#pnlREPCOSTLIST a").click(function () {
+    $("#pnlREPCOSTLIST a.delBtns").click(function () {
 
         if (confirm("確定要刪除此資料?")) {
             var id = $("#DocId").val();
