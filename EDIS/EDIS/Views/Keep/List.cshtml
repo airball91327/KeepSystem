@@ -5,6 +5,10 @@
 
 @inject CustomUserManager UserManager
 
+@{ 
+    Layout = null;
+}
+
 <script>
     function closeKeepDoc(docId) {
         var r = confirm("是否直接結案?");
@@ -23,7 +27,7 @@
                 async: false,
                 success: function (data) {
                     alert("此案件已結案!");
-                    BMEDKeepReSubmit();
+                    KeepReSubmit();
                 },
                 onFailed: function (data) {
                     alert(data.responseText);
