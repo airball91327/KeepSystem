@@ -141,7 +141,7 @@ namespace EDIS.Controllers.WebApi
                     repair.Area = "8410";
 
                     // 用XML傳入的工程師名稱尋找負責工程師ID
-                    var engs = roleManager.GetUsersInRole("Engineer").ToList();
+                    var engs = roleManager.GetUsersInRole("RepEngineer").ToList();
                     int engId = _context.AppUsers.Where(a => a.UserName == "181316").FirstOrDefault().Id;
                     foreach(string l in engs)
                     {
