@@ -31,7 +31,7 @@ namespace EDIS.Controllers.WebApi
         private readonly IRepository<DepartmentModel, string> _dptRepo;
         private readonly IRepository<DocIdStore, string[]> _dsRepo;
         private readonly IRepository<BuildingModel, int> _buildRepo;
-        private readonly IEmailSender _emailSender;
+        private readonly CustomRoleManager roleManager;
 
         public RepCreateController(ApplicationDbContext context,
                                    IRepository<RepairModel, string> repairRepo,
@@ -40,7 +40,7 @@ namespace EDIS.Controllers.WebApi
                                    IRepository<DepartmentModel, string> dptRepo,
                                    IRepository<DocIdStore, string[]> dsRepo,
                                    IRepository<BuildingModel, int> buildRepo,
-                                   IEmailSender emailSender)
+                                   CustomRoleManager customRoleManager)
         {
             _context = context;
             _repRepo = repairRepo;
@@ -49,7 +49,7 @@ namespace EDIS.Controllers.WebApi
             _dptRepo = dptRepo;
             _dsRepo = dsRepo;
             _buildRepo = buildRepo;
-            _emailSender = emailSender;
+            roleManager = customRoleManager;
         }
 
         public class Root
@@ -81,6 +81,8 @@ namespace EDIS.Controllers.WebApi
             public string Area { get; set; }    //區域
             [Required]
             public string Des { get; set; }     //處理描述
+            [Required]
+            public string Manager { get; set; } //維修人員
         }
 
         //// GET: WebApi/RepCreate
@@ -106,12 +108,9 @@ namespace EDIS.Controllers.WebApi
         public IActionResult Post([FromBody] Root root)
         {
             var userName = root.UsrID;
-            var buildingId = root.Building;
-            var floorId = root.Floor;
-            var areaId = root.Area;
             AppUserModel ur = _context.AppUsers.Where(u => u.UserName == userName).FirstOrDefault();
 
-            if (ur != null)   //Check UserName
+            if (ur != null)   //Check is UserName exist
             {
                 //密碼不在此比對
                 string userMD5HashPW = GetMd5Hash(ur.Password); //Get hashed result to compare.
@@ -119,27 +118,42 @@ namespace EDIS.Controllers.WebApi
                 if (root.Passwd == userMD5HashPW)   //CheckPassWord
                 {
                     RepairModel repair = new RepairModel();
-                    var dpt = _dptRepo.FindById(ur.DptId);
+                    var dpt = _dptRepo.Find(d => d.DptId == "8410").FirstOrDefault();
+                    var accdpt = _dptRepo.Find(d => d.DptId == "9390").FirstOrDefault();
+                    var troDes = root.Building + root.Floor + root.Point + root.Area + "，" + root.Name + root.Des;
                     repair.DocId = GetID2();
                     repair.UserId = ur.Id;
                     repair.UserName = ur.FullName;
                     repair.UserAccount = ur.UserName;
-                    repair.DptId = ur.DptId;
+                    repair.DptId = dpt.DptId;
                     repair.DptName = dpt.Name_C;
-                    repair.AccDpt = ur.DptId;
-                    repair.AccDptName = dpt.Name_C;
+                    repair.AccDpt = accdpt.DptId;
+                    repair.AccDptName = accdpt.Name_C;
                     repair.ApplyDate = DateTime.Now;
                     repair.LocType = "本單位";
                     repair.RepType = "請修";
                     repair.Ext = ur.Ext == null ? "" : ur.Ext;
-                    repair.TroubleDes = "【事件處理編號:" + root.SerNo + "】" + "\n" + root.Des;
+                    repair.TroubleDes = "【事件處理編號:" + root.SerNo + "】" + "\n" + troDes;
                     repair.AssetNo = root.Point;
                     repair.AssetName = root.Name;
-                    repair.Building = buildingId;
-                    repair.Floor = floorId;
-                    repair.Area = areaId;
+                    repair.Building = "6";
+                    repair.Floor = "612";
+                    repair.Area = "8410";
 
-                    var engId = GetAreaEngId(Convert.ToInt32(buildingId), floorId, areaId);
+                    // 用XML傳入的工程師名稱尋找負責工程師ID
+                    var engs = roleManager.GetUsersInRole("Engineer").ToList();
+                    int engId = _context.AppUsers.Where(a => a.UserName == "181316").FirstOrDefault().Id;
+                    foreach(string l in engs)
+                    {
+                        var u = _context.AppUsers.Where(a => a.UserName == l).FirstOrDefault();
+                        if (u != null)
+                        {
+                            if (u.FullName == root.Manager)
+                            {
+                                engId = u.Id;
+                            }
+                        }
+                    }
                     repair.EngId = engId;
                     repair.CheckerId = ur.Id;
 
@@ -189,45 +203,7 @@ namespace EDIS.Controllers.WebApi
                         flow.Status = "?";  // 狀態"未處理"
                         flow.Rtt = DateTime.Now;
                         flow.Cls = "工務/營建工程師";
-                        // If repair type is "增設", send next flow to department manager.
-                        if (repair.RepType == "增設")
-                        {
-                            flow.UserId = Convert.ToInt32(repair.DptMgrId);
-                            flow.Cls = "單位主管";
-                        }
                         _repflowRepo.Create(flow);
-
-                        repair.BuildingName = _context.Buildings.Where(b => b.BuildingId == Convert.ToInt32(repair.Building)).FirstOrDefault().BuildingName;
-                        repair.FloorName = _context.Floors.Where(f => f.BuildingId == Convert.ToInt32(repair.Building) && f.FloorId == repair.Floor).FirstOrDefault().FloorName;
-                        repair.AreaName = _context.Places.Where(p => p.BuildingId == Convert.ToInt32(repair.Building) && p.FloorId == repair.Floor && p.PlaceId == repair.Area).FirstOrDefault().PlaceName;
-                        //Send Mail 
-                        //To user and the next flow user.
-                        Tmail mail = new Tmail();
-                        string body = "";
-                        var mailToUser = ur;
-                        mail.from = new System.Net.Mail.MailAddress(mailToUser.Email); //u.Email
-                        mailToUser = _context.AppUsers.Find(flow.UserId);
-                        mail.to = new System.Net.Mail.MailAddress(mailToUser.Email); //u.Email
-                                                                                     //mail.cc = new System.Net.Mail.MailAddress("344027@cch.org.tw");
-                        mail.message.Subject = "工務智能請修系統[請修案]：設備名稱： " + repair.AssetName;
-                        body += "<p>表單編號：" + repair.DocId + "</p>";
-                        body += "<p>申請日期：" + repair.ApplyDate.ToString("yyyy/MM/dd") + "</p>";
-                        body += "<p>申請人：" + repair.UserName + "</p>";
-                        body += "<p>財產編號：" + repair.AssetNo + "</p>";
-                        body += "<p>設備名稱：" + repair.AssetName + "</p>";
-                        body += "<p>故障描述：" + repair.TroubleDes + "</p>";
-                        body += "<p>請修地點：" + repair.PlaceLoc + " " + repair.BuildingName + " " + repair.FloorName + " " + repair.AreaName + "</p>";
-                        body += "<p><a href='http://dms.cch.org.tw/EDIS/Account/Login" + "?docId=" + repair.DocId + "&dealType=Edit'" + ">處理案件</a></p>";
-                        body += "<br/>";
-                        body += "<p>使用ＩＥ瀏覽器注意事項：</p>";
-                        body += "<p>「工具」→「相容性檢視設定」→移除cch.org.tw</p>";
-                        body += "<br/>";
-                        body += "<h3>此封信件為系統通知郵件，請勿回覆。</h3>";
-                        body += "<br/>";
-                        body += "<h3 style='color:red'>如有任何疑問請聯絡工務部，分機3033或7033。<h3>";
-                        mail.message.Body = body;
-                        mail.message.IsBodyHtml = true;
-                        //mail.SendMail();
 
                         Root successXML = new Root { Code = "0", Msg = "Success", SerNo = root.SerNo, Mno = repair.DocId };
                         return Ok(successXML);
