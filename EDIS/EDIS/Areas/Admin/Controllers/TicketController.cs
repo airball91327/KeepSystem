@@ -225,6 +225,19 @@ namespace EDIS.Areas.Admin.Controllers
                 _context.Entry(ticketModel).State = EntityState.Modified;
                 _context.SaveChanges();
 
+                // 更新所有與此發票相關的費用明細日期
+                if (ticketModel.TicDate != null)
+                {
+                    var relatedRepairCosts = _context.RepairCosts.Include(rc => rc.TicketDtl)
+                                             .Where(rc => rc.TicketDtl.TicketDtlNo == ticketModel.TicketNo);
+                    foreach (var item in relatedRepairCosts)
+                    {
+                        item.AccountDate = ticketModel.TicDate;
+                        _context.Entry(item).State = EntityState.Modified;
+                    }
+                    _context.SaveChanges();
+                }
+
                 return new JsonResult(ticketModel)
                 {
                     Value = new { success = true, error = "" }
