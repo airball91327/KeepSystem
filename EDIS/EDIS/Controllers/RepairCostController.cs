@@ -199,49 +199,67 @@ namespace EDIS.Controllers
         public IActionResult Edit2(RepairCostModel repairCost)
         {
             var ur = _userRepo.Find(u => u.UserName == this.User.Identity.Name).FirstOrDefault();
+            if (repairCost.StockType == "3")
+            {
+                ModelState.Remove("TicketDtl.SeqNo");
+            }
             if (ModelState.IsValid)
             {
-                TicketModel t = _context.Tickets.Find(repairCost.TicketDtl.TicketDtlNo);
-                if (t == null)
+                if (repairCost.StockType != "3")
                 {
-                    t = new TicketModel();
-                    t.TicketNo = repairCost.TicketDtl.TicketDtlNo;
-                    t.TicDate = repairCost.AccountDate;
-                    t.ApplyDate = null;
-                    t.CancelDate = null;
-                    t.VendorId = repairCost.VendorId;
-                    t.VendorName = repairCost.VendorName;
-                    repairCost.TicketDtl.Ticket = t;
-                    _context.Tickets.Add(t);
-                }
+                    TicketModel t = _context.Tickets.Find(repairCost.TicketDtl.TicketDtlNo);
+                    if (t == null)
+                    {
+                        t = new TicketModel();
+                        t.TicketNo = repairCost.TicketDtl.TicketDtlNo;
+                        t.TicDate = repairCost.AccountDate;
+                        t.ApplyDate = null;
+                        t.CancelDate = null;
+                        t.VendorId = repairCost.VendorId;
+                        t.VendorName = repairCost.VendorName;
+                        repairCost.TicketDtl.Ticket = t;
+                        _context.Tickets.Add(t);
+                    }
 
-                TicketDtlModel ticketDtl = _context.TicketDtls.Find(repairCost.TicketDtl.TicketDtlNo, repairCost.TicketDtl.SeqNo);
-                if (ticketDtl == null)
-                {
-                    int i = _context.TicketDtls.Where(d => d.TicketDtlNo == repairCost.TicketDtl.TicketDtlNo)
-                                                   .Select(d => d.SeqNo).DefaultIfEmpty().Max();
-                    repairCost.TicketDtl.SeqNo = i + 1;
-                    repairCost.TicketDtl.ObjName = repairCost.PartName;
-                    repairCost.TicketDtl.Qty = repairCost.Qty;
-                    repairCost.TicketDtl.Unite = repairCost.Unite;
-                    repairCost.TicketDtl.Price = repairCost.Price;
-                    repairCost.TicketDtl.Cost = repairCost.TotalCost;
-                    _context.TicketDtls.Add(repairCost.TicketDtl);
-                }
-                else
-                {
-                    ticketDtl.ObjName = repairCost.PartName;
-                    ticketDtl.Qty = repairCost.Qty;
-                    ticketDtl.Unite = repairCost.Unite;
-                    ticketDtl.Price = repairCost.Price;
-                    ticketDtl.Cost = repairCost.TotalCost;
-                    _context.Entry(ticketDtl).State = EntityState.Modified;
+                    TicketDtlModel ticketDtl = _context.TicketDtls.Find(repairCost.TicketDtl.TicketDtlNo, repairCost.TicketDtl.SeqNo);
+                    if (ticketDtl == null)
+                    {
+                        int i = _context.TicketDtls.Where(d => d.TicketDtlNo == repairCost.TicketDtl.TicketDtlNo)
+                                                       .Select(d => d.SeqNo).DefaultIfEmpty().Max();
+                        repairCost.TicketDtl.SeqNo = i + 1;
+                        repairCost.TicketDtl.ObjName = repairCost.PartName;
+                        repairCost.TicketDtl.Qty = repairCost.Qty;
+                        repairCost.TicketDtl.Unite = repairCost.Unite;
+                        repairCost.TicketDtl.Price = repairCost.Price;
+                        repairCost.TicketDtl.Cost = repairCost.TotalCost;
+                        _context.TicketDtls.Add(repairCost.TicketDtl);
+                    }
+                    else
+                    {
+                        ticketDtl.ObjName = repairCost.PartName;
+                        ticketDtl.Qty = repairCost.Qty;
+                        ticketDtl.Unite = repairCost.Unite;
+                        ticketDtl.Price = repairCost.Price;
+                        ticketDtl.Cost = repairCost.TotalCost;
+                        _context.Entry(ticketDtl).State = EntityState.Modified;
+                    }
                 }
 
                 repairCost.Rtp = ur.Id;
                 repairCost.Rtt = DateTime.Now;
                 _context.Entry(repairCost).State = EntityState.Modified;
                 _context.SaveChanges();
+
+                RepairDtlModel dtl = _context.RepairDtls.Where(d => d.DocId == repairCost.DocId)
+                                                            .FirstOrDefault();
+                if (dtl != null)
+                {
+                    dtl.Cost = _context.RepairCosts.Where(k => k.DocId == repairCost.DocId)
+                                                   .Select(k => k.TotalCost)
+                                                   .DefaultIfEmpty(0).Sum();
+                    _context.Entry(dtl).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
 
                 return RedirectToAction("Edit", "Repair", new { Area = "", id = repairCost.DocId, page = 4 });
             }
