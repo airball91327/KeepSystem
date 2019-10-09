@@ -47,6 +47,8 @@ namespace EDIS.Models.KeepModels
         [Display(Name = "保養週期")]
         public int Cycle { get; set; }
         [Required(ErrorMessage = "必填寫欄位")]
+        [Display(Name = "設備編號")]
+        public string DeviceNo { get; set; }
         [Display(Name = "財產編號")]
         public string AssetNo { get; set; }
         [Required(ErrorMessage = "必填寫欄位")]

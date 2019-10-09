@@ -101,7 +101,7 @@ namespace EDIS.Data
             builder.Entity<KeepFormatModel>().HasKey(c => new { c.FormatId });
             builder.Entity<KeepFormatDtlModel>().HasKey(c => new { c.FormatId, c.Sno });
             builder.Entity<KeepResultModel>().HasKey(c => new { c.Id });
-            builder.Entity<AssetKeepModel>().HasKey(c => new { c.AssetNo });
+            builder.Entity<AssetKeepModel>().HasKey(c => new { c.DeviceNo });
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);

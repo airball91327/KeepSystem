@@ -135,10 +135,10 @@ namespace EDIS.Controllers
                     _context.Entry(a).State = EntityState.Modified;
                     _context.SaveChanges();
                     //
-                    AssetKeepModel kp = _context.AssetKeeps.Find(keep.AssetNo);
-                    AssetModel at = _context.Assets.Find(keep.AssetNo);
+                    AssetKeepModel kp = _context.AssetKeeps.Find(keep.DeviceNo);
+                    AssetModel at = _context.Assets.Find(keep.DeviceNo);
                     //
-                    keep.AssetName = _context.Assets.Find(keep.AssetNo).Cname;
+                    keep.AssetName = _context.Assets.Find(keep.DeviceNo).Cname;
                     keep.EngId = kp.KeepEngId;
                     //keep.AccDpt = at.AccDpt;
                     keep.SentDate = DateTime.Now;
@@ -232,7 +232,7 @@ namespace EDIS.Controllers
                     body += "<h3 style='color:red'>如有任何疑問請聯絡工務部，分機3033或7033。<h3>";
                     mail.message.Body = body;
                     mail.message.IsBodyHtml = true;
-                    mail.SendMail();
+                    //mail.SendMail();
 
                     return Ok(keep);
                 }
@@ -751,7 +751,7 @@ namespace EDIS.Controllers
                        list.Add(new SelectListItem
                        {
                            Text = asset.Cname + "(" + asset.AssetNo + ")",
-                           Value = asset.AssetNo.ToString()
+                           Value = asset.DeviceNo.ToString()
                        });
                 });
             }

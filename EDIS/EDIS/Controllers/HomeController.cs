@@ -44,8 +44,8 @@ namespace EDIS.Controllers
 
             var repairCount = _context.RepairFlows.Where(f => f.Status == "?")
                                                   .Where(f => f.UserId == ur.Id).Count();
-            var keepCount = _context.RepairFlows.Where(f => f.Status == "?")
-                                                .Where(f => f.UserId == ur.Id).Count();
+            var keepCount = _context.KeepFlows.Where(f => f.Status == "?")
+                                              .Where(f => f.UserId == ur.Id).Count();
             var BMEDrepairCount = _BMEDcontext.BMEDRepairFlows.Where(f => f.Status == "?")
                                                               .Where(f => f.UserId == ur.Id).Count();
             var BMEDkeepCount = _BMEDcontext.BMEDKeepFlows.Where(f => f.Status == "?")
