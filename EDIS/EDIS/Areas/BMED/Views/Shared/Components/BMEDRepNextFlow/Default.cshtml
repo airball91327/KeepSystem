@@ -3,7 +3,7 @@
 @using EDIS.Models.Identity
 @inject CustomUserManager UserManager
 
-<script src="~/js/BMED/RepNextFlow.js"></script>
+<script src="~/js/BMED/RepNextFlow.js" asp-append-version="true"></script>
 
 <form asp-controller="RepairFlow" asp-action="NextFlow" asp-area="BMED" data-ajax="true" data-ajax-method="POST" id="nextFlowForm"
       data-ajax-begin="$.Toast.showToast({

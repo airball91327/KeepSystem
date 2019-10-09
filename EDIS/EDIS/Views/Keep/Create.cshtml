@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_PassedLayout.cshtml";
     ViewData["Title"] = "Create";
 }
-<script src="~/js/KeepCreate.js"></script>
+<script src="~/js/KeepCreate.js" asp-append-version="true"></script>
 
 <h2>新增</h2>
 
@@ -181,7 +181,7 @@
                         <h4 class="modal-title">選擇上傳檔案</h4>
                     </div>
                     <div class="modal-body">
-                        @await Component.InvokeAsync("AttainFileUpload", new { doctype = "2", docid = Model.DocId, viewType = "AjaxView" })
+                        @await Component.InvokeAsync("AttainFileUpload3", new { doctype = "2", docid = Model.DocId })
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>

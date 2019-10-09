@@ -298,6 +298,7 @@
     <Folder Include="Views\RepairDtl\Components\" />
     <Folder Include="wwwroot\Files\BMED\Keep\" />
     <Folder Include="wwwroot\Files\BMED\Repair\" />
+    <Folder Include="wwwroot\Files\Keep\" />
     <Folder Include="wwwroot\Files\Repair\" />
   </ItemGroup>
   <ItemGroup>
