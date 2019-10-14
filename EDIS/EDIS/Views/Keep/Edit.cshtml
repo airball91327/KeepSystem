@@ -30,7 +30,7 @@
 <h4>保養</h4>
 <hr />
 <div id="pnlFILES" style="margin: 10pt">
-    @await Component.InvokeAsync("AttainFileList", new { id = Model.DocId, typ = "2", viewType = "Edit" })
+    @await Component.InvokeAsync("AttainFileList2", new { id = Model.DocId, typ = "2" })
 </div>
 <div class="form-group">
     <div>
@@ -46,7 +46,7 @@
                 <h4 class="modal-title">選擇上傳檔案</h4>
             </div>
             <div class="modal-body">
-                @await Component.InvokeAsync("AttainFileUpload", new { doctype = "2", docid = Model.DocId, viewType = "" })
+                @await Component.InvokeAsync("AttainFileUpload2", new { doctype = "2", docid = Model.DocId })
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">離開</button>
@@ -68,15 +68,7 @@
 <div class="tab-content">
     <div id="keepdtl2" class="tab-pane fade in active">
         <div>
-            @if (UserManager.IsInRole(User, "RepEngineer") == true || UserManager.IsInRole(User, "RepAdmin") == true ||
-                UserManager.IsInRole(User, "Admin") == true)
-            {
-                @await Component.InvokeAsync("KeepEdit", new { id = Model.DocId })
-            }
-            else
-            {
-                @await Component.InvokeAsync("KeepDetail", new { id = Model.DocId })
-            }
+            @await Component.InvokeAsync("KeepDetail", new { id = Model.DocId })
         </div>
     </div>
     <div id="keepdtl" class="tab-pane fade">

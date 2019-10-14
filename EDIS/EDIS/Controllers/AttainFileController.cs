@@ -150,6 +150,10 @@ namespace EDIS.Controllers
             }
 
             TempData["SendMsg"] = "上傳成功";
+            if (attainFile.DocType == "2")
+            {
+                return RedirectToAction("Edit", "Keep", new { area = "", id = attainFile.DocId });
+            }
             return RedirectToAction("Edit", "Repair", new { area = "", id = attainFile.DocId });
 
             //return new JsonResult(attainFile)

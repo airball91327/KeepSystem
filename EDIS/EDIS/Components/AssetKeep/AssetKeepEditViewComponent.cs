@@ -64,7 +64,7 @@ namespace EDIS.Components.AssetKeep
                         listItem.Add(new SelectListItem { Text = u.FullName, Value = u.Id.ToString() });
                     }
                 }
-                ViewData["KeepEngId"] = new SelectList(listItem, "Value", "Text", "");
+                ViewData["KeepEngId"] = new SelectList(listItem, "Value", "Text");
 
                 List<SelectListItem> listItem2 = new List<SelectListItem>();
                 listItem2.Add(new SelectListItem { Text = "自行", Value = "自行" });
@@ -89,7 +89,7 @@ namespace EDIS.Components.AssetKeep
                 if (assetKeep == null)
                 {
                     assetKeep = new AssetKeepModel();
-                    assetKeep.AssetNo = id;
+                    assetKeep.DeviceNo = id;
                 }
                 return View(assetKeep);
             }

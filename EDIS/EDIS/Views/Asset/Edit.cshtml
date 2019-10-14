@@ -5,7 +5,7 @@
     ViewBag.Title = "修改/資產設備";
 }
 
-<script src="~/js/AssetEdit.js"></script>
+<script src="~/js/AssetEdit.js" asp-append-version="true"></script>
 
 <h2>修改</h2>
 
@@ -17,6 +17,7 @@
       })"
       data-ajax-success="showmsg">
 
+    <input type="hidden" asp-for="DeviceNo" />
     <input type="hidden" asp-for="AssetNo" />
     <div class="form-horizontal">
         <h4>資產設備</h4>
@@ -318,7 +319,7 @@
 </div>
 
 <div id="pnlASSETKEEP">
-    @await Component.InvokeAsync("AssetKeepEdit", new { id = Model.AssetNo, viewType = "Edit" })
+    @await Component.InvokeAsync("AssetKeepEdit", new { id = Model.DeviceNo, viewType = "Edit" })
 </div>
 @*<div>
     @Html.ActionLink("回到資產列表", "Index")

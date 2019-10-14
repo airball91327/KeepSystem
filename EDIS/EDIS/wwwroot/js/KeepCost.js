@@ -45,22 +45,18 @@ $(function () {
         $('#PartName').attr("readonly", false);
         $('#Price').attr("readonly", false);
         var item = $(this).val();
-        if (item === "2") {             // 點選"發票"
+        if (item === "2" || item === "4") {             // 點選"發票" 或 "零用金"
             $('#btnQtyStock').hide();
             $("#SignNo").val('');
             $("#pnlSIGN").hide();
             $("#pnlACCDATE").show();
             $("#CVendor").show();
             $("#pnlTICKET").show();
-            $("#pnlPETTY").show();
             $('label[for="AccountDate"]').text("發票日期");
         }
         else if (item === "3") {        // 點選"簽單"
-            $('#btnQtyStock').hide();
             $("#TicketDtl_TicketDtlNo").val('');
             $("#pnlTICKET").hide();
-            $("#pnlPETTY").hide();
-            $('#IsPettyN').prop("checked", true);
             $("#pnlACCDATE").show();
             $("#pnlSIGN").show();
             $('label[for="AccountDate"]').text("簽單日期");
@@ -68,13 +64,11 @@ $(function () {
                 .prop("disabled", true);
         }
         else {
-            $('#btnQtyStock').show();    // 點選"庫存"
+            $('#btnQtyStok').show();    // 點選"庫存"
             $('#PartName').attr('readonly', true);
             $('#Price').attr('readonly', true);
             $("#CVendor").hide();
             $("#pnlTICKET").hide();
-            $("#pnlPETTY").hide();
-            $('#IsPettyN').prop("checked", true);
             $("#pnlSIGN").hide();
             $("#pnlACCDATE").hide();
         }

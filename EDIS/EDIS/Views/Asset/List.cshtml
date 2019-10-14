@@ -115,13 +115,13 @@
                 <a class="btn btn-primary" href="@Url.Action("Create")">新增設備</a>
                 @*@Html.ActionLink("新增設備", "Create", null, new { @class = "btn btn-default" })*@
             </div>
-            <div class="col-md-5 text-left">
+            @*<div class="col-md-5 text-left">
                 <div class="form-inline">
                     @Html.Label("AssetEngId", "設備工程師", new { @class = "control-label" })
                     @Html.DropDownList("AssetEngId", null, "請選擇", new { @class = "form-control" })
                     <input class="btn btn-default" id="btnAssetTRANS" type="button" value="確定轉移" />
                 </div>
-            </div>
+            </div>*@
             <div class="col-md-5 text-left">
                 <div class="form-inline">
                     @Html.Label("KeepEngId", "保養工程師", new { @class = "control-label" })
@@ -214,6 +214,7 @@
             foreach (var item in Model)
             {
                 <tr>
+                    @Html.HiddenFor(modelItem => item.DeviceNo)
                     <td>
                         @Html.CheckBox("chkENG")
                     </td>
@@ -280,12 +281,12 @@
                     <td style="width:100px">
                         @if (role == "admin")
                         {
-                            @Html.ActionLink("修改", "Edit", new { id = item.AssetNo }, new { target = "_blank" })
+                            @Html.ActionLink("修改", "Edit", new { id = item.DeviceNo }, new { target = "_blank" })
                             <br />
-                            @Html.ActionLink("刪除", "Delete", new { id = item.AssetNo }, new { name = "del" })
+                            @Html.ActionLink("刪除", "Delete", new { id = item.DeviceNo }, new { name = "del" })
                             <br />
                         }
-                        @Html.ActionLink("預覽", "Details", new { id = item.AssetNo }, new { target = "_blank" })
+                        @Html.ActionLink("預覽", "Details", new { id = item.DeviceNo }, new { target = "_blank" })
                     </td>
                 </tr>
             }

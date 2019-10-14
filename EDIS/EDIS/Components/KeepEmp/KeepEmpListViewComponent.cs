@@ -12,15 +12,15 @@ using System.Threading.Tasks;
 
 namespace EDIS.Components.KeepEmp
 {
-    public class BMEDKeepEmpListViewComponent : ViewComponent
+    public class KeepEmpListViewComponent : ViewComponent
     {
         private readonly ApplicationDbContext _context;
         private readonly IRepository<AppUserModel, int> _userRepo;
         private readonly CustomUserManager userManager;
 
-        public BMEDKeepEmpListViewComponent(ApplicationDbContext context,
-                                            IRepository<AppUserModel, int> userRepo,
-                                            CustomUserManager customUserManager)
+        public KeepEmpListViewComponent(ApplicationDbContext context,
+                                        IRepository<AppUserModel, int> userRepo,
+                                        CustomUserManager customUserManager)
         {
             _context = context;
             _userRepo = userRepo;

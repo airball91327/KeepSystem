@@ -47,7 +47,7 @@ namespace EDIS.Models.RepairModels
         [Display(Name = "電流")]
         public string Current { get; set; }
         [Display(Name = "代理商")]
-        public int? VendorId { get; set; }
+        public string VendorId { get; set; }
         [NotMapped]
         [Display(Name = "廠商名稱")]
         public string VendorName { get; set; }

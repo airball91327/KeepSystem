@@ -55,7 +55,7 @@ namespace EDIS.Controllers
             {
                 try
                 {
-                    if (keepCost.StockType == "2")
+                    if (keepCost.StockType == "2" || keepCost.StockType == "4")
                     {
                         var dupData = _context.KeepCosts.Include(c => c.TicketDtl)
                                                         .Where(c => c.DocId == keepCost.DocId &&
@@ -85,7 +85,7 @@ namespace EDIS.Controllers
                     int seqno = _context.KeepCosts.Where(c => c.DocId == keepCost.DocId)
                                                   .Select(c => c.SeqNo).DefaultIfEmpty().Max();
                     keepCost.SeqNo = seqno + 1;
-                    if (keepCost.StockType == "2")
+                    if (keepCost.StockType == "2" || keepCost.StockType == "4")
                     {
                         if (string.IsNullOrEmpty(keepCost.TicketDtl.TicketDtlNo))
                         {

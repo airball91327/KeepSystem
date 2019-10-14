@@ -169,7 +169,7 @@ namespace EDIS.Controllers
             }
             asset.DelivDptName = _context.Departments.Find(asset.DelivDpt).Name_C;
             asset.AccDptName = _context.Departments.Find(asset.AccDpt).Name_C;
-            asset.VendorName = asset.VendorId == null ? "" : _context.Vendors.Find(asset.VendorId).VendorName;
+            asset.VendorName = asset.VendorId == null ? "" : _context.Vendors.Find(Convert.ToInt32(asset.VendorId)).VendorName;
 
             return View(asset);
         }
@@ -356,7 +356,7 @@ namespace EDIS.Controllers
             //
             if (asset.VendorId != null)
             {
-                asset.VendorName = _context.Vendors.Where(v => v.VendorId == asset.VendorId).FirstOrDefault().VendorName;
+                asset.VendorName = _context.Vendors.Where(v => v.VendorId == Convert.ToInt32(asset.VendorId)).FirstOrDefault().VendorName;
             }
 
             return View(asset);
@@ -368,7 +368,7 @@ namespace EDIS.Controllers
         {
             if (ModelState.IsValid)
             {
-                asset.DelivEmp = asset.DelivUid == null ? "" : _context.AppUsers.Find(asset.DelivUid).FullName;
+                asset.DelivEmp = asset.DelivUid == null ? "" : _context.AppUsers.Find(Convert.ToInt32(asset.DelivUid)).FullName;
                 //asset.AssetEngName = asset.AssetEngId == 0 ? "" : _context.AppUsers.Find(asset.AssetEngId).FullName;
                 _context.Entry(asset).State = EntityState.Modified;
                 try
