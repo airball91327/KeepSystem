@@ -44,9 +44,10 @@ namespace EDIS.Controllers
                     r.DocId = vmodel["item.DocId"][j];
                     r.FormatId = vmodel["item.FormatId"][j];
                     r.Sno = Convert.ToInt32(vmodel["item.Sno"][j]);
+                    r.ListNo = Convert.ToInt32(vmodel["item.ListNo"][j]);
                     r.Descript = vmodel["item.Descript"][j];
                     r.KeepDes = vmodel["item.KeepDes"][j];
-                    r2 = _context.KeepRecords.Find(r.DocId, r.FormatId, r.Sno);
+                    r2 = _context.KeepRecords.Find(r.DocId, r.FormatId, r.Sno, r.ListNo);
                     if (r2 != null)
                     {
                         r2.KeepDes = r.KeepDes;

@@ -17,6 +17,9 @@ namespace EDIS.Models.KeepModels
         [Display(Name = "格式代號")]
         public string FormatId { get; set; }
         [Key, Column(Order = 3)]
+        [Display(Name = "紀錄次數")]
+        public int ListNo { get; set; }
+        [Key, Column(Order = 4)]
         [Display(Name = "序號")]
         public int Sno { get; set; }
         [Display(Name = "保養項目描述")]

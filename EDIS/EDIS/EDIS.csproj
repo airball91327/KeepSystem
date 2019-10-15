@@ -207,6 +207,9 @@
     <Content Update="Views\Shared\Components\KeepIndex\Default.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Shared\Components\KeepRecordEditList\Default.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\Components\KeepRecordEdit\Default.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

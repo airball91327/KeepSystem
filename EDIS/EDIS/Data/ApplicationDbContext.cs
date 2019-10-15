@@ -94,7 +94,7 @@ namespace EDIS.Data
             // Keep tables
             builder.Entity<KeepModel>().HasKey(c => new { c.DocId });
             builder.Entity<KeepDtlModel>().HasKey(c => new { c.DocId });
-            builder.Entity<KeepRecordModel>().HasKey(c => new { c.DocId, c.FormatId, c.Sno });
+            builder.Entity<KeepRecordModel>().HasKey(c => new { c.DocId, c.FormatId, c.Sno, c.ListNo });
             builder.Entity<KeepEmpModel>().HasKey(c => new { c.DocId, c.UserId });
             builder.Entity<KeepCostModel>().HasKey(c => new { c.DocId, c.SeqNo });
             builder.Entity<KeepFlowModel>().HasKey(c => new { c.DocId, c.StepId });

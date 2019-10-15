@@ -138,6 +138,7 @@ namespace EDIS.Controllers
                     AssetKeepModel kp = _context.AssetKeeps.Find(keep.DeviceNo);
                     AssetModel at = _context.Assets.Find(keep.DeviceNo);
                     //
+                    keep.AssetNo = _context.Assets.Find(keep.DeviceNo).AssetNo;
                     keep.AssetName = _context.Assets.Find(keep.DeviceNo).Cname;
                     keep.EngId = kp.KeepEngId;
                     //keep.AccDpt = at.AccDpt;
