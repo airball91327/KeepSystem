@@ -81,5 +81,101 @@ namespace EDIS.Controllers
                 throw new Exception(msg);
             }
         }
+
+        // GET: KeepRecord/GetRecordList
+        public async Task<IActionResult> GetRecordList(int listNo, string docId = null)
+        {
+            KeepModel kp = _context.Keeps.Find(docId);
+            List<KeepFormatListVModel> kf = new List<KeepFormatListVModel>();
+            KeepFormatModel f;
+            KeepRecordModel r;
+            if (kp != null)
+            {
+                AssetKeepModel ak = _context.AssetKeeps.Find(kp.DeviceNo);
+                if (ak != null)
+                {
+                    if (!string.IsNullOrEmpty(ak.FormatId))
+                    {
+                        _context.KeepFormatDtls.Where(d => d.FormatId == ak.FormatId)
+                                .ToList()
+                                .ForEach(d =>
+                                {
+                                    kf.Add(new KeepFormatListVModel
+                                    {
+                                        Docid = docId,
+                                        FormatId = d.FormatId,
+                                        Plants = (f = _context.KeepFormats.Find(d.FormatId)) == null ? "" :
+                                        f.Plants,
+                                        Sno = d.Sno,
+                                        ListNo = listNo,
+                                        Descript = d.Descript,
+                                        KeepDes = (r = _context.KeepRecords.Find(docId, d.FormatId, d.Sno, listNo)) == null ? "" :
+                                        r.KeepDes
+                                    });
+                                });
+
+                        // 同步新增預設資料進DB.
+                        KeepRecordModel keepRecord;
+                        foreach (var item in kf)
+                        {
+                            keepRecord = new KeepRecordModel();
+                            keepRecord.DocId = item.Docid;
+                            keepRecord.FormatId = item.FormatId;
+                            keepRecord.Sno = item.Sno;
+                            keepRecord.ListNo = item.ListNo;
+                            keepRecord.Descript = item.Descript;
+                            keepRecord.KeepDes = item.KeepDes;
+                            _context.KeepRecords.Add(keepRecord);
+                        }
+                        if (listNo == 2)
+                        {
+                            // 新增第二筆紀錄時，如第一筆資料尚未新增，一併新增。
+                            var findFirstData = _context.KeepRecords.Where(kr => kr.DocId == docId && kr.ListNo == 1);
+                            if (findFirstData.Count() <= 0)
+                            {
+                                foreach (var item in kf)
+                                {
+                                    keepRecord = new KeepRecordModel();
+                                    keepRecord.DocId = item.Docid;
+                                    keepRecord.FormatId = item.FormatId;
+                                    keepRecord.Sno = item.Sno;
+                                    keepRecord.ListNo = 1;
+                                    keepRecord.Descript = item.Descript;
+                                    keepRecord.KeepDes = item.KeepDes;
+                                    _context.KeepRecords.Add(keepRecord);
+                                }
+                            }
+                        }
+                        _context.SaveChanges();
+                    }
+                }
+                return View(kf);
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+
+        // POST: KeepRecord/DeleteRecords
+        [HttpPost]
+        public async Task<IActionResult> DeleteRecords(int listNo, string docId)
+        {
+            var keepRecords = _context.KeepRecords.Where(kr => kr.DocId == docId && kr.ListNo == listNo);
+            _context.KeepRecords.RemoveRange(keepRecords);
+            try
+            {
+                _context.SaveChanges();
+                return new JsonResult(keepRecords)
+                {
+                    Value = new { success = true, error = "" }
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }
