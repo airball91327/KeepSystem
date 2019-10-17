@@ -1,0 +1,58 @@
+﻿@model IEnumerable<EDIS.Models.KeepModels.KeepFormatListVModel>
+
+@{
+    int countList = Convert.ToInt32(ViewData["CountList"]);
+    int countSno = Model.Where(r => r.ListNo == 1).OrderBy(r => r.Sno).LastOrDefault().Sno;
+}
+
+<table class="table">
+    <tr>
+        <th style="min-width: 50px;">
+            @Html.DisplayNameFor(model => model.Sno)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Plants)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Descript)
+        </th>
+        @for (int i = 1; i <= countList; i++)
+        {
+            <th>
+                @Html.DisplayNameFor(model => model.KeepDes) @i
+            </th>
+        }
+    </tr>
+
+    @for (int i = 1; i <= countSno; i++)
+    {
+        <tr>
+            @foreach (var item in Model.Where(r => r.Sno == i).OrderBy(r => r.ListNo))
+            {
+                if (item.ListNo == 1)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Sno)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Plants)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descript)
+                    </td>
+                }
+                <td>
+                    @Html.HiddenFor(modelItem => item.Docid)
+                    @Html.HiddenFor(modelItem => item.FormatId)
+                    @Html.HiddenFor(modelItem => item.Sno)
+                    @Html.HiddenFor(modelItem => item.ListNo)
+                    @Html.HiddenFor(modelItem => item.Descript)
+
+                    @Html.TextAreaFor(modelItem => item.KeepDes, 5, 30, new { @class = "form-control", disabled = "disabled" })
+                </td>
+
+            }
+        </tr>
+    }
+
+</table>

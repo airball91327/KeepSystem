@@ -1,5 +1,31 @@
 ﻿@model IEnumerable<EDIS.Models.KeepModels.KeepFormatListVModel>
 
+<script>
+    $(function(){
+        $(":radio").click(function () {
+            var isFunctional = $(this).val();
+            if (isFunctional == 'N') {
+                $(this).parent("td").children("textarea").attr("required", "required");
+                $(this).parent("td").children("p").children("span").html(" 必填寫欄位");
+            }
+            else {
+                $(this).parent("td").children("textarea").removeAttr("required");
+                $(this).parent("td").children("p").children("span").html("");
+            }
+        });
+    });
+</script>
+
+<style>
+    /* Style the scale of radio. */
+    input[type=radio] {
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FireFox */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+    }
+</style>
+
 <form asp-action="Edit" asp-controller="KeepRecord" asp-area="" data-ajax="true" data-ajax-method="POST"
       data-ajax-begin="$.Toast.showToast({
       'title':'作業進行中，請稍待...',
@@ -43,7 +69,45 @@
                         @Html.DisplayFor(modelItem => item.Descript)
                     </td>
                     <td>
-                        @Html.TextAreaFor(modelItem => item.KeepDes, 5, 50, new { @class = "form-control" })
+                        @if (item.IsFunctional == "Y")
+                        {
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "Y", true)
+                            <span>&nbsp;正常&nbsp;</span>
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N")
+                            <span>&nbsp;異常&nbsp;</span>
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A")
+                            <span>&nbsp;N/A&nbsp;</span>
+                        }
+                        else if (item.IsFunctional == "N")
+                        {
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "Y")
+                            <span>&nbsp;正常&nbsp;</span>
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N", true)
+                            <span>&nbsp;異常&nbsp;</span>
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A")
+                            <span>&nbsp;N/A&nbsp;</span>
+                        }
+                        else if (item.IsFunctional == "N/A")
+                        {
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "Y")
+                            <span>&nbsp;正常&nbsp;</span>
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N")
+                            <span>&nbsp;異常&nbsp;</span>
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A", true)
+                            <span>&nbsp;N/A&nbsp;</span>
+                        }
+                        else
+                        {
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "Y")
+                            <span>&nbsp;正常&nbsp;</span>
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N")
+                            <span>&nbsp;異常&nbsp;</span>
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A")
+                            <span>&nbsp;N/A&nbsp;</span>
+                        }
+                        <p></p>
+                        <p>備註欄位<span class="text-danger"></span></p>
+                        @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control" })
                     </td>
                 </tr>
             }

@@ -46,10 +46,12 @@ namespace EDIS.Controllers
                     r.Sno = Convert.ToInt32(vmodel["item.Sno"][j]);
                     r.ListNo = Convert.ToInt32(vmodel["item.ListNo"][j]);
                     r.Descript = vmodel["item.Descript"][j];
+                    r.IsFunctional = vmodel["item.IsFunctional[" + r.Sno + "]"][0];
                     r.KeepDes = vmodel["item.KeepDes"][j];
                     r2 = _context.KeepRecords.Find(r.DocId, r.FormatId, r.Sno, r.ListNo);
                     if (r2 != null)
                     {
+                        r2.IsFunctional = r.IsFunctional;
                         r2.KeepDes = r.KeepDes;
                         _context.Entry(r2).State = EntityState.Modified;
                     }

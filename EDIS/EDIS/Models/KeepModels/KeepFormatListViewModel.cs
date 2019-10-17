@@ -21,6 +21,8 @@ namespace EDIS.Models.KeepModels
         public int Sno { get; set; }
         [Display(Name = "項目描述")]
         public string Descript { get; set; }
+        [Display(Name = "是否正常")]
+        public string IsFunctional { get; set; }
         [Display(Name = "保養紀錄")]
         public string KeepDes { get; set; }
     }
