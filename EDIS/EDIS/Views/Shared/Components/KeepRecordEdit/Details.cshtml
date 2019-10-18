@@ -33,6 +33,20 @@
                 @Html.DisplayFor(modelItem => item.Descript)
             </td>
             <td>
+                @if (item.IsFunctional == "Y")
+                {
+                    <p>正常</p>
+                }
+                else if (item.IsFunctional == "N")
+                {
+                    <p style="color:red">異常</p>
+                }
+                else
+                {
+                    <p>N/A</p>
+                }
+                <p></p>
+                <p>備註欄位</p>
                 @Html.TextAreaFor(modelItem => item.KeepDes, 5, 50, new { @class = "form-control", disabled = "disabled" })
             </td>
         </tr>

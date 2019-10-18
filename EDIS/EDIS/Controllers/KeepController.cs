@@ -899,7 +899,8 @@ namespace EDIS.Controllers
                 }
 
                 var engMgr = _context.KeepFlows.Where(r => r.DocId == DocId)
-                                               .Where(r => r.Cls.Contains("工務主管")).ToList();
+                                               .Where(r => r.Cls.Contains("工務主管") || r.Cls.Contains("營建主管"))
+                                               .Where(r => r.Opinions.Contains("[同意]")).ToList();
                 if (engMgr.Count() != 0)
                 {
                     engMgr = engMgr.GroupBy(e => e.UserId).Select(group => group.FirstOrDefault()).ToList();
@@ -910,8 +911,40 @@ namespace EDIS.Controllers
                 }
 
                 var engDirector = _context.KeepFlows.Where(r => r.DocId == DocId)
-                                                    .Where(r => r.Cls.Contains("工務主任")).LastOrDefault();
-                vm.EngDirector = engDirector == null ? "" : _context.AppUsers.Find(engDirector.UserId).FullName;
+                                                    .Where(r => r.Cls.Contains("工務主任") || r.Cls.Contains("營建主任"))
+                                                    .Where(r => r.Opinions.Contains("[同意]")).LastOrDefault();
+                string firstString = "";
+                if (engDirector != null)
+                {
+                    if (engDirector.Opinions != null)
+                    {
+                        var firstBracketIndex = engDirector.Opinions.IndexOf("]");
+                        firstString = engDirector.Opinions.Substring(0, firstBracketIndex);
+                    }
+                }
+                vm.EngDirector = engDirector == null ? "" : firstString + "]" + _context.AppUsers.Find(engDirector.UserId).FullName;
+
+                var delivMgr = _context.RepairFlows.Where(r => r.DocId == DocId)
+                                                   .Where(r => r.Cls.Contains("單位主管"))
+                                                   .Where(r => r.Opinions.Contains("[同意]")).ToList();
+                if (delivMgr.Count() != 0)
+                {
+                    delivMgr = delivMgr.GroupBy(e => e.UserId).Select(group => group.FirstOrDefault()).ToList();
+                    foreach (var item in delivMgr)
+                    {
+                        vm.DelivMgr += item == null ? "" : _context.AppUsers.Find(item.UserId).FullName + "  ";
+                    }
+                }
+
+                var delivDirector = _context.RepairFlows.Where(r => r.DocId == DocId)
+                                                        .Where(r => r.Cls.Contains("單位主任"))
+                                                        .Where(r => r.Opinions.Contains("[同意]")).LastOrDefault();
+                vm.DelivDirector = delivDirector == null ? "" : _context.AppUsers.Find(delivDirector.UserId).FullName;
+
+                var ViceSI = _context.RepairFlows.Where(r => r.DocId == DocId)
+                                                 .Where(r => r.Cls.Contains("副院長"))
+                                                 .Where(r => r.Opinions.Contains("[同意]")).LastOrDefault();
+                vm.ViceSuperintendent = ViceSI == null ? "" : _context.AppUsers.Find(ViceSI.UserId).FullName;
 
                 if (flow != null)
                 {

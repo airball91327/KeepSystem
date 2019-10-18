@@ -18,7 +18,7 @@
 
 <style>
     /* Style the scale of radio. */
-    input[type=radio] {
+    .biggerRadio input[type=radio] {
         -ms-transform: scale(1.5); /* IE */
         -moz-transform: scale(1.5); /* FireFox */
         -webkit-transform: scale(1.5); /* Safari and Chrome */
@@ -68,7 +68,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Descript)
                     </td>
-                    <td>
+                    <td class="biggerRadio">
                         @if (item.IsFunctional == "Y")
                         {
                             @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "Y", true)
@@ -77,6 +77,9 @@
                             <span>&nbsp;異常&nbsp;</span>
                             @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A")
                             <span>&nbsp;N/A&nbsp;</span>
+                            <p></p>
+                            <p>備註欄位<span class="text-danger"></span></p>
+                            @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control" })
                         }
                         else if (item.IsFunctional == "N")
                         {
@@ -86,15 +89,9 @@
                             <span>&nbsp;異常&nbsp;</span>
                             @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A")
                             <span>&nbsp;N/A&nbsp;</span>
-                        }
-                        else if (item.IsFunctional == "N/A")
-                        {
-                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "Y")
-                            <span>&nbsp;正常&nbsp;</span>
-                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N")
-                            <span>&nbsp;異常&nbsp;</span>
-                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A", true)
-                            <span>&nbsp;N/A&nbsp;</span>
+                            <p></p>
+                            <p>備註欄位<span class="text-danger"> 必填寫欄位</span></p>
+                            @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control", required = "required" })
                         }
                         else
                         {
@@ -102,12 +99,12 @@
                             <span>&nbsp;正常&nbsp;</span>
                             @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N")
                             <span>&nbsp;異常&nbsp;</span>
-                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A")
+                            @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A", true)
                             <span>&nbsp;N/A&nbsp;</span>
+                            <p></p>
+                            <p>備註欄位<span class="text-danger"></span></p>
+                            @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control" })
                         }
-                        <p></p>
-                        <p>備註欄位<span class="text-danger"></span></p>
-                        @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control" })
                     </td>
                 </tr>
             }

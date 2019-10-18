@@ -41,15 +41,29 @@
                         @Html.DisplayFor(modelItem => item.Descript)
                     </td>
                 }
-                <td>
-                    @Html.HiddenFor(modelItem => item.Docid)
-                    @Html.HiddenFor(modelItem => item.FormatId)
-                    @Html.HiddenFor(modelItem => item.Sno)
-                    @Html.HiddenFor(modelItem => item.ListNo)
-                    @Html.HiddenFor(modelItem => item.Descript)
+                    <td>
+                        @Html.HiddenFor(modelItem => item.Docid)
+                        @Html.HiddenFor(modelItem => item.FormatId)
+                        @Html.HiddenFor(modelItem => item.Sno)
+                        @Html.HiddenFor(modelItem => item.ListNo)
+                        @Html.HiddenFor(modelItem => item.Descript)
 
-                    @Html.TextAreaFor(modelItem => item.KeepDes, 5, 30, new { @class = "form-control", disabled = "disabled" })
-                </td>
+                        @if (item.IsFunctional == "Y")
+                        {
+                            <p>正常</p>
+                        }
+                        else if (item.IsFunctional == "N")
+                        {
+                            <p style="color:red">異常</p>
+                        }
+                        else
+                        {
+                            <p>N/A</p>
+                        }
+                        <p></p>
+                        <p>備註欄位</p>
+                        @Html.TextAreaFor(modelItem => item.KeepDes, 5, 30, new { @class = "form-control", disabled = "disabled" })
+                    </td>
 
             }
         </tr>
