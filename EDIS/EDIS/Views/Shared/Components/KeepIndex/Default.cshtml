@@ -154,18 +154,27 @@
                     <option value="">請選擇</option>
                 </select>
                 <div class="form-group">
+                    <label for="KqtyTicketNo" class="control-title">發票號碼</label>
+                    <input asp-for="KqtyTicketNo" class="form-control" style="text-transform:uppercase;" />
+                </div>
+                @*<div class="form-group">
                     <label for="KqtyEngCode" class="control-title">負責工程師</label>
                     <select asp-for="KqtyEngCode" asp-items="@ViewData["KeepEngs"] as SelectList" class="form-control KeepCombobox">
                         <option value="">請選擇</option>
                     </select>
-                </div>
+                </div>*@
             </div>
         </div>
         <div class="row">
             <div class=form-inline>
                 <div class="form-group">
-                    <label for="KqtyTicketNo" class="control-title">發票號碼</label>
-                    <input asp-for="KqtyTicketNo" class="form-control" />
+                    <label for="KqtyOrderType" class="control-title">排序方式</label>
+                    <select asp-for="KqtyOrderType" class="form-control">
+                        <option value="">請選擇</option>
+                        <option value="送單日">送單日</option>
+                        <option value="完工日">完工日</option>
+                        <option value="結案日">結案日</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="KqtyVendor" class="control-title">廠商(關鍵字)</label>

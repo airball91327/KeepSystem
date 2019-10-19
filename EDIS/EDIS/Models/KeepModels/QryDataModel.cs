@@ -28,5 +28,6 @@ namespace EDIS.Models.KeepModels
         public string KqtyEngCode { get; set; }
         public string KqtyTicketNo { get; set; }
         public string KqtyVendor { get; set; }
+        public string KqtyOrderType { get; set; }
     }
 }

@@ -296,6 +296,7 @@ namespace EDIS.Controllers
             string qtyEngCode = qdata.KqtyEngCode;
             string qtyTicketNo = qdata.KqtyTicketNo;
             string qtyVendor = qdata.KqtyVendor;
+            string qtyOrderType = qdata.KqtyOrderType;
 
             if (qtyEngCode != null)
             {
@@ -648,7 +649,8 @@ namespace EDIS.Controllers
                         SentDate = j.keep.SentDate,
                         EndDate = j.keepdtl.EndDate,
                         IsCharged = j.keepdtl.IsCharged,
-                        keepdata = j.keep
+                        keepdata = j.keep,
+                        ArriveDate = j.flow.Rtt
                     }));
                     break;
             };
@@ -689,17 +691,28 @@ namespace EDIS.Controllers
             /* Sorting search result. */
             if (kv.Count() != 0)
             {
-                if (qtyDateType == "結案日")
+                if (qtyOrderType == "結案日")
                 {
                     kv = kv.OrderByDescending(r => r.CloseDate).ThenByDescending(r => r.DocId).ToList();
                 }
-                else if (qtyDateType == "完工日")
+                else if (qtyOrderType == "完工日")
                 {
                     kv = kv.OrderByDescending(r => r.EndDate).ThenByDescending(r => r.DocId).ToList();
                 }
-                else
+                else if (qtyOrderType == "送單日")
                 {
                     kv = kv.OrderByDescending(r => r.SentDate).ThenByDescending(r => r.DocId).ToList();
+                }
+                else
+                {
+                    if (userManager.IsInRole(User, "RepEngineer") == true)
+                    {
+                        kv = kv.OrderByDescending(r => r.ArriveDate).ThenByDescending(r => r.SentDate).ThenByDescending(r => r.DocId).ToList();
+                    }
+                    else
+                    {
+                        kv = kv.OrderByDescending(r => r.SentDate).ThenByDescending(r => r.DocId).ToList();
+                    }
                 }
             }
 

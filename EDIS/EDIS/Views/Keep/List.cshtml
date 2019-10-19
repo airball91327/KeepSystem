@@ -56,6 +56,12 @@ else
             <th>
                 @Html.DisplayNameFor(model => model.Days)
             </th>
+            @if (UserManager.IsInRole(User, "RepEngineer") == true)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().ArriveDate)
+                </th>
+            }
         </tr>
 
         @foreach (var item in Model)
@@ -128,6 +134,12 @@ else
                     @if (item.Flg != "2")
                     {
                         @Html.DisplayFor(modelItem => item.Days)
+                    }
+                </td>
+                <td>
+                    @if (item.Flg == "?" && UserManager.IsInRole(User, "RepEngineer") == true)
+                    {
+                        @Html.DisplayFor(modelItem => item.ArriveDate)
                     }
                 </td>
             </tr>

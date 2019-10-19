@@ -51,6 +51,9 @@ namespace EDIS.Models.KeepModels
         public DateTime? CloseDate { get; set; }
         [Display(Name = "[有][無]費用")]
         public string IsCharged { get; set; }
+        [Display(Name = "到件日期")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? ArriveDate { get; set; }
         public KeepModel keepdata { get; set; }
     }
 }
