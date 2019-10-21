@@ -1,0 +1,149 @@
+﻿@model EDIS.Models.KeepModels.QryKeepListData
+@using EDIS.Models.Identity
+
+@{
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "KeepSearch";
+}
+
+@inject CustomUserManager UserManager
+<link href="~/css/bootstrap-combobox.css" rel="stylesheet" />
+<script src="~/js/bootstrap-combobox.js"></script>
+
+<style>
+    /* Style the scale of radio. */
+    input[type=radio] {
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FireFox */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+    }
+    /* Style the scale of checkbox. */
+    input[type=checkbox] {
+        -ms-transform: scale(2); /* IE */
+        -moz-transform: scale(2); /* FireFox */
+        -webkit-transform: scale(2); /* Safari and Chrome */
+        -o-transform: scale(2); /* Opera */
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.combobox').combobox();
+    });
+</script>
+
+<h3>保養單查詢</h3>
+<hr />
+
+<form asp-controller="KeepSearch" asp-action="GetQueryList" asp-area="" data-ajax="true"
+      data-ajax-update="#pnlKEEPLIST" data-ajax-method="POST" id="keepSearchForm"
+      data-ajax-begin="$.Toast.showToast({
+      'title':'查詢中，請稍待...',
+      'icon':'loading',
+      'duration':0
+      })"
+      data-ajax-complete="$.Toast.hideToast()">
+
+    <h4>查詢條件 - 全院案件</h4>
+
+    <div class="container">
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="KqtyDOCID" class="control-title">表單編號</label>
+                    <input asp-for="KqtyDOCID" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="KqtyASSETNO" class="control-title">財產編號</label>
+                    <input asp-for="KqtyASSETNO" class="form-control-s" />
+                </div>
+                <div class="form-group">
+                    <label for="KqtyACCDPT" class="control-title">成本中心</label>
+                    <select asp-for="KqtyACCDPT" asp-items="@ViewData["KeepAccDpt"] as SelectList" class="form-control combobox">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="KqtyASSETNAME" class="control-title">物品名稱<br />(關鍵字)</label>
+                    <input asp-for="KqtyASSETNAME" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="KqtyFLOWTYPE" class="control-title">流程狀態</label>
+                    <select asp-for="KqtyFLOWTYPE" asp-items="@ViewData["KeepFlowType"] as SelectList" class="form-control-s">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="KqtyDPTID" class="control-title">申請部門</label>
+                    <select asp-for="KqtyDPTID" asp-items="@ViewData["KeepApplyDpt"] as SelectList" class="form-control combobox">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="KqtyKeepResult" class="control-title">保養狀態</label>
+                    <select asp-for="KqtyKeepResult" asp-items="@ViewData["KeepResult"] as SelectList" class="form-control">
+                        <option value="">請選擇</option>
+                    </select>
+                </div>
+                <label for="KqtyIsCharged" class="control-title">[有][無]費用</label>
+                <select asp-for="KqtyIsCharged" asp-items="@ViewData["KeepIsCharged"] as SelectList" class="form-control-s">
+                    <option value="">請選擇</option>
+                </select>
+                <div class="form-group">
+                    <label for="KqtyTicketNo" class="control-title">發票號碼</label>
+                    <input asp-for="KqtyTicketNo" class="form-control" style="text-transform:uppercase;" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="KqtyOrderType" class="control-title">排序方式</label>
+                    <select asp-for="KqtyOrderType" class="form-control">
+                        <option value="">請選擇</option>
+                        <option value="送單日">送單日</option>
+                        <option value="完工日">完工日</option>
+                        <option value="結案日">結案日</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="KqtyVendor" class="control-title">廠商(關鍵字)</label>
+                    <input asp-for="KqtyVendor" class="form-control-s" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label for="qtyApplyDateFrom" class="control-title">日期查詢</label>
+                    <span>
+                        <select asp-for="KqtyDateType" asp-items="@ViewData["KeepDateType"] as SelectList" class="form-control-s"></select>
+                    </span>
+                    <input asp-for="KqtyApplyDateFrom" class="form-control" />
+                    <span> ~ </span>
+                    <input asp-for="KqtyApplyDateTo" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group col-md-offset-1 col-md-1">
+                    <div>
+                        <input id="btnKEEPQTY" type="submit" value="查詢" class="btn btn-default btn-group-justified" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div id="pnlKEEPLIST"></div>

@@ -361,7 +361,7 @@ namespace EDIS.Controllers
             {
                 kps = kps.Where(v => v.AccDpt == acc).ToList();
             }
-            if (!string.IsNullOrEmpty(aname))   //財產名稱
+            if (!string.IsNullOrEmpty(aname))   //物品名稱(關鍵字)
             {
                 kps = kps.Where(v => v.AssetName != null)
                          .Where(v => v.AssetName.Contains(aname))
@@ -624,7 +624,7 @@ namespace EDIS.Controllers
                     }).ToList()
                     .ForEach(j => kv.Add(new KeepListVModel
                     {
-                        DocType = "醫工保養",
+                        DocType = "工務保養",
                         DocId = j.keep.DocId,
                         //AssetNo = j.keep.AssetNo,
                         //AssetName = j.keep.AssetName,

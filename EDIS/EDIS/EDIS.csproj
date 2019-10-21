@@ -171,6 +171,9 @@
     <Content Update="Views\KeepFormat\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\KeepSearch\SearchList.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Keep\Create.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

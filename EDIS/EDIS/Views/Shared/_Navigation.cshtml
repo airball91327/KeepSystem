@@ -72,6 +72,9 @@
                     <li class="@Html.IsSelected(controller: "RepairSearch", area: null)">
                         <a href="@Url.Action("Index", "RepairSearch", new { Area = "" })"><span class="nav-label">全院請修單查詢</span></a>
                     </li>
+                    <li class="@Html.IsSelected(controller: "KeepSearch", area: null)">
+                        <a href="@Url.Action("Index", "KeepSearch", new { Area = "" })"><span class="nav-label">全院保養單查詢</span></a>
+                    </li>
                     <li class="">
                         <a href="~/Files/Manual/UserManual.pptx" target="_blank"><span class="nav-label">說明手冊下載</span></a>
                     </li>
