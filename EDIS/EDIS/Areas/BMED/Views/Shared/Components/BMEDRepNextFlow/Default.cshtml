@@ -4,6 +4,14 @@
 @inject CustomUserManager UserManager
 
 <script src="~/js/BMED/RepNextFlow.js" asp-append-version="true"></script>
+<link href="~/css/bootstrap-combobox.css" rel="stylesheet" />
+<script src="~/js/bootstrap-combobox.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.qryCombobox').combobox();
+    });
+</script>
 
 <form asp-controller="RepairFlow" asp-action="NextFlow" asp-area="BMED" data-ajax="true" data-ajax-method="POST" id="nextFlowForm"
       data-ajax-begin="$.Toast.showToast({
@@ -27,7 +35,7 @@
         </div>
 
         @if (UserManager.IsInRole(User, "MedEngineer") == true || UserManager.IsInRole(User, "MedAdmin") == true ||
-             UserManager.IsInRole(User, "Admin") == true)
+            UserManager.IsInRole(User, "Admin") == true)
         {
             <div class="form-group">
                 <label class="control-label col-md-2">預設驗收人</label>
@@ -37,6 +45,9 @@
                         <button type="button" class="btn btn-default" id="UpdCheckerBtn">修改</button>
                         <span>
                             <input type="text" placeholder="輸入code或關鍵字查詢" class="form-control" id="CheckerQry" />
+                            <select asp-items="@ViewData["BMEDQRYDPT"] as SelectList" class="form-control qryCombobox" id="CheckerQryDptId">
+                                <option value="">請選擇驗收人所屬部門</option>
+                            </select>
                             <button type="button" class="btn btn-default" id="CheckerQryBtn">查詢</button>
                             <img id="imgLOADING_CHK" src="~/images/opc-ajax-loader.gif" style="display: none" />
                         </span>

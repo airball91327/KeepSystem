@@ -115,6 +115,20 @@ namespace EDIS.Areas.BMED.Components.RepairFlow
             listItem4.Add(new SelectListItem { Text = defaultChecker.FullName, Value = defaultChecker.Id.ToString() });
             ViewData["DefaultChecker"] = new SelectList(listItem4, "Value", "Text", defaultChecker.Id.ToString());
 
+            /* 驗收人員所屬部門搜尋的下拉選單資料 */
+            var dptList = new[] { "K", "P", "C" };   //本院部門
+            var departments = _context.Departments.Where(d => dptList.Contains(d.Loc)).ToList();
+            List<SelectListItem> listItem5 = new List<SelectListItem>();
+            foreach (var item in departments)
+            {
+                listItem5.Add(new SelectListItem
+                {
+                    Text = item.Name_C + "(" + item.DptId + ")",    //show DptName(DptId)
+                    Value = item.DptId
+                });
+            }
+            ViewData["BMEDQRYDPT"] = new SelectList(listItem5, "Value", "Text");
+
             assign.Hint = "申請者→負責工程師→使用單位→[(若有費用及報廢)醫工部主管]→結案";
 
             /* 於流程頁面顯示請修類型、及處理狀態*/

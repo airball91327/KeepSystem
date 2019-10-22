@@ -60,5 +60,7 @@ namespace EDIS.Areas.BMED.Models.RepairModels
         [Display(Name = "CheckBox選取")]
         public Boolean IsSelected { get; set; }
         public RepairModel repdata { get; set; }
+        public int? ExFlowUid { get; set; }
+        public string ExFlowCls { get; set; }
     }
 }

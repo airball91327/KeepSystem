@@ -31,6 +31,33 @@
             });
         }
     }
+
+    function getRepDocBack(docId, flowCls, userFullName) {
+        var r = confirm("確定將此案件拉回?");
+        if (r == true) {
+            $.ajax({
+                url: '../BMED/RepairFlow/NextFlow',
+                type: "POST",
+                dataType: "json",
+                data: {
+                    DocId: docId,
+                    AssignCls: '轉單',
+                    AssignOpn: '由' + userFullName + '將案件拉回。',
+                    FlowCls: '設備工程師',
+                    Cls: flowCls,
+                    FlowUid: @UserManager.GetCurrentUserId(User)
+                },
+                async: false,
+                success: function (data) {
+                    alert("已將案件拉回!");
+                    BMEDRepReSubmit();
+                },
+                onFailed: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }
+    }
 </script>
 
 @if (Model.Count() <= 0)
@@ -106,6 +133,14 @@ else
                         @Html.Raw(" |")
                         @Html.ActionLink("廢除", "Delete", "Repair", new { Area = "BMED", id = item.DocId })
                     }
+                    @if (item.ExFlowCls != null && item.ExFlowUid != null) //搜尋條件為流程中
+                    {
+                        // 案件的前一個流程為"工程師"且人員為該名使用者才可拉單
+                        if (item.ExFlowCls.Contains("工程師") && item.ExFlowUid == UserManager.GetCurrentUserId(User))
+                        {
+                            <a href="#" onclick="getRepDocBack(@item.DocId, '@item.FlowCls', '@UserManager.GetUserFullName(User)')">拉回案件</a>
+                        }
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DocType)
@@ -127,7 +162,7 @@ else
                 <td>
                     @Html.DisplayFor(modelItem => item.PlaceLoc)
                 </td>
-                <td>
+                <td style="max-width: 450px;">
                     @Html.DisplayFor(modelItem => item.TroubleDes)
                 </td>
                 <td>

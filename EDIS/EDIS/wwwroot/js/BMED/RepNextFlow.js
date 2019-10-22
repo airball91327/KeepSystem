@@ -219,17 +219,18 @@ $(function () {
     /* Query users. */
     $("#CheckerQryBtn").click(function () {
         var queryStr = $("#CheckerQry").val();
+        var queryDptId = $("#CheckerQryDptId").val();
         $('#imgLOADING_CHK').show();
         $.ajax({
-            url: '../../Repair/QueryUsers',
+            url: '../../Repair/QueryUsers2',
             type: "GET",
-            data: { QueryStr: queryStr },
+            data: { QueryStr: queryStr, QueryDptId: queryDptId },
             success: function (data) {
                 $('#imgLOADING_CHK').hide();
                 var select = $('#UpdChecker');
                 var i = 0;
                 var defaultOption = 0;
-                console.log(select);
+                //console.log(select);
                 select.empty();
                 $.each(data, function (index, item) {  // item is now an object containing properties 
                     if (i === defaultOption) {

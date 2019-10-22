@@ -48,19 +48,19 @@ namespace EDIS.Areas.BMED.Controllers
             var ur = _userRepo.Find(u => u.UserName == this.User.Identity.Name).FirstOrDefault();
 
             /* 工程師的流程控管 */
-            //if (assign.Cls == "設備工程師")
-            //{
-            //    /* 如點選有費用、卻無輸入費用明細 */
-            //    var isCharged = _context.BMEDKeepDtls.Where(d => d.DocId == assign.DocId).FirstOrDefault().IsCharged;
-            //    if (isCharged == "Y")
-            //    {
-            //        var CheckRepairCost = _context.BMEDKeepCosts.Where(c => c.DocId == assign.DocId).FirstOrDefault();
-            //        if (CheckRepairCost == null)
-            //        {
-            //            throw new Exception("尚未輸入費用明細!!");
-            //        }
-            //    }
-            //}
+            if (assign.Cls == "設備工程師")
+            {
+                /* 如點選有費用、卻無輸入費用明細 */
+                var isCharged = _context.BMEDKeepDtls.Where(d => d.DocId == assign.DocId).FirstOrDefault().IsCharged;
+                if (isCharged == "Y")
+                {
+                    var CheckRepairCost = _context.BMEDKeepCosts.Where(c => c.DocId == assign.DocId).FirstOrDefault();
+                    if (CheckRepairCost == null)
+                    {
+                        throw new Exception("尚未輸入費用明細!!");
+                    }
+                }
+            }
 
             if (assign.FlowCls == "結案" || assign.FlowCls == "廢除")
                 assign.FlowUid = ur.Id;

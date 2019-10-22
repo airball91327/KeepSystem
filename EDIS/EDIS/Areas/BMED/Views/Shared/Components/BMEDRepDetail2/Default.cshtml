@@ -122,14 +122,6 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.TroubleDes)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.TroubleDes)
-                </dd>
-
-                <dt>
                     @Html.DisplayNameFor(model => model.CheckerName)
                 </dt>
 
@@ -137,7 +129,19 @@
                     @Html.DisplayFor(model => model.CheckerName)
                 </dd>
             </dl>
-
         </div>
+
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.TroubleDes)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TroubleDes)
+                </dd>
+            </dl>
+        </div>
+
     </div>
 </div>

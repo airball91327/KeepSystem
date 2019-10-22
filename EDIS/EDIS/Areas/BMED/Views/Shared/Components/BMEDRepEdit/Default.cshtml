@@ -72,7 +72,6 @@
                     </dd>
 
                 </dl>
-                <input type="submit" value="儲存" class="btn btn-default col-md-offset-6" style="margin-bottom: 15px;"/>
             </div>
             <div class="col-md-4">
                 <dl class="dl-horizontal">
@@ -145,14 +144,6 @@
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.TroubleDes)
-                    </dt>
-
-                    <dd>
-                        @Html.DisplayFor(model => model.TroubleDes)
-                    </dd>
-
-                    <dt>
                         @Html.DisplayNameFor(model => model.CheckerName)
                     </dt>
 
@@ -161,6 +152,18 @@
                     </dd>
                 </dl>
 
+            </div>
+            <div class="col-md-12">
+                <dl class="dl-horizontal">
+                    <dt>
+                        @Html.DisplayNameFor(model => model.TroubleDes)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.TroubleDes)
+                    </dd>
+                </dl>
+                <input type="submit" value="儲存" class="btn btn-default col-md-offset-2" style="margin-bottom: 15px; margin-left: 180px;" />
             </div>
         </div>
     </div>

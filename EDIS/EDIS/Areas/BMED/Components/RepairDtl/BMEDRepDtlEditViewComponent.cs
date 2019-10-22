@@ -56,14 +56,14 @@ namespace EDIS.Areas.BMED.Components.RepairDtl
                 return View(dtl);
             }
 
-            if (repairDtl.InOut == null)  // Set default value.
-            {
-                repairDtl.InOut = "內修";
-            }
-            if (repairDtl.IsCharged == null)  // Set default value.
-            {
-                repairDtl.IsCharged = "N";
-            }
+            //if (repairDtl.InOut == null)  // Set default value.
+            //{
+            //    repairDtl.InOut = "內修";
+            //}
+            //if (repairDtl.IsCharged == null)  // Set default value.
+            //{
+            //    repairDtl.IsCharged = "N";
+            //}
             /* Get assetNo, and set default value. */
             repairDtl.AssetNo = _context.BMEDRepairs.Find(repairDtl.DocId).AssetNo;
             if (repairDtl.AssetNo != null)

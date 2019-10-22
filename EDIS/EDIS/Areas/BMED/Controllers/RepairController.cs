@@ -253,7 +253,9 @@ namespace EDIS.Areas.BMED.Controllers
                            FlowDptId = _context.AppUsers.Find(j.flow.UserId).DptId,
                            EndDate = j.repdtl.EndDate,
                            IsCharged = j.repdtl.IsCharged,
-                           repdata = j.repair
+                           repdata = j.repair,
+                           ExFlowUid = _context.BMEDRepairFlows.Where(r => r.DocId == j.flow.DocId).OrderByDescending(r => r.StepId).Skip(1).FirstOrDefault().UserId,
+                           ExFlowCls = _context.BMEDRepairFlows.Where(r => r.DocId == j.flow.DocId).OrderByDescending(r => r.StepId).Skip(1).FirstOrDefault().Cls
                        }));
                     break;
                 /* 與登入者相關且結案的文件 */
@@ -930,6 +932,42 @@ namespace EDIS.Areas.BMED.Controllers
                 users.ForEach(ur => {
                     list.Add(new SelectListItem { Text = ur.FullName + "(" + ur.UserName + ")",
                                                   Value = ur.Id.ToString() });
+                });
+            }
+            return Json(list);
+        }
+
+        public JsonResult QueryUsers2(string QueryStr, string QueryDptId)
+        {
+            var users = _context.AppUsers.ToList();
+
+            /* Search user by fullname or username. */
+            if (!string.IsNullOrEmpty(QueryStr))
+            {
+                users = users.Where(u => u.FullName.Contains(QueryStr) || u.UserName.Contains(QueryStr)).ToList();
+            }
+
+            /* Search user by department. */
+            if (!string.IsNullOrEmpty(QueryDptId))
+            {
+                users = users.Where(u => u.DptId == QueryDptId).ToList();
+            }
+
+            /* If no search value. */
+            if (string.IsNullOrEmpty(QueryDptId) && string.IsNullOrEmpty(QueryStr))
+            {
+                users = users.Where(u => u.FullName.Contains(QueryStr) || u.UserName.Contains(QueryStr)).ToList();
+            }
+
+            List<SelectListItem> list = new List<SelectListItem>();
+            if (users.Count() != 0)
+            {
+                users.ForEach(ur => {
+                    list.Add(new SelectListItem
+                    {
+                        Text = ur.FullName + "(" + ur.UserName + ")",
+                        Value = ur.Id.ToString()
+                    });
                 });
             }
             return Json(list);

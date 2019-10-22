@@ -58,6 +58,8 @@
                 <label asp-for="InOut" class="control-title"></label>
                 @Html.RadioButtonFor(model => model.InOut, "內修")內修
                 @Html.RadioButtonFor(model => model.InOut, "外修")外修
+                @Html.RadioButtonFor(model => model.InOut, "內外修")內外修
+                <span asp-validation-for="InOut" class="text-danger"></span>
             </div>
         </div>
         <div class="row">
@@ -89,6 +91,7 @@
                 <label asp-for="IsCharged" class="control-title"></label>
                 @Html.RadioButtonFor(model => model.IsCharged, "Y")有
                 @Html.RadioButtonFor(model => model.IsCharged, "N")無
+                <span asp-validation-for="IsCharged" class="text-danger"></span>
             </div>
         </div>
         <div class="row">

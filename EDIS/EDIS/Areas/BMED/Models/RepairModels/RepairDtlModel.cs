@@ -26,6 +26,7 @@ namespace EDIS.Areas.BMED.Models.RepairModels
         public string FailFactorTitle { get; set; }
         [Display(Name = "故障描述")]
         public string FailFactor2 { get; set; }
+        [Required(ErrorMessage = "必填寫欄位")]
         [Display(Name = "維修方式")]
         public string InOut { get; set; }
         [NotMapped]
@@ -39,6 +40,7 @@ namespace EDIS.Areas.BMED.Models.RepairModels
         public string AssetAccDate { get; set; }
         [Display(Name = "工時")]
         public decimal Hour { get; set; }
+        [Required(ErrorMessage = "必填寫欄位")]
         [Display(Name = "[有][無]費用")]
         public string IsCharged { get; set; }
         [Display(Name = "費用")]
