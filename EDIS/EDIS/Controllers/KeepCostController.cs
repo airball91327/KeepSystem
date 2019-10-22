@@ -164,6 +164,104 @@ namespace EDIS.Controllers
 
         }
 
+        // GET: KeepCost/Edit2
+        public IActionResult Edit2(string docid, string seqno)
+        {
+            KeepCostModel keepCost = _context.KeepCosts.Include(kc => kc.TicketDtl)
+                                             .SingleOrDefault(kc => kc.DocId == docid && kc.SeqNo == Convert.ToInt32(seqno));
+
+            if (keepCost.StockType == "0")
+                ViewData["StockType"] = "庫存";
+            else if (keepCost.StockType == "2")
+                ViewData["StockType"] = "發票(含收據)";
+            else if (keepCost.StockType == "4")
+                ViewData["StockType"] = "零用金";
+            else
+                ViewData["StockType"] = "簽單";
+
+            return View(keepCost);
+        }
+
+        // POST: KeepCost/Edit2
+        [HttpPost]
+        public IActionResult Edit2(KeepCostModel keepCost)
+        {
+            var ur = _userRepo.Find(u => u.UserName == this.User.Identity.Name).FirstOrDefault();
+            if (keepCost.StockType == "3")
+            {
+                ModelState.Remove("TicketDtl.SeqNo");
+            }
+            if (ModelState.IsValid)
+            {
+                if (keepCost.StockType != "3")
+                {
+                    TicketModel t = _context.Tickets.Find(keepCost.TicketDtl.TicketDtlNo);
+                    if (t == null)
+                    {
+                        t = new TicketModel();
+                        t.TicketNo = keepCost.TicketDtl.TicketDtlNo;
+                        t.TicDate = keepCost.AccountDate;
+                        t.ApplyDate = null;
+                        t.CancelDate = null;
+                        t.VendorId = keepCost.VendorId;
+                        t.VendorName = keepCost.VendorName;
+                        keepCost.TicketDtl.Ticket = t;
+                        _context.Tickets.Add(t);
+                    }
+
+                    TicketDtlModel ticketDtl = _context.TicketDtls.Find(keepCost.TicketDtl.TicketDtlNo, keepCost.TicketDtl.SeqNo);
+                    if (ticketDtl == null)
+                    {
+                        int i = _context.TicketDtls.Where(d => d.TicketDtlNo == keepCost.TicketDtl.TicketDtlNo)
+                                                       .Select(d => d.SeqNo).DefaultIfEmpty().Max();
+                        keepCost.TicketDtl.SeqNo = i + 1;
+                        keepCost.TicketDtl.ObjName = keepCost.PartName;
+                        keepCost.TicketDtl.Qty = keepCost.Qty;
+                        keepCost.TicketDtl.Unite = keepCost.Unite;
+                        keepCost.TicketDtl.Price = keepCost.Price;
+                        keepCost.TicketDtl.Cost = keepCost.TotalCost;
+                        _context.TicketDtls.Add(keepCost.TicketDtl);
+                    }
+                    else
+                    {
+                        ticketDtl.ObjName = keepCost.PartName;
+                        ticketDtl.Qty = keepCost.Qty;
+                        ticketDtl.Unite = keepCost.Unite;
+                        ticketDtl.Price = keepCost.Price;
+                        ticketDtl.Cost = keepCost.TotalCost;
+                        _context.Entry(ticketDtl).State = EntityState.Modified;
+                    }
+                }
+
+                keepCost.Rtp = ur.Id;
+                keepCost.Rtt = DateTime.Now;
+                _context.Entry(keepCost).State = EntityState.Modified;
+                _context.SaveChanges();
+
+                KeepDtlModel dtl = _context.KeepDtls.Where(d => d.DocId == keepCost.DocId)
+                                                    .FirstOrDefault();
+                if (dtl != null)
+                {
+                    dtl.Cost = _context.KeepCosts.Where(k => k.DocId == keepCost.DocId)
+                                                 .Select(k => k.TotalCost)
+                                                 .DefaultIfEmpty(0).Sum();
+                    _context.Entry(dtl).State = EntityState.Modified;
+                    _context.SaveChanges();
+                }
+
+                return RedirectToAction("Edit", "Keep", new { Area = "", id = keepCost.DocId, page = 5 });
+            }
+            if (keepCost.StockType == "0")
+                ViewData["StockType"] = "庫存";
+            else if (keepCost.StockType == "2")
+                ViewData["StockType"] = "發票(含收據)";
+            else if (keepCost.StockType == "4")
+                ViewData["StockType"] = "零用金";
+            else
+                ViewData["StockType"] = "簽單";
+            return View(keepCost);
+        }
+
         public IActionResult PrintStockDetails(string docId, int seqNo)
         {
             var stockDetails = _context.KeepCosts.Find(docId, seqNo);

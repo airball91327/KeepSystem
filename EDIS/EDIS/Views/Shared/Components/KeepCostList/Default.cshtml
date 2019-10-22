@@ -75,7 +75,8 @@
                     @Html.DisplayFor(modelItem => item.TotalCost)
                 </td>
                 <td>
-                    <a class="btn btn-primary">刪除</a>
+                    <a class="btn btn-primary delBtns">刪除</a>
+                    <a class="btn btn-primary" href="@Url.Action("Edit2", "KeepCost", new { Area = "", docid = item.DocId, seqno = item.SeqNo })">修改</a>
                 </td>
             </tr>
         }

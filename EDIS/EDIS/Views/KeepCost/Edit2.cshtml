@@ -1,4 +1,4 @@
-﻿@model EDIS.Models.RepairModels.RepairCostModel
+﻿@model EDIS.Models.KeepModels.KeepCostModel
 @{
     Layout = "~/Views/Shared/_PassedLayout.cshtml";
 }
@@ -93,7 +93,7 @@
 <h4>修改</h4>
 <hr />
 
-<form asp-controller="RepairCost" asp-action="Edit2" id="repCostEditForm">
+<form asp-controller="KeepCost" asp-action="Edit2" id="keepCostEditForm">
 
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.DocId, new { id = "costDocId" })
@@ -206,7 +206,7 @@
     </div>
 </form>
 
-<a class="btn btn-primary" href="@Url.Action("Edit","Repair" ,new { Area = "", id = Model.DocId, page = 4 })">回費用明細</a>
+<a class="btn btn-primary" href="@Url.Action("Edit","Keep" ,new { Area = "", id = Model.DocId, page = 5 })">回費用明細</a>
 
 <!-- 廠商 Modal -->
 <div id="modalVENDOR" class="modal fade" role="dialog">
