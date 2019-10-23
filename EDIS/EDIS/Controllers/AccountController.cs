@@ -123,6 +123,25 @@ namespace EDIS.Controllers
                     {
                         return RedirectToAction("Views", "Keep", new { Area = "BMED", id = MailDocId });
                     }
+                    else if (MailType == "KeepEdit") //Edit Keep doc.
+                    {
+                        var editDoc = _context.KeepFlows.Where(r => r.DocId == MailDocId).OrderByDescending(r => r.StepId)
+                                                        .FirstOrDefault();
+                        int userId = _context.AppUsers.Where(a => a.UserName == User.Identity.Name).First().Id;
+                        /* 編輯流程在登入者身上，進入Edit，否則導回首頁 */
+                        if (editDoc.Status == "?" && editDoc.UserId == userId)
+                        {
+                            return RedirectToAction("Edit", "Keep", new { Area = "", id = MailDocId });
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                    else if (MailType == "KeepViews") //View Keep doc.
+                    {
+                        return RedirectToAction("Views", "Keep", new { Area = "", id = MailDocId });
+                    }
                     else
                     {
                         return RedirectToAction("Index", "Home");

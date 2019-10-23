@@ -31,6 +31,7 @@ $(function () {
         $.ajax({
             url: "../../KeepRecord/GetRecordList",
             type: "GET",
+            async: false,
             data: { listNo: newListNo, docid: docId },
             success: function (data) {
                 $("#keepRecordPanel").append('<li role="presentation" id="List' + newListNo + '"><a href="#ListNo' + newListNo + '" data-toggle="tab" style="padding-left:20px">' + newListNo + '</a></li>');
@@ -49,6 +50,7 @@ $(function () {
             $.ajax({
                 url: "../../KeepRecord/DeleteRecords",
                 type: "POST",
+                async: false,
                 data: { listNo: lastListNo, docid: docId },
                 success: function (data) {
                     if (data.success === false) {
