@@ -140,7 +140,7 @@ else
                                 @Html.ActionLink("預覽", "Views", "Repair", new { Area = "", id = item.DocId })
                                 @Html.Raw(" |")
                             }
-                            @Html.ActionLink("列印", "PrintRepairDoc", "Repair", new { Area = "", DocId = item.DocId }, new { target = "_blank", @class = "printLink" })
+                            @Html.ActionLink("列印", "PrintRepairDoc", "Repair", new { Area = "", DocId = item.DocId }, new { target = "_blank", @class = "printLink"})
                             @* /* 該單的申請人 */ *@
                             @if (item.Flg == "?" && item.FlowUid == UserManager.GetCurrentUserId(User) && item.FlowCls == "申請人")
                             {
@@ -184,7 +184,7 @@ else
                             <br />
                             @Html.DisplayFor(modelItem => item.Location2)
                         </td>
-                        <td>
+                        <td style="max-width:450px; word-wrap: break-word;">
                             @Html.DisplayFor(modelItem => item.TroubleDes)
                             <br />
                             @Html.DisplayFor(modelItem => item.DealDes)
@@ -287,7 +287,7 @@ else
                         <td>
                             @Html.DisplayFor(modelItem => item.PlaceLoc)
                         </td>
-                        <td>
+                        <td style="max-width:450px; word-wrap: break-word;">
                             @Html.DisplayFor(modelItem => item.TroubleDes)
                             <br />
                             @Html.DisplayFor(modelItem => item.DealDes)
