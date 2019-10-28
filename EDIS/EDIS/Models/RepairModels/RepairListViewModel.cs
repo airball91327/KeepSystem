@@ -46,6 +46,8 @@ namespace EDIS.Models.RepairModels
         public int? Days { get; set; }
         public string Flg { get; set; }
         public int FlowUid { get; set; }
+        [Display(Name = "關卡人員")]
+        public string FlowUidName { get; set; }
         public string FlowCls { get; set; }
         public string FlowDptId { get; set; }
         [Display(Name = "申請日期")]

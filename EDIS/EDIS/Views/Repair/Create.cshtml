@@ -175,17 +175,6 @@
         <div class="row">
             <div class=form-inline>
                 <div class="form-group">
-                    <label asp-for="AccDpt" class="control-title"></label>
-                    <input asp-for="AccDpt" class="form-control" readonly />
-                    <input asp-for="AccDptName" class="form-control" readonly />
-                    <span style="color:red" id="AccDptNameErrorMsg"></span>
-                    <span asp-validation-for="AccDpt" class="text-danger"></span>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class=form-inline>
-                <div class="form-group">
                     <label asp-for="PlaceLoc" class="control-title"></label>
                     <input asp-for="PlaceLoc" class="form-control" />
                     <span asp-validation-for="PlaceLoc" class="text-danger"></span>
@@ -227,6 +216,17 @@
                         </select>
                         <span asp-validation-for="Area" class="text-danger"></span>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class=form-inline>
+                <div class="form-group">
+                    <label asp-for="AccDpt" class="control-title"></label>
+                    <input asp-for="AccDpt" class="form-control" readonly />
+                    <input asp-for="AccDptName" class="form-control" readonly />
+                    <span style="color:red" id="AccDptNameErrorMsg"></span>
+                    <span asp-validation-for="AccDpt" class="text-danger"></span>
                 </div>
             </div>
         </div>

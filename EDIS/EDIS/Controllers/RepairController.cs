@@ -284,7 +284,7 @@ namespace EDIS.Controllers
                     /* Get all closed repair docs. */
                     List<RepairFlowModel> rf = _context.RepairFlows.Where(f => f.Status == "2").ToList();
 
-                    if (userManager.IsInRole(User, "Admin") || userManager.IsInRole(User, "RepAdmin") || 
+                    if (userManager.IsInRole(User, "Admin") || userManager.IsInRole(User, "RepAdmin") ||
                         userManager.IsInRole(User, "Manager") || userManager.IsInRole(User, "RepEngineer"))
                     {
                         if (userManager.IsInRole(User, "Manager"))
@@ -380,7 +380,7 @@ namespace EDIS.Controllers
                         flow = f
                     }).ToList();
 
-                    if (userManager.IsInRole(User, "Admin") || userManager.IsInRole(User, "RepAdmin") || 
+                    if (userManager.IsInRole(User, "Admin") || userManager.IsInRole(User, "RepAdmin") ||
                         userManager.IsInRole(User, "RepEngineer"))
                     {
                         /* If has other search values, search all RepairDocs which flowCls is in engineer. */
@@ -1444,6 +1444,7 @@ namespace EDIS.Controllers
                            Days = DateTime.Now.Subtract(j.repair.ApplyDate).Days,
                            Flg = j.flow.Status,
                            FlowUid = j.flow.UserId,
+                           FlowUidName = _context.AppUsers.Find(j.flow.UserId).FullName,
                            FlowCls = j.flow.Cls,
                            FlowDptId = _context.AppUsers.Find(j.flow.UserId).DptId,
                            EndDate = j.repdtl.EndDate,
@@ -1457,7 +1458,7 @@ namespace EDIS.Controllers
                     /* Get all closed repair docs. */
                     List<RepairFlowModel> rf = _context.RepairFlows.Where(f => f.Status == "2").ToList();
 
-                    if (userManager.IsInRole(User, "Admin") || userManager.IsInRole(User, "RepAdmin") || 
+                    if (userManager.IsInRole(User, "Admin") || userManager.IsInRole(User, "RepAdmin") ||
                         userManager.IsInRole(User, "Manager") || userManager.IsInRole(User, "RepEngineer"))
                     {
                         if (userManager.IsInRole(User, "Manager"))
@@ -1522,6 +1523,7 @@ namespace EDIS.Controllers
                         Days = DateTime.Now.Subtract(j.repair.ApplyDate).Days,
                         Flg = j.flow.Status,
                         FlowUid = j.flow.UserId,
+                        FlowUidName = _context.AppUsers.Find(j.flow.UserId).FullName,
                         FlowCls = j.flow.Cls,
                         FlowDptId = _context.AppUsers.Find(j.flow.UserId).DptId,
                         EndDate = j.repdtl.EndDate,
@@ -1540,7 +1542,7 @@ namespace EDIS.Controllers
                         flow = f
                     }).ToList();
 
-                    if (userManager.IsInRole(User, "Admin") || userManager.IsInRole(User, "RepAdmin") || 
+                    if (userManager.IsInRole(User, "Admin") || userManager.IsInRole(User, "RepAdmin") ||
                         userManager.IsInRole(User, "RepEngineer"))
                     {
                         /* If has other search values, search all RepairDocs which flowCls is in engineer. */
@@ -1595,6 +1597,7 @@ namespace EDIS.Controllers
                         Days = DateTime.Now.Subtract(j.repair.ApplyDate).Days,
                         Flg = j.flow.Status,
                         FlowUid = j.flow.UserId,
+                        FlowUidName = _context.AppUsers.Find(j.flow.UserId).FullName,
                         FlowCls = j.flow.Cls,
                         FlowDptId = _context.AppUsers.Find(j.flow.UserId).DptId,
                         EndDate = j.repdtl.EndDate,
@@ -1705,7 +1708,8 @@ namespace EDIS.Controllers
                     c.CloseDate,
                     c.Cost,
                     c.Days,
-                    c.FlowCls
+                    c.FlowCls,
+                    c.FlowUidName
                 });
 
                 //一個workbook內至少會有一個worksheet,並將資料Insert至這個位於A1這個位置上
@@ -1727,6 +1731,7 @@ namespace EDIS.Controllers
                 ws.Cell(1, 13).Value = "費用";
                 ws.Cell(1, 14).Value = "天數";
                 ws.Cell(1, 15).Value = "關卡";
+                ws.Cell(1, 16).Value = "關卡人員";
 
                 //如果是要塞入Query後的資料該資料一定要變成是data.AsEnumerable()
                 ws.Cell(2, 1).InsertData(data);
