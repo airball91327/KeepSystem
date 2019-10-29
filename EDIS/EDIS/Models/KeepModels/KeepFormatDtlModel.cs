@@ -18,6 +18,8 @@ namespace EDIS.Models.KeepModels
         public int Sno { get; set; }
         [Display(Name = "保養項目描述")]
         public string Descript { get; set; }
+        [Display(Name = "是否必填")]
+        public string IsRequired { get; set; }
         public virtual KeepFormatModel KeepFormat { get; set; }
     }
 }

@@ -22,7 +22,9 @@ namespace EDIS.Models.KeepModels
         [Display(Name = "保養合約")]
         public string ContractNo { get; set; }
         [Display(Name = "保養週期(月)")]
-        public int? Cycle { get; set; }
+        public string Cycle { get; set; }
+        [Display(Name = "保養週期(周)")]
+        public string CycleWeek { get; set; }
         [Display(Name = "起始年月")]
         public int? KeepYm { get; set; }
         [Display(Name = "起始年月(手動)")]
