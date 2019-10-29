@@ -93,12 +93,12 @@ namespace EDIS.Controllers
             KeepRecordModel r;
             if (kp != null)
             {
-                AssetKeepModel ak = _context.AssetKeeps.Find(kp.DeviceNo);
-                if (ak != null)
-                {
-                    if (!string.IsNullOrEmpty(ak.FormatId))
+                //AssetKeepModel ak = _context.AssetKeeps.Find(kp.DeviceNo);
+                //if (ak != null)
+                //{
+                    if (!string.IsNullOrEmpty(kp.FormatId))
                     {
-                        _context.KeepFormatDtls.Where(d => d.FormatId == ak.FormatId)
+                        _context.KeepFormatDtls.Where(d => d.FormatId == kp.FormatId)
                                 .ToList()
                                 .ForEach(d =>
                                 {
@@ -150,7 +150,7 @@ namespace EDIS.Controllers
                         }
                         _context.SaveChanges();
                     }
-                }
+                //}
                 return View(kf);
             }
             else

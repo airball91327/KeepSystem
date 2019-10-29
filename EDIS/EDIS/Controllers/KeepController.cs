@@ -143,7 +143,7 @@ namespace EDIS.Controllers
                     keep.EngId = kp.KeepEngId;
                     //keep.AccDpt = at.AccDpt;
                     keep.SentDate = DateTime.Now;
-                    keep.Cycle = kp == null ? 0 : (kp.Cycle == null ? 0 : kp.Cycle.Value);
+                    keep.Cycle = kp == null ? 0 : (kp.Cycle == null ? 0 : 0);
                     keep.Src = "M";
                     _context.Entry(keep).State = EntityState.Modified;
 
@@ -737,15 +737,15 @@ namespace EDIS.Controllers
             // No query string.
             if (string.IsNullOrEmpty(QueryStr) && string.IsNullOrEmpty(QueryAccDpt) && string.IsNullOrEmpty(QueryDelivDpt))
             {
-                assets = _context.Assets.Where(a => a.AssetNo.Contains(QueryStr) ||
-                                                        a.Cname.Contains(QueryStr)).ToList();
+                assets = _context.Assets.Where(a => a.DeviceNo.Contains(QueryStr) ||
+                                                    a.Cname.Contains(QueryStr)).ToList();
             }
             else
             {
                 assets = _context.Assets.ToList();
                 if (!string.IsNullOrEmpty(QueryStr))     /* Search assets by assetNo or Cname. */
                 {
-                    assets = assets.Where(a => a.AssetNo.Contains(QueryStr) ||
+                    assets = assets.Where(a => a.DeviceNo.Contains(QueryStr) ||
                                                a.Cname.Contains(QueryStr)).ToList();
                 }
                 if (!string.IsNullOrEmpty(QueryAccDpt))    /* Search assets by AccDpt. */
@@ -770,6 +770,21 @@ namespace EDIS.Controllers
                 });
             }
             return Json(list);
+        }
+
+        // GET: Keep/GetAssetFormatId
+        public JsonResult GetAssetFormatId(string DeviceNo)
+        {
+            var keepFormat = _context.AssetKeeps.Find(DeviceNo);
+            if (keepFormat != null)
+            {
+                var deviceNo = keepFormat.FormatId == null ? "" : keepFormat.FormatId;
+                return Json(deviceNo);
+            }
+            else
+            {
+                return Json("查無資料!");
+            }
         }
 
         // GET: Keep/Edit

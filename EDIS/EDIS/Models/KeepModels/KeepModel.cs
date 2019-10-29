@@ -43,7 +43,7 @@ namespace EDIS.Models.KeepModels
         public string AccDpt { get; set; }
         [NotMapped]
         public string AccDptName { get; set; }
-        [Required(ErrorMessage = "必填寫欄位")]
+        //[Required(ErrorMessage = "必填寫欄位")]
         [Display(Name = "保養週期")]
         public int Cycle { get; set; }
         [Required(ErrorMessage = "必填寫欄位")]
@@ -71,6 +71,8 @@ namespace EDIS.Models.KeepModels
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         [Display(Name = "送單日期")]
         public DateTime? SentDate { get; set; }
+        [Display(Name = "保養格式代號")]
+        public string FormatId { get; set; }
         public string Src { get; set; }
     }
 }

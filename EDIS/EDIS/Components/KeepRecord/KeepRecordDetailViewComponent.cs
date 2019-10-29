@@ -34,12 +34,12 @@ namespace EDIS.Components.KeepRecord
             KeepRecordModel r;
             if (kp != null)
             {
-                AssetKeepModel ak = _context.AssetKeeps.Find(kp.AssetNo);
-                if (ak != null)
-                {
-                    if (!string.IsNullOrEmpty(ak.FormatId))
+                //AssetKeepModel ak = _context.AssetKeeps.Find(kp.AssetNo);
+                //if (ak != null)
+                //{
+                    if (!string.IsNullOrEmpty(kp.FormatId))
                     {
-                        _context.KeepFormatDtls.Where(d => d.FormatId == ak.FormatId)
+                        _context.KeepFormatDtls.Where(d => d.FormatId == kp.FormatId)
                                 .ToList()
                                 .ForEach(d =>
                                 {
@@ -58,7 +58,7 @@ namespace EDIS.Components.KeepRecord
                                     });
                                 });
                     }
-                }
+                //}
 
                 // 處理多張保養紀錄
                 List<KeepFormatListVModel> kf2 = new List<KeepFormatListVModel>();

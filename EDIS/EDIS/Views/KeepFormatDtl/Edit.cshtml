@@ -5,6 +5,16 @@
     ViewBag.Title = "修改/保養格式明細";
 }
 
+<style>
+    /* Style the scale of radio. */
+    input[type=radio] {
+        -ms-transform: scale(1.5); /* IE */
+        -moz-transform: scale(1.5); /* FireFox */
+        -webkit-transform: scale(1.5); /* Safari and Chrome */
+        -o-transform: scale(1.5); /* Opera */
+    }
+</style>
+
 <h2>修改</h2>
 
 <form asp-action="Edit" asp-controller="KeepFormatDtl" asp-area="" method="post">
@@ -33,6 +43,15 @@
             <div class="col-md-10">
                 <input asp-for="Descript" class="form-control" />
                 <span asp-validation-for="Descript" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IsRequired" class="control-label col-md-2"></label>
+            <div class="col-md-10" style="padding-top: 4px;">
+                <span>是</span><input type="radio" value="Y" asp-for="IsRequired" style="margin-left:7px; margin-top:2px;"/>
+                <span>否</span><input type="radio" value="N" asp-for="IsRequired" style="margin-left:7px; margin-top:2px;"/>
+                <span asp-validation-for="IsRequired" class="text-danger"></span>
             </div>
         </div>
 

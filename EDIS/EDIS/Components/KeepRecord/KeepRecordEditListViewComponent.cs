@@ -34,12 +34,12 @@ namespace EDIS.Components.KeepRecord
             KeepRecordModel r;
             if (kp != null)
             {
-                AssetKeepModel ak = _context.AssetKeeps.Find(kp.DeviceNo);
-                if (ak != null)
-                {
-                    if (!string.IsNullOrEmpty(ak.FormatId))
+                //AssetKeepModel ak = _context.AssetKeeps.Find(kp.DeviceNo);
+                //if (ak != null)
+                //{
+                    if (!string.IsNullOrEmpty(kp.FormatId))
                     {
-                        _context.KeepFormatDtls.Where(d => d.FormatId == ak.FormatId)
+                        _context.KeepFormatDtls.Where(d => d.FormatId == kp.FormatId)
                                 .ToList()
                                 .ForEach(d =>
                                 {
@@ -60,7 +60,7 @@ namespace EDIS.Components.KeepRecord
                                 });
                     }
 
-                }
+                //}
                 return View(kf);
             }
             return Content("Page not found!");  //ViewComponent can't return HTTP response (like as StatusCode() or BasRequest())

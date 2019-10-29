@@ -132,6 +132,15 @@ $(function () {
     $("#AssetNo").change(function () {
         var assetName = $('#AssetNo option:selected').text().split("(", 1);
         $("#AssetName").val(assetName);
+
+        $.ajax({
+            url: '../Keep/GetAssetFormatId',
+            type: "GET",
+            data: { DeviceNo: $(this).val() },
+            success: function (data) {
+                $("#FormatId").val(data);
+            }
+        });
     });
 
     /* Refresh upload list. */
