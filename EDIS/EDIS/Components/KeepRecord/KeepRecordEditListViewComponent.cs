@@ -55,7 +55,8 @@ namespace EDIS.Components.KeepRecord
                                         IsFunctional = (r = _context.KeepRecords.Find(id, d.FormatId, d.Sno, listNo)) == null ? "" :
                                         r.IsFunctional,
                                         KeepDes = (r = _context.KeepRecords.Find(id, d.FormatId, d.Sno, listNo)) == null ? "" :
-                                        r.KeepDes
+                                        r.KeepDes,
+                                        IsRequired = d.IsRequired
                                     });
                                 });
                     }

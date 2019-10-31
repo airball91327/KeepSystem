@@ -25,5 +25,7 @@ namespace EDIS.Models.KeepModels
         public string IsFunctional { get; set; }
         [Display(Name = "保養紀錄")]
         public string KeepDes { get; set; }
+        [Display(Name = "是否必填")]
+        public string IsRequired { get; set; }
     }
 }

@@ -55,7 +55,8 @@ namespace EDIS.Components.KeepRecord
                                         IsFunctional = (r = _context.KeepRecords.Find(id, d.FormatId, d.Sno, 1)) == null ? "" :
                                         r.IsFunctional,
                                         KeepDes = (r = _context.KeepRecords.Find(id, d.FormatId, d.Sno, 1)) == null ? "" :
-                                        r.KeepDes
+                                        r.KeepDes,
+                                        IsRequired = d.IsRequired
                                     });
                                 });
                     }
@@ -106,7 +107,8 @@ namespace EDIS.Components.KeepRecord
                                           IsFunctional = d.keeprecords.IsFunctional == null ? "" :
                                           d.keeprecords.IsFunctional,
                                           KeepDes = d.keeprecords.KeepDes == null ? "" :
-                                          d.keeprecords.KeepDes
+                                          d.keeprecords.KeepDes,
+                                          IsRequired = d.formatdtls.IsRequired
                                       });
                                   });
                             kfl2 = kfl2.OrderBy(k => k.Sno).ThenBy(k => k.ListNo).ToList();

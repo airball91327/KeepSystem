@@ -4,13 +4,16 @@
     $(function(){
         $(":radio").click(function () {
             var isFunctional = $(this).val();
+            var isRequired = $(this).parent("td").children("input[name='item.IsRequired']").val();
             if (isFunctional == 'N') {
                 $(this).parent("td").children("textarea").attr("required", "required");
                 $(this).parent("td").children("p").children("span").html(" 必填寫欄位");
             }
             else {
-                $(this).parent("td").children("textarea").removeAttr("required");
-                $(this).parent("td").children("p").children("span").html("");
+                if (isRequired == 'N') {
+                    $(this).parent("td").children("textarea").removeAttr("required");
+                    $(this).parent("td").children("p").children("span").html("");
+                }
             }
         });
     });
@@ -69,6 +72,7 @@
                         @Html.DisplayFor(modelItem => item.Descript)
                     </td>
                     <td class="biggerRadio">
+                        @Html.HiddenFor(modelItem => item.IsRequired)
                         @if (item.IsFunctional == "Y")
                         {
                             @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "Y", true)
@@ -78,8 +82,16 @@
                             @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A")
                             <span>&nbsp;N/A&nbsp;</span>
                             <p></p>
-                            <p>備註欄位<span class="text-danger"></span></p>
-                            @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control" })
+                            @if (item.IsRequired == "Y")
+                            {
+                                <p>備註欄位<span class="text-danger"> 必填寫欄位</span></p>
+                                @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control", required = "required" })
+                            }
+                            else
+                            {
+                                <p>備註欄位<span class="text-danger"></span></p>
+                                @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control" })
+                            }
                         }
                         else if (item.IsFunctional == "N")
                         {
@@ -102,8 +114,16 @@
                             @Html.RadioButton("item.IsFunctional[" + item.Sno + "]", "N/A", true)
                             <span>&nbsp;N/A&nbsp;</span>
                             <p></p>
-                            <p>備註欄位<span class="text-danger"></span></p>
-                            @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control" })
+                            @if (item.IsRequired == "Y")
+                            {
+                                <p>備註欄位<span class="text-danger"> 必填寫欄位</span></p>
+                                @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control", required = "required" })
+                            }
+                            else
+                            {
+                                <p>備註欄位<span class="text-danger"></span></p>
+                                @Html.TextAreaFor(modelItem => item.KeepDes, 4, 50, new { @class = "form-control" })
+                            }
                         }
                     </td>
                 </tr>

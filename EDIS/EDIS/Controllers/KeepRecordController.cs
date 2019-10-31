@@ -112,7 +112,8 @@ namespace EDIS.Controllers
                                         ListNo = listNo,
                                         Descript = d.Descript,
                                         KeepDes = (r = _context.KeepRecords.Find(docId, d.FormatId, d.Sno, listNo)) == null ? "" :
-                                        r.KeepDes
+                                        r.KeepDes,
+                                        IsRequired = d.IsRequired
                                     });
                                 });
 
