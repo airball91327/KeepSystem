@@ -99,7 +99,7 @@ namespace EDIS.Models.RepairModels
         [Display(Name = "數量")]
         public int Amt { get; set; }
         [Display(Name = "保養週期")]
-        public int Cycle { get; set; }
+        public string Cycle { get; set; }
         [Display(Name = "放置地點")]
         public string PlaceLoc { get; set; }
         [Display(Name = "送單日期")]

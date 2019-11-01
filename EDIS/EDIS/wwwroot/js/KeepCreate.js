@@ -26,38 +26,7 @@ $(function () {
         }
     });
 
-    $('#AssetNo').change(function () {
-        /* Get engineers. */
-        $.ajax({
-            url: '../Repair/GetAssetEngId',
-            type: "POST",
-            dataType: "json",
-            data: {
-                AssetNo: $('#AssetNo').val()
-            },
-            async: false,
-            success: function (data) {
-                $('#EngId').val(data.engId);
-                $('#EngName').val(data.fullName);
-            }
-        });
 
-        /* Get Asset Deliver. */
-        $.ajax({
-            url: '../Repair/GetAssetDeliver',
-            type: "POST",
-            dataType: "json",
-            data: {
-                AssetNo: $('#AssetNo').val()
-            },
-            async: false,
-            success: function (data) {
-                var select = $('#CheckerId');
-                $('option', select).remove();
-                select.addItems(data);
-            }
-        });
-    });
 
     /* While user change DptId, search the DptName. */
     $("#DptId").change(function () {
