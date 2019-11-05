@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using EDIS.Data;
 using EDIS.Models;
 using EDIS.Models.Identity;
@@ -60,7 +63,7 @@ namespace EDIS.Controllers.WebApi
             /// Hash MD5 加密
             /// </summary>
             [Required]
-            public string Passwd { get; set; }  //Hash MD5 加密
+            public string Passwd { get; set; }  //DES 加密
             /// <summary>
             /// 結果代碼  0: 成功
             /// </summary>
@@ -105,17 +108,47 @@ namespace EDIS.Controllers.WebApi
         /// </summary>
         /// <param name="root">客戶指定傳入之XML格式參數</param>
         [HttpPost]
-        public IActionResult Post([FromBody] Root root)
+        public async Task<IActionResult> Post([FromBody] Root root)
         {
             var userName = root.UsrID;
             AppUserModel ur = _context.AppUsers.Where(u => u.UserName == userName).FirstOrDefault();
 
             if (ur != null)   //Check is UserName exist
             {
-                //密碼不在此比對
-                string userMD5HashPW = GetMd5Hash(ur.Password); //Get hashed result to compare.
+                string DESKey = "12345678";
+                string userPW = DESDecrypt(root.Passwd, DESKey);    //DES decrypt.
+                Boolean CheckPassWord = false;
 
-                if (root.Passwd == userMD5HashPW)   //CheckPassWord
+                // WebApi to check password.
+                HttpClient client = new HttpClient();
+                client.BaseAddress = new Uri("http://dms.cch.org.tw:8080/");
+                string url = "WebApi/Accounts/CheckPasswdForCch?id=" + root.UsrID;
+                url += "&pwd=" + HttpUtility.UrlEncode(userPW, Encoding.GetEncoding("UTF-8"));
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage response = await client.GetAsync(url);
+                string rstr = "";
+                if (response.IsSuccessStatusCode)
+                {
+                    rstr = await response.Content.ReadAsStringAsync();
+                }
+                client.Dispose();
+                //
+                if (rstr.Contains("成功")) //彰基2000帳號WebApi登入
+                {
+                    CheckPassWord = true;
+                }
+                else  //外包帳號 or 值班帳號
+                {
+                    /* Check and get external user. */
+                    var ExternalUser = _context.ExternalUsers.Where(ex => ex.UserName == root.UsrID).FirstOrDefault();
+                    if (ExternalUser != null && ExternalUser.Password == userPW)
+                    {
+                        CheckPassWord = true;
+                    }
+                }
+
+                if (CheckPassWord == true)   //Check passed.
                 {
                     RepairModel repair = new RepairModel();
                     var dpt = _dptRepo.Find(d => d.DptId == "8410").FirstOrDefault();
@@ -240,29 +273,6 @@ namespace EDIS.Controllers.WebApi
         //{
         //}
 
-        public static string GetMd5Hash(string input)
-        {
-            using (MD5 md5Hash = MD5.Create())
-            {
-                // Convert the input string to a byte array and compute the hash.
-                byte[] data = md5Hash.ComputeHash(Encoding.UTF8.GetBytes(input));
-
-                // Create a new Stringbuilder to collect the bytes
-                // and create a string.
-                StringBuilder sBuilder = new StringBuilder();
-
-                // Loop through each byte of the hashed data 
-                // and format each one as a hexadecimal string.
-                for (int i = 0; i < data.Length; i++)
-                {
-                    sBuilder.Append(data[i].ToString("x2"));
-                }
-
-                // Return the hexadecimal string.
-                return sBuilder.ToString();
-            }
-        }
-
         public string GetID2()
         {
             string did = "";
@@ -343,5 +353,58 @@ namespace EDIS.Controllers.WebApi
                 }
             }
         }
+
+        /// <summary>
+        /// 進行DES加密。
+        /// </summary>
+        /// <param name="pToEncrypt">要加密的字符串。</param>
+        /// <param name="sKey">密鑰，且必須為8位。</param>
+        /// <returns>以Base64格式返回的加密字符串。</returns>
+        public string DESEncrypt(string pToEncrypt, string sKey)
+        {
+            using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+            {
+                byte[] inputByteArray = Encoding.UTF8.GetBytes(pToEncrypt);
+                des.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+                des.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+                System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                using (CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(inputByteArray, 0, inputByteArray.Length);
+                    cs.FlushFinalBlock();
+                    cs.Close();
+                }
+                string str = Convert.ToBase64String(ms.ToArray());
+                ms.Close();
+                return str;
+            }
+        }
+
+        /// <summary>
+        /// 進行DES解密。
+        /// </summary>
+        /// <param name="pToDecrypt">要解密的以Base64</param>
+        /// <param name="sKey">密鑰，且必須為8位。</param>
+        /// <returns>已解密的字符串。</returns>
+        public string DESDecrypt(string pToDecrypt, string sKey)
+        {
+            byte[] inputByteArray = Convert.FromBase64String(pToDecrypt);
+            using (DESCryptoServiceProvider des = new DESCryptoServiceProvider())
+            {
+                des.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+                des.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+                System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                using (CryptoStream cs = new CryptoStream(ms, des.CreateDecryptor(), CryptoStreamMode.Write))
+                {
+                    cs.Write(inputByteArray, 0, inputByteArray.Length);
+                    cs.FlushFinalBlock();
+                    cs.Close();
+                }
+                string str = Encoding.UTF8.GetString(ms.ToArray());
+                ms.Close();
+                return str;
+            }
+        }
+
     }
 }
