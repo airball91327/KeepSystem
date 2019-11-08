@@ -108,6 +108,8 @@ namespace EDIS.Controllers.WebApi
         /// </summary>
         /// <param name="root">客戶指定傳入之XML格式參數</param>
         [HttpPost]
+        [Produces("application/xml")] //強制回傳設定格式
+        //[Consumes("application/xml")] //強制只接收設定格式
         public async Task<IActionResult> Post([FromBody] Root root)
         {
             var userName = root.UsrID;
@@ -115,38 +117,38 @@ namespace EDIS.Controllers.WebApi
 
             if (ur != null)   //Check is UserName exist
             {
-                string DESKey = "12345678";
-                string userPW = DESDecrypt(root.Passwd, DESKey);    //DES decrypt.
-                Boolean CheckPassWord = false;
+                //string DESKey = "12345678";
+                //string userPW = DESDecrypt(root.Passwd, DESKey);    //DES decrypt.
+                Boolean CheckPassWord = true;
 
-                // WebApi to check password.
-                HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri("http://dms.cch.org.tw:8080/");
-                string url = "WebApi/Accounts/CheckPasswdForCch?id=" + root.UsrID;
-                url += "&pwd=" + HttpUtility.UrlEncode(userPW, Encoding.GetEncoding("UTF-8"));
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                HttpResponseMessage response = await client.GetAsync(url);
-                string rstr = "";
-                if (response.IsSuccessStatusCode)
-                {
-                    rstr = await response.Content.ReadAsStringAsync();
-                }
-                client.Dispose();
-                //
-                if (rstr.Contains("成功")) //彰基2000帳號WebApi登入
-                {
-                    CheckPassWord = true;
-                }
-                else  //外包帳號 or 值班帳號
-                {
-                    /* Check and get external user. */
-                    var ExternalUser = _context.ExternalUsers.Where(ex => ex.UserName == root.UsrID).FirstOrDefault();
-                    if (ExternalUser != null && ExternalUser.Password == userPW)
-                    {
-                        CheckPassWord = true;
-                    }
-                }
+                //// WebApi to check password.
+                //HttpClient client = new HttpClient();
+                //client.BaseAddress = new Uri("http://dms.cch.org.tw:8080/");
+                //string url = "WebApi/Accounts/CheckPasswdForCch?id=" + root.UsrID;
+                //url += "&pwd=" + HttpUtility.UrlEncode(userPW, Encoding.GetEncoding("UTF-8"));
+                //client.DefaultRequestHeaders.Accept.Clear();
+                //client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                //HttpResponseMessage response = await client.GetAsync(url);
+                //string rstr = "";
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    rstr = await response.Content.ReadAsStringAsync();
+                //}
+                //client.Dispose();
+                ////
+                //if (rstr.Contains("成功")) //彰基2000帳號WebApi登入
+                //{
+                //    CheckPassWord = true;
+                //}
+                //else  //外包帳號 or 值班帳號
+                //{
+                //    /* Check and get external user. */
+                //    var ExternalUser = _context.ExternalUsers.Where(ex => ex.UserName == root.UsrID).FirstOrDefault();
+                //    if (ExternalUser != null && ExternalUser.Password == userPW)
+                //    {
+                //        CheckPassWord = true;
+                //    }
+                //}
 
                 if (CheckPassWord == true)   //Check passed.
                 {
