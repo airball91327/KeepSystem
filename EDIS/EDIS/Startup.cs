@@ -22,6 +22,7 @@ using System.IO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using EDIS.Fliters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EDIS
 {
@@ -94,11 +95,17 @@ namespace EDIS
             services.AddMvc(options =>
             {
                 options.Filters.Add<MyErrorHandlerFilter>();
+                options.Filters.Add<WebApiValidateModelAttribute>();
             });
 
             //XML formatter.
             services.AddMvc().AddXmlSerializerFormatters();
 
+            //Disable Automatic Model State Validation in ASP.NET Core 2.1 WebApi
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

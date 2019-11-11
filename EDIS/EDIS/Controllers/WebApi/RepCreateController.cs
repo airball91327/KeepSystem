@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using EDIS.Data;
+using EDIS.Fliters;
 using EDIS.Models;
 using EDIS.Models.Identity;
 using EDIS.Models.LocationModels;
@@ -107,6 +108,7 @@ namespace EDIS.Controllers.WebApi
         /// 工務請修系統提供之WebApi，驗證並新增工務請修單，回傳單號。
         /// </summary>
         /// <param name="root">客戶指定傳入之XML格式參數</param>
+        [WebApiValidateModel]
         [HttpPost]
         [Produces("application/xml")] //強制回傳設定格式
         //[Consumes("application/xml")] //強制只接收設定格式
