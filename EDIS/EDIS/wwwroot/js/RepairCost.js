@@ -142,7 +142,7 @@ $(function () {
     });
 
     $("#modalVENDOR").on("hidden.bs.modal", function () {
-        var vendorName = $("#Vno option:selected").text();
+        var vendorName = $("#Vno option:selected").text().split("(", 1);
         var vendorId = $("#Vno option:selected").val();
 
         /* includes is not support in IE, so need to use indexOf. */

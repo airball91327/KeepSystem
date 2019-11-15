@@ -204,7 +204,7 @@ namespace EDIS.Controllers
                         .ForEach(v => {
                             items.Add(new SelectListItem()
                             {
-                                Text = v.VendorName,
+                                Text = v.VendorName + "(" + v.UniteNo + ")",
                                 Value = v.VendorId.ToString()
                             });
                         });
@@ -219,7 +219,7 @@ namespace EDIS.Controllers
                             .ForEach(v => {
                                 items.Add(new SelectListItem()
                                 {
-                                    Text = v.VendorName,
+                                    Text = v.VendorName + "(" + v.UniteNo + ")",
                                     Value = v.VendorId.ToString()
                                 });
                             });
