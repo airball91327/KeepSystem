@@ -72,6 +72,7 @@ namespace EDIS.Components.Repair
             listItem5.Add(new SelectListItem { Text = "請修", Value = "請修" });
             listItem5.Add(new SelectListItem { Text = "送修", Value = "送修" });
             listItem5.Add(new SelectListItem { Text = "增設", Value = "增設" });
+            listItem5.Add(new SelectListItem { Text = "借物", Value = "借物" });
             ViewData["qtyRepType"] = new SelectList(listItem5, "Value", "Text");
 
             QryRepListData data = new QryRepListData();

@@ -52,12 +52,6 @@
         <div class="row">
             <div class="form-inline">
                 <label asp-for="RepType" class="control-title"></label>
-                @Html.DisplayFor(model => model.RepType)
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-inline">
-                <label asp-for="RepType" class="control-title"></label>
                 <div class="radio">
                     <label>
                         <input type="radio" asp-for="RepType" id="RepType1" value="送修">
@@ -74,6 +68,12 @@
                     <label>
                         <input type="radio" asp-for="RepType" id="RepType3" value="增設">
                         增設
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" asp-for="RepType" id="RepType4" value="借物">
+                        借物
                     </label>
                 </div>
             </div>
