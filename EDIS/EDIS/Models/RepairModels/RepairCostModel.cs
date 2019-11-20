@@ -38,6 +38,9 @@ namespace EDIS.Models.RepairModels
         public string StockType { get; set; }
         [Display(Name = "廠商代號")]
         public int? VendorId { get; set; }
+        [NotMapped]
+        [Display(Name = "廠商統編")]
+        public string VendorUniteNo { get; set; }
         [Display(Name = "廠商名稱")]
         public string VendorName { get; set; }
         [Display(Name = "日期")]

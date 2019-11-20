@@ -26,6 +26,10 @@ namespace EDIS.Components.RepairCost
             List<RepairCostModel> rc = _context.RepairCosts.Include(r => r.TicketDtl)
                                                            .Where(c => c.DocId == id).ToList();
             rc.ForEach(r => {
+                if (r.VendorId != 0)
+                {
+                    r.VendorUniteNo = _context.Vendors.Find(r.VendorId).UniteNo;
+                }
                 if (r.StockType == "0")
                     r.StockType = "庫存";
                 else if (r.StockType == "2")
