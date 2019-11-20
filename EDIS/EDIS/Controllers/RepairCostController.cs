@@ -199,6 +199,14 @@ namespace EDIS.Controllers
         public IActionResult Edit2(RepairCostModel repairCost)
         {
             var ur = _userRepo.Find(u => u.UserName == this.User.Identity.Name).FirstOrDefault();
+            if (repairCost.TicketDtl.TicketDtlNo != null)
+            {
+                repairCost.TicketDtl.TicketDtlNo = repairCost.TicketDtl.TicketDtlNo.ToUpper();
+            }
+            if (repairCost.SignNo != null)
+            {
+                repairCost.SignNo = repairCost.SignNo.ToUpper();
+            }
             if (repairCost.StockType == "3")
             {
                 ModelState.Remove("TicketDtl.SeqNo");
