@@ -28,7 +28,8 @@ namespace EDIS.Components.RepairCost
             rc.ForEach(r => {
                 if (r.VendorId != 0)
                 {
-                    r.VendorUniteNo = _context.Vendors.Find(r.VendorId).UniteNo;
+                    var vendor = _context.Vendors.Where(v => v.VendorId == r.VendorId).FirstOrDefault();
+                    r.VendorUniteNo = vendor == null ? r.VendorId.ToString() : vendor.UniteNo;
                 }
                 if (r.StockType == "0")
                     r.StockType = "庫存";
