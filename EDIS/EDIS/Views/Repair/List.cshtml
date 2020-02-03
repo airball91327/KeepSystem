@@ -122,19 +122,19 @@ else
                                     /* If role為工程師，編輯時進入第一頁；else 直接進入"簽核作業" */
                                     if (UserManager.IsInRole(User, "RepEngineer") == true)
                                     {
-                                        @Html.ActionLink("編輯", "Edit", "Repair", new { Area = "", id = item.DocId }, new { target = "_blank" })
+                                        @Html.ActionLink("處理", "Edit", "Repair", new { Area = "", id = item.DocId }, new { target = "_blank" })
                                         @Html.Raw(" |")
                                     }
                                     else
                                     {
-                                        @Html.ActionLink("編輯", "Edit", "Repair", new { Area = "", id = item.DocId, page = 5 }, new { target = "_blank" })
+                                        @Html.ActionLink("處理", "Edit", "Repair", new { Area = "", id = item.DocId, page = 5 }, new { target = "_blank" })
                                         @Html.Raw(" |")
                                     }
                                 }
                             }
                             else if (item.Flg == "?" && item.FlowCls.Contains("工程師") && UserManager.IsInRole(User, "RepEngineer"))
                             {
-                                @Html.ActionLink("編輯", "Edit", "Repair", new { Area = "", id = item.DocId }, new { target = "_blank" })
+                                @Html.ActionLink("處理", "Edit", "Repair", new { Area = "", id = item.DocId }, new { target = "_blank" })
                                 @Html.Raw(" |")
                             }
                             @* /* 流程非登入使用者身上 */ *@

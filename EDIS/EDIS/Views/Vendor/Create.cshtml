@@ -1,12 +1,13 @@
 ﻿@model EDIS.Models.RepairModels.VendorModel
 
 @{
-    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "新增廠商";
 }
 
-<h2>Create</h2>
+<h2>新增廠商</h2>
 
-<h4>VendorModel</h4>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -67,7 +68,7 @@
                 <input asp-for="ContactEmail" class="form-control" />
                 <span asp-validation-for="ContactEmail" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
                 <input asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
@@ -86,15 +87,15 @@
                 <label asp-for="Kind" class="control-label"></label>
                 <input asp-for="Kind" class="form-control" />
                 <span asp-validation-for="Kind" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="新增" class="btn btn-default" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">回到列表</a>
 </div>
 

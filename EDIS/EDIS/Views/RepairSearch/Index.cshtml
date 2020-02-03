@@ -12,7 +12,16 @@
     $(document).ready(function () {
         $('.combobox').combobox();
         /* While loading this page, default search repairDocs. */
-        //$("#repSearchForm").submit();
+        $("#repSearchForm").submit(function () {
+            if ($("#qtyDOCID").val() === "" && $("#qtyASSETNO").val() === "" && $("#qtyACCDPT").val() === "" &&
+                $("#qtyASSETNAME").val() === "" && $("#qtyFLOWTYPE").val() === "" && $("#qtyDPTID").val() === "" &&
+                $("#qtyDealStatus").val() === "" && $("#qtyIsCharged").val() === "" && $("#qtyTroubleDes").val() === "" &&
+                $("#qtyRepType").val() === "" && $("#qtyApplyDateFrom").val() === "" && $("#qtyApplyDateTo").val() === "") {
+                alert("至少選擇一個搜尋條件!");
+                return false;
+            }
+            return true;
+        });
     });
 </script>
 

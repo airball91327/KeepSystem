@@ -167,7 +167,7 @@ namespace EDIS.Areas.Admin.Controllers
                     listItem.Add(new SelectListItem { Text = "驗收人", Value = "驗收人" });
                     listItem.Add(new SelectListItem { Text = "單位主管", Value = "單位主管" });
                     listItem.Add(new SelectListItem { Text = "單位主任", Value = "單位主任" });
-                    listItem.Add(new SelectListItem { Text = "單位副院長", Value = "單位副院長" });
+                    listItem.Add(new SelectListItem { Text = "單位直屬院長室主管", Value = "單位直屬院長室主管" });
                     listItem.Add(new SelectListItem { Text = "工務/營建工程師", Value = "工務/營建工程師" });
                     listItem.Add(new SelectListItem { Text = "工務主管", Value = "工務主管" });
                     listItem.Add(new SelectListItem { Text = "工務主任", Value = "工務主任" });

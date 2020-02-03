@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EDIS.Data;
 using EDIS.Models.RepairModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace EDIS.Controllers
 {
@@ -24,7 +25,45 @@ namespace EDIS.Controllers
         // GET: Vendor
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Vendors.ToListAsync());
+            return View();
+        }
+
+        // POST: Vendor
+        [HttpPost]
+        public async Task<IActionResult> Index(FormCollection fm)
+        {
+            string qname = fm["qtyNAME"];
+            string uno = fm["qtyUNITENO"];
+            List<VendorModel> vt = _context.Vendors.Where(v => v.Status == "Y").ToList();
+            if (!string.IsNullOrEmpty(qname))
+            {
+                vt = vt.Where(v => v.VendorName.Contains(qname)).ToList();
+            }
+            if (!string.IsNullOrEmpty(uno))
+            {
+                vt = vt.Where(v => v.UniteNo == uno).ToList();
+            }
+
+            return PartialView("List", vt);
+        }
+
+        // POST: Vendor/Index2
+        [HttpPost]
+        public async Task<IActionResult> Index2(QryVendor qryVendor)
+        {
+            string qname = qryVendor.KeyWord;
+            string uno = qryVendor.UniteNo;
+            List<VendorModel> vt = _context.Vendors.ToList();
+            if (!string.IsNullOrEmpty(qname))
+            {
+                vt = vt.Where(v => v.VendorName.Contains(qname)).ToList();
+            }
+            if (!string.IsNullOrEmpty(uno))
+            {
+                vt = vt.Where(v => v.UniteNo == uno).ToList();
+            }
+
+            return PartialView("List", vt);
         }
 
         // GET: Vendor/Details/5
@@ -60,9 +99,32 @@ namespace EDIS.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vendorModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var nameExist = _context.Vendors.Where(v => v.VendorName == vendorModel.VendorName).FirstOrDefault();
+                var uniteNoExist = _context.Vendors.Where(v => v.UniteNo == vendorModel.UniteNo).FirstOrDefault();
+                var idExist = _context.Vendors.Where(v => v.VendorId == Convert.ToInt32(vendorModel.UniteNo)).FirstOrDefault();
+
+                if (nameExist != null)
+                {
+                    ModelState.AddModelError("VendorName", "已有相同廠商名稱!");
+                    return PartialView(vendorModel);
+                }
+                else if (uniteNoExist != null)
+                {
+                    ModelState.AddModelError("UniteNo", "已有相同統一編號!");
+                    return PartialView(vendorModel);
+                }
+                else if (idExist != null)
+                {
+                    ModelState.AddModelError("UniteNo", "已有相同統一編號!");
+                    return PartialView(vendorModel);
+                }
+                else
+                {
+                    vendorModel.VendorId = Convert.ToInt32(vendorModel.UniteNo);
+                    _context.Add(vendorModel);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
             }
             return View(vendorModel);
         }

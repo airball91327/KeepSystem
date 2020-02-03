@@ -98,7 +98,7 @@ namespace EDIS.Areas.Admin.Controllers
                 repairCost = repairCost.Where(rc => rc.VendorId != null)
                                        .Where(rc => rc.VendorId == Convert.ToInt32(vendorno)).ToList();
             }
-            if (!string.IsNullOrEmpty(docid))
+            if (!string.IsNullOrEmpty(docid)) 
             {
                 repair = repair.Where(r => r.DocId == docid).ToList();
             }

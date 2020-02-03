@@ -69,10 +69,11 @@ namespace EDIS.Components.RepairFlow
                 listItem.Add(new SelectListItem { Text = "驗收人", Value = "驗收人" });
                 listItem.Add(new SelectListItem { Text = "單位主管", Value = "單位主管" });
                 listItem.Add(new SelectListItem { Text = "單位主任", Value = "單位主任" });
-                listItem.Add(new SelectListItem { Text = "單位副院長", Value = "單位副院長" });
+                listItem.Add(new SelectListItem { Text = "單位直屬院長室主管", Value = "單位直屬院長室主管" });
                 listItem.Add(new SelectListItem { Text = "工務/營建工程師", Value = "工務/營建工程師" });
                 listItem.Add(new SelectListItem { Text = "工務主管", Value = "工務主管" });
                 listItem.Add(new SelectListItem { Text = "工務主任", Value = "工務主任" });
+                listItem.Add(new SelectListItem { Text = "工務副主任", Value = "工務副主任" });
                 listItem.Add(new SelectListItem { Text = "營建主管", Value = "營建主管" });
                 listItem.Add(new SelectListItem { Text = "營建主任", Value = "營建主任" });
             }
@@ -84,6 +85,7 @@ namespace EDIS.Components.RepairFlow
                 listItem.Add(new SelectListItem { Text = "工務/營建工程師", Value = "工務/營建工程師" });
                 listItem.Add(new SelectListItem { Text = "工務主管", Value = "工務主管" });
                 listItem.Add(new SelectListItem { Text = "工務主任", Value = "工務主任" });
+                listItem.Add(new SelectListItem { Text = "工務副主任", Value = "工務副主任" });
                 listItem.Add(new SelectListItem { Text = "營建主管", Value = "營建主管" });
                 listItem.Add(new SelectListItem { Text = "營建主任", Value = "營建主任" });
                 listItem.Add(new SelectListItem { Text = "工務經辦", Value = "工務經辦" });
@@ -99,18 +101,24 @@ namespace EDIS.Components.RepairFlow
             
             assign.Hint = "單位請修→工務工程師→工務主管(若有費用)→單位驗收人→結案。";
             ViewData["Hint2"] = "單位請修→單位主管(護理長)→單位主任→工務工程師 [若費用5000元以上：單位主管(護理長)→" +
-                "單位直屬副院長→工務工程師] →工務主管→工務工程師→工務主管→單位驗收人→結案";
+                "單位直屬院長室主管→工務工程師] →工務主管→工務工程師→工務主管→單位驗收人→結案";
             ViewData["Hint3"] = "單位請修→工務工程師→工務主管→工務主任→列管/固資財產負責人(有財產編號時)→單位驗收人→結案";
 
             /* 於流程頁面顯示請修類型、及處理狀態*/
             string hintRepType = repair.RepType;
             string hintRepState = "";
+            string hintIsCharged = "";
             var repDtl = _context.RepairDtls.Where(dtl => dtl.DocId == id).FirstOrDefault();
             if(repDtl != null)
             {
                 hintRepState = _context.DealStatuses.Find(repDtl.DealState).Title;
+                if (repDtl.IsCharged != null)
+                {
+                    hintIsCharged = repDtl.IsCharged == "Y" ? "有" : "無";
+                }
             }
             ViewData["HintRepType"] = hintRepType + " / " + hintRepState;
+            ViewData["IsCharged"] = hintIsCharged;
 
             return View(assign);
         }

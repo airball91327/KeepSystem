@@ -1404,7 +1404,7 @@ namespace EDIS.Controllers
                 ws.Column(5).Width = 25;
                 ws.Column(6).Width = 50;
                 ws.Column(8).Width = 200;
-                ws.Columns(10, 13).Width = 25;
+                ws.Columns(10,13).Width = 25;
                 ws.Column(12).Width = 10;
 
                 //Title1  【2019年各月統計】

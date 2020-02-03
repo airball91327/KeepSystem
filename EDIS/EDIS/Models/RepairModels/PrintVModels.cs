@@ -69,7 +69,7 @@ namespace EDIS.Models.RepairModels
         public string DelivMgr { get; set; }
         [Display(Name = "單位主任")]
         public string DelivDirector { get; set; }
-        [Display(Name = "單位直屬副院長")]
+        [Display(Name = "單位直屬院長室主管")]
         public string ViceSuperintendent { get; set; }
     }
 

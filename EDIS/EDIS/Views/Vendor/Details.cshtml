@@ -1,13 +1,13 @@
 ﻿@model EDIS.Models.RepairModels.VendorModel
 
 @{
-    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_PassedLayout.cshtml";
+    ViewData["Title"] = "廠商詳細資訊";
 }
 
-<h2>Details</h2>
+<h2>詳細資訊</h2>
 
 <div>
-    <h4>VendorModel</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -76,7 +76,7 @@
         <dd>
             @Html.DisplayFor(model => model.ContactEmail)
         </dd>
-        <dt>
+        @*<dt>
             @Html.DisplayNameFor(model => model.StartDate)
         </dt>
         <dd>
@@ -99,10 +99,10 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Kind)
-        </dd>
+        </dd>*@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.VendorId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.VendorId">編輯</a> |
+    <a asp-action="Index">回到列表</a>
 </div>

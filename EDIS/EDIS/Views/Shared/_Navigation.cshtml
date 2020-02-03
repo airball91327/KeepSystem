@@ -188,24 +188,32 @@
                                             </li>
                                         </ul>
                                     </li>
+                                    <li class="@Html.IsSelected(controller: "Vendor", area: null)">
+                                        <a href="#"><span class="nav-label">廠商資料維護</span><span class="fa arrow"></span></a>
+                                        <ul class="nav nav-fourth-level collapse @Html.IsSelected(controller: "Vendor", area: null, cssClass: "in")">
+                                            <li>
+                                                <a href="@Url.Action("Index", "Vendor", new { Area = "" })">廠商一覽</a>
+                                            </li>
+                                        </ul>
+                                    </li>
 
                                 </ul>
                             </li>
 
                             @*<li class="">
-                                <a href="#"><span class="nav-label">庫存維護</span><span class="fa arrow"></span></a>
-                                <ul class="nav nav-second-level collapse">
-                                    <li>
-                                        <a href="@Url.Action("Index", "DeptStockClass", new { Area = "Admin" })">庫存類別維護</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Index", "DeptStockItem", new { Area = "Admin" })">庫存品項維護</a>
-                                    </li>
-                                    <li>
-                                        <a href="@Url.Action("Index", "DeptStock", new { Area = "Admin" })">庫存一覽</a>
-                                    </li>
-                                </ul>
-                            </li>*@
+                                    <a href="#"><span class="nav-label">庫存維護</span><span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level collapse">
+                                        <li>
+                                            <a href="@Url.Action("Index", "DeptStockClass", new { Area = "Admin" })">庫存類別維護</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "DeptStockItem", new { Area = "Admin" })">庫存品項維護</a>
+                                        </li>
+                                        <li>
+                                            <a href="@Url.Action("Index", "DeptStock", new { Area = "Admin" })">庫存一覽</a>
+                                        </li>
+                                    </ul>
+                                </li>*@
                         }
 
                         if (UserManager.IsInRole(User, "RepToDo"))
@@ -297,13 +305,13 @@
                                         </ul>
                                     </li>
                                     @*<li class="">
-                            <a href="#"><span class="nav-label">財務</span><span class="fa arrow"></span></a>
-                            <ul class="nav nav-fourth-level collapse">
-                                <li>
-                                    <a href="@Url.Action("Index", "Ticket", new { Area = "BMED" })">發票作業</a>
-                                </li>
-                            </ul>
-                        </li>*@
+                                            <a href="#"><span class="nav-label">財務</span><span class="fa arrow"></span></a>
+                                            <ul class="nav nav-fourth-level collapse">
+                                                <li>
+                                                    <a href="@Url.Action("Index", "Ticket", new { Area = "BMED" })">發票作業</a>
+                                                </li>
+                                            </ul>
+                                        </li>*@
 
                                 </ul>
                             </li>
