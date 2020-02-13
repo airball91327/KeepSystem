@@ -348,7 +348,7 @@ namespace EDIS.Controllers
                     //        list.Add(li);
                     //}
                     break;
-                case "單位副院長":
+                case "單位直屬院長室主管":
                     s = roleManager.GetUsersInRole("ViceSI").ToList();
                     list = new List<SelectListItem>();
                     foreach (string l in s)

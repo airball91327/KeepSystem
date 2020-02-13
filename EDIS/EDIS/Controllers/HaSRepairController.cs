@@ -1265,7 +1265,7 @@ namespace EDIS.Controllers
                 vm.DelivDirector = delivDirector == null ? "" : _context.AppUsers.Find(delivDirector.UserId).FullName;
 
                 var ViceSI = _context.RepairFlows.Where(r => r.DocId == DocId)
-                                                 .Where(r => r.Cls.Contains("院長室主管"))
+                                                 .Where(r => r.Cls.Contains("院長室主管") || r.Cls.Contains("副院長"))
                                                  .Where(r => r.Opinions.Contains("[同意]")).LastOrDefault();
                 vm.ViceSuperintendent = ViceSI == null ? "" : _context.AppUsers.Find(ViceSI.UserId).FullName;
 
