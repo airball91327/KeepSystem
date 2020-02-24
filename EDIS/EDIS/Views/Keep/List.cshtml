@@ -9,6 +9,21 @@
     Layout = null;
 }
 
+<style>
+    td a {
+        color: deepskyblue;
+    }
+
+    .printLink:visited {
+        color: mediumpurple;
+    }
+
+    .table-striped > tbody > tr:nth-child(2n+1) > td,
+    .table-striped > tbody > tr:nth-child(2n+1) > th {
+        background-color: #337ab7;
+    }
+</style>
+
 @if (Model.Count() <= 0)
 {
     if (ViewData["IsDocDeleted"] != null)
@@ -22,7 +37,8 @@
 }
 else
 {
-    <table class="table">
+    <h4>您應簽核案件</h4>
+    <table class="table table-striped">
         <tr>
             <th></th>
             <th>
@@ -77,13 +93,13 @@ else
                         }
                         else
                         {
-                            @Html.ActionLink("編輯", "Edit", "Keep", new { Area = "", id = item.DocId }, new { target = "_blank" })
+                            @Html.ActionLink("處理", "Edit", "Keep", new { Area = "", id = item.DocId }, new { target = "_blank" })
                             @Html.Raw(" |")
                         }
                     }
                     else if (item.Flg == "?" && item.FlowCls.Contains("工程師") && UserManager.IsInRole(User, "RepEngineer")) //其他工程師案件
                     {
-                        @Html.ActionLink("編輯", "Edit", "Keep", new { Area = "", id = item.DocId }, new { target = "_blank" })
+                        @Html.ActionLink("處理", "Edit", "Keep", new { Area = "", id = item.DocId }, new { target = "_blank" })
                         @Html.Raw(" |")
                     }
                     else

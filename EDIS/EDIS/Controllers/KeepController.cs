@@ -764,7 +764,7 @@ namespace EDIS.Controllers
                 assets.ForEach(asset => {
                        list.Add(new SelectListItem
                        {
-                           Text = asset.Cname + "(" + asset.AssetNo + ")",
+                           Text = asset.AssetNo != null ? asset.Cname + "(" + asset.AssetNo + ")" : asset.Cname + "(" + asset.DeviceNo + ")",
                            Value = asset.DeviceNo.ToString()
                        });
                 });
