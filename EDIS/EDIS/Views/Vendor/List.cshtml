@@ -4,6 +4,17 @@
     ViewData["Title"] = "廠商列表";
 }
 
+<style>
+    /*整個table的調整*/
+    table {
+        border-collapse: collapse;
+        width: 200px;
+        /*自動斷行*/
+        word-wrap: break-word;
+        table-layout: fixed;
+    }
+</style>
+
 <p>
     <a asp-action="Create" class="btn btn-primary">新增廠商</a>
 </p>
@@ -35,12 +46,8 @@
                     @Html.DisplayNameFor(model => model.TaxZipCode)
                 </th>*@
                 <th>
-                    @Html.DisplayNameFor(model => model.Contact)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ContactTel)
-                </th>
-                <th>
+                    @Html.DisplayNameFor(model => model.Contact)/<br />
+                    @Html.DisplayNameFor(model => model.ContactTel)/<br />
                     @Html.DisplayNameFor(model => model.ContactEmail)
                 </th>
                 @*<th>
@@ -55,7 +62,9 @@
                 @*<th>
                     @Html.DisplayNameFor(model => model.Kind)
                 </th>*@
-            <th></th>
+            <th>
+                操作
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -86,12 +95,8 @@
                 @Html.DisplayFor(modelItem => item.TaxZipCode)
             </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.Contact)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContactTel)
-            </td>
-            <td>
+                @Html.DisplayFor(modelItem => item.Contact)<br />
+                @Html.DisplayFor(modelItem => item.ContactTel)<br />
                 @Html.DisplayFor(modelItem => item.ContactEmail)
             </td>
             @*<td>
@@ -101,7 +106,14 @@
                 @Html.DisplayFor(modelItem => item.EndDate)
             </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @if (item.Status == "Y")
+                {
+                    <span>開</span>
+                }
+                else if(item.Status == "N")
+                {
+                    <span>關</span>
+                }
             </td>
             @*<td>
                 @Html.DisplayFor(modelItem => item.Kind)

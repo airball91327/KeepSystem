@@ -261,7 +261,8 @@ namespace EDIS.Controllers
             {
                 if(qryVendor.KeyWord != null)
                 {
-                    _context.Vendors.Where(v => v.VendorName.Contains(qryVendor.KeyWord.Trim()))
+                    _context.Vendors.Where(v => v.Status == "Y")
+                                    .Where(v => v.VendorName.Contains(qryVendor.KeyWord.Trim()))
                         .ToList()
                         .ForEach(v => {
                             items.Add(new SelectListItem()
@@ -276,7 +277,8 @@ namespace EDIS.Controllers
             {
                 if (qryVendor.UniteNo != null)
                 {
-                    _context.Vendors.Where(v => v.UniteNo == qryVendor.UniteNo)
+                    _context.Vendors.Where(v => v.Status == "Y")
+                                    .Where(v => v.UniteNo == qryVendor.UniteNo)
                             .ToList()
                             .ForEach(v => {
                                 items.Add(new SelectListItem()

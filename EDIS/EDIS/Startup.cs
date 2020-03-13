@@ -41,10 +41,10 @@ namespace EDIS
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));//AzureConnection//EdisConnection
+                options.UseSqlServer(Configuration.GetConnectionString("EdisConnection")));//AzureConnection//EdisConnection
 
             services.AddDbContext<BMEDDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AzureConnection")));//AzureConnection//EdisConnection
+                options.UseSqlServer(Configuration.GetConnectionString("EdisConnection")));//AzureConnection//EdisConnection
 
             services.AddScoped<IRepository<RepairModel, string>, RepairRepository>();
             services.AddScoped<IRepository<RepairDtlModel, string>, RepairDtlRepository>();
