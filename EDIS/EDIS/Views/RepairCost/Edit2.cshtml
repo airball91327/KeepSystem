@@ -57,10 +57,11 @@
             }
         });
 
+        var url = '@Url.Action("GetTicketSeq", "Ticket")';
         /* Get ticket seq. */
         $("#btnGETSEQ").click(function () {
             $.ajax({
-                url: '../../Ticket/GetTicketSeq',
+                url: url,
                 type: "POST",
                 async: true,
                 success: function (data) {
