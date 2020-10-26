@@ -185,7 +185,7 @@ namespace EDIS.Controllers
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 //
                 HttpClient client = new HttpClient();
-                client.BaseAddress = new Uri("http://dms.cch.org.tw:8080/");
+                client.BaseAddress = new Uri("http://dms.cch.org.tw/");
                 string url = "WebApi/Accounts/CheckPasswdForCch?id=" + model.UserName;
                 url += "&pwd=" + HttpUtility.UrlEncode(model.Password, Encoding.GetEncoding("UTF-8"));
                 client.DefaultRequestHeaders.Accept.Clear();
